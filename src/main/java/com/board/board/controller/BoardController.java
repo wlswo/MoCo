@@ -4,10 +4,7 @@ package com.board.board.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,6 +45,61 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    //게시글 상세 페이지이며, {no}로 페이지 넘버를 받는다.
+    //PathVarible 어노테이션을 통해 no를 받음
+    @GetMapping("/post/{no}")
+    public String datail(@PathVariable("no") Long no , Model model) {
+        BoardDto boardDTO = boardService.getPost(no);
+
+        model.addAttribute("boardDto",boardDTO);
+        return "board/detail";
+    }
+
+    //게시글 수정 페이지이며, {no}로 페이지 넘버를 받는다.
+    @GetMapping("post/edit/{no}")
+    public String edit(@PathVariable("no") Long no, Model model) {
+        BoardDto boardDTO = boardService.getPost(no);
+
+        model.addAttribute("boardDto",boardDTO);
+        return "board/update";
+    }
+
+    //위는 GET메서드이며, PUT메서드를 이용해 게시물을 수정한 부분에 대해 적용
+    @PutMapping("/post/edit/{no}")
+    public String update(BoardDto boardDTO) {
+        boardService.savePost(boardDTO);
+
+        return "redirect:/board/list";
+    }
+
+    //게시물 삭제는 deletePost 메서드를 사용하여 간단하게 삭제할 수 있다.
+    @DeleteMapping("/post/{no}")
+    public String delete(@PathVariable("no") Long no) {
+        boardService.deletePost(no);
+        return "redirect:/board/list";
+    }
+
+    //검색
+    //keyword를 view로 부터 전달 받고
+    //Service로 부터 받은 boardDtoList를 model의 attribute로 전달해준다.
+    @GetMapping("/board/search")
+    public String search(@RequestParam(value = "keyword") String keyword, Model model) {
+        List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
+
+        model.addAttribute("boardList", boardDtoList);
+        return "board/list";
+    }
+
 
 
 }
+
+
+
+
+
+
+
+
+
+
