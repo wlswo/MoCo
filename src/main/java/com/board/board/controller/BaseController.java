@@ -1,5 +1,6 @@
 package com.board.board.controller;
 
+import com.board.board.config.auth.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

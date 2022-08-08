@@ -1,6 +1,8 @@
 package com.board.board.controller;
 
 
+import com.board.board.dto.BoardDto;
+import com.board.board.service.BoardService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
