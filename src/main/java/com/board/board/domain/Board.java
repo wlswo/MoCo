@@ -11,12 +11,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
-
 import javax.persistence.*;
-import java.sql.Time;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //외부에서 생성을 열어 둘 필요가 없을 때 , 보안적으로 권장함
 @Getter
