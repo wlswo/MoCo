@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/common :: head('detail.')">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+    <link href="starter-template.css" rel="stylesheet"/>
+
+    <title>detail</title>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')"></nav>
+
+<main role="main" class="container">
+    <div class="starter-template">
+
+        <table class ="table table-bordered">
+            <thead>
+            <caption>글 읽기</caption>
+            </thead>
+            <tbody>
+            <tr>
+                <th>제목</th>
+                <td th:text="${boardDto.title}"></td>
+            </tr>
+            <tbody>
+            <tr>
+                <th>작성자</th>
+                <td th:text="${boardDto.writer}"></td>
+            </tr>
+            <tr>
+                <th>작성일</th>
+                <td th:inline="text">[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</td>
+            </tr>
+            <tr>
+                <th>본문 내용</th>
+                <td th:text="${boardDto.content}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- 수정/삭제 -->
+        <div>
+            <a th:href="@{'/board/post/edit/' + ${boardDto.id}}">
+                <button class="btn btn-primary">수정</button>
+            </a>
+            <form id="delete-form" th:action="@{'/board/post/' + ${boardDto.id}}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+                <button class="btn btn-warning" id="delete-btn">삭제</button>
+            </form>
+        </div>
+
+        <!-- 변수 셋팅 -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var boardDto = /*[[${boardDto}]]*/ "";
+            /*]]>*/
+        </script>
+
+        <!-- script -->
+        <script th:inline="javascript" th:src="@{/js/board.js}"></script>
+
+    </div>
+</main>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
