@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/common :: head('게시판입니다.')">
+<head th:replace="fragments/header :: head('게시판입니다.')">
     <!-- @{...}는 타임리프의 기본 링크 표현 구문 -->
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -15,7 +15,8 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" th:replace="fragments/common :: menu('home')"></nav>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
+
 
 <main role="main" class="container">
     <div class="starter-template">
@@ -58,7 +59,6 @@
                 <input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
                 <button class="btn btn-primary">검색하기</button>
             </div>
-
         </form>
 
     </div>
