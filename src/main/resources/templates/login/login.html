@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>로그인 (Please sign in)</title>
+
+  <link th:href="@{/css/loginPage.css}" rel="stylesheet">
+
+</head>
+<body>
+<main class="main">
+  <div class="container">
+    <section class="wrapper">
+      <div class="heading">
+        <h1 class="text text-large">Sign In</h1>
+        <p class="text text-normal">New user? <span><a th:href="@{/signup}" class="text text-links">Create an account</a></span>
+        </p>
+      </div>
+      <form action="/loginProcess" name="login" class="form">
+        <div class="input-control">
+          <label for="email" class="input-label" hidden>Email Address</label>
+          <input type="email" id="email" name="email" class="input-field" placeholder="Email Address">
+        </div>
+        <div class="input-control">
+          <label for="password" class="input-label" hidden>Password</label>
+          <input type="password" id="password" name="password" class="input-field" placeholder="Password">
+        </div>
+        <div class="input-control">
+          <a href="#" class="text text-links">Forgot Password</a>
+          <input type="button" name="submit" class="input-submit" value="Login" disabled>
+        </div>
+      </form>
+      <div class="striped">
+        <span class="striped-line"></span>
+        <span class="striped-text">Or</span>
+        <span class="striped-line"></span>
+      </div>
+      <div class="method">
+        <div class="method-control">
+          <a href="/oauth2/authorization/google" class="method-action">
+            <i class="ion ion-logo-google"></i>
+            <span>Sign in with Google</span>
+          </a>
+        </div>
+        <div class="method-control">
+          <a href="/oauth2/authorization/github" class="method-action">
+            <i class="ion ion-logo-github"></i>
+            <span></i>Sign in with Github</span>
+          </a>
+        </div>
+        <div class="method-control">
+          <a href="/oauth2/authorization/kakao" class="method-action">
+            <i class="ion ion-logo-kakao"></i>
+            <span></i>Sign in with KaKao</span>
+          </a>
+        </div>
+        <div class="method-control">
+          <a href="/oauth2/authorization/naver" class="method-action">
+            <i class="ion ion-logo-naver"></i>
+            <span></i>Sign in with Naver</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</main>
+</div>
+</body>
+</html>

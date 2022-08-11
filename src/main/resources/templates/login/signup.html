@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+  <link href="starter-template.css" th:href="@{/css/starter-template.css}" rel="stylesheet"/>
+  <title th:text="${title}">Hello, Spring Boot!</title>
+</head>
+<body>
+<form method="POST" class="register-form" id="register-form" th:action="@{/login/signup}">
+  <div class="form-group">
+    <label for="email"><i class="zmdi zmdi-email"></i></label>
+    <input type="email"  name="email" id="email" placeholder="Your Email"/>
+  </div>
+  <div class="form-group">
+    <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+    <input type="text" name="name" id="name" placeholder="name"/>
+  </div>
+  <div class="form-group">
+    <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+    <input type="password" name="password" id="pass" placeholder="Password"/>
+  </div>
+  <div class="form-group">
+    <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+    <input type="password" name="re_password" id="re_pass" placeholder="Repeat your password"/>
+  </div>
+
+  <div class="form-group form-button">
+    <input type="submit" name="signup" id="signup" class="form-submit" value="가입"/>
+  </div>
+</form>
+</body>
