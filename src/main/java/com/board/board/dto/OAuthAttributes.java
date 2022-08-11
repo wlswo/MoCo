@@ -35,6 +35,8 @@ public class OAuthAttributes {
                 return ofNaver("id",attributes);
             case "kakao":
                 return ofKakao("id",attributes);
+            case "github":
+                return  ofGithub("id",attributes);
         }
         return ofGoogle(userNameAttributeName, attributes);
     }
@@ -49,10 +51,10 @@ public class OAuthAttributes {
                 .build();
     }
 
-    public static OAuthAttributes ofFacebook(String userNameAttributeName, Map<String, Object> attributes) {
+    public static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
+                .email((String) attributes.get("name")+"@github.com")
                 .picture((String) attributes.get("picture"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)

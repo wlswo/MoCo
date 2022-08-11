@@ -40,6 +40,6 @@ public class LoginController {
                         authorizationRequestBaseUri + "/" + registration.getRegistrationId()));
         model.addAttribute("urls", oauth2AuthenticationUrls);
 
-        return "auth/oauth-login";
+        return "login/login";
     }
 }
