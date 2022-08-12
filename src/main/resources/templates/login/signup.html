@@ -7,30 +7,47 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
-  <link href="starter-template.css" th:href="@{/css/starter-template.css}" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"/>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="/js/signup.js"></script>
+  <link th:href="@{/css/loginPage.css}" rel="stylesheet">
   <title th:text="${title}">Hello, Spring Boot!</title>
 </head>
 <body>
-<form method="POST" class="register-form" id="register-form" th:action="@{/login/signup}">
-  <div class="form-group">
-    <label for="email"><i class="zmdi zmdi-email"></i></label>
-    <input type="email"  name="email" id="email" placeholder="Your Email"/>
-  </div>
-  <div class="form-group">
-    <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-    <input type="text" name="name" id="name" placeholder="name"/>
-  </div>
-  <div class="form-group">
-    <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-    <input type="password" name="password" id="pass" placeholder="Password"/>
-  </div>
-  <div class="form-group">
-    <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
-    <input type="password" name="re_password" id="re_pass" placeholder="Repeat your password"/>
-  </div>
+<main class="main">
+  <div class="container">
+    <section class="wrapper">
+      <form method="POST" class="register-form" id="register-form" th:action="@{/login/signup}" modelAttribute="userDto" onsubmit="return LastCheck();">
+        <div class="form-group">
+          <label for="email"><i class="zmdi zmdi-email"></i>이메일주소</label>
+          <input type="email"  class="form-control" name="email" id="email" th:value="${userDto.email} ? ${userDto.email}" placeholder="Your Email"/>
+          <div id="idAvailable" class="valid-feedback" style="display : none;"></div>
+          <div id="idNotAvailable" class="invalid-feedback" style="display : none;"></div>
+          <button class="btn btn-secondary" type="button" th:onclick="test()">중복체크</button><br/>
+        </div>
+        <div class="form-group">
+          <label for="name"><i class="zmdi zmdi-account material-icons-name"></i>이름</label>
+          <input type="text" class="form-control" name="name" id="name" th:value="${userDto.name} ? ${userDto.name}" placeholder="name"/><br>
+          <div th:if="${valid_name}" th:text="${valid_name}"></div>
+        </div>
+        <div class="form-group">
+          <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+          <input type="password" class="form-control" name="password" id="pass" th:value="${userDto.password} ? ${userDto.password}" placeholder="Password" required/><br>
+          <div th:if="${valid_password}" th:text="${valid_password}"></div>
+        </div>
+        <div class="form-group">
+          <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+          <input type="password" class="form-control" name="re_password" id="re_pass" onkeyup="repassCheck()" placeholder="Repeat your password" required/>
+          <div id="pwAvailable" class="valid-feedback" style="display : none;"></div>
+          <div id="pwNotAvailable" class="invalid-feedback" style="display : none;"></div>
+        </div>
 
-  <div class="form-group form-button">
-    <input type="submit" name="signup" id="signup" class="form-submit" value="가입"/>
+
+        <div class="form-group form-button">
+          <input type="submit" name="signup" id="signup" class="btn btn-secondary" value="가입"/>
+        </div>
+      </form>
+    </section>
   </div>
-</form>
+</main>
 </body>
