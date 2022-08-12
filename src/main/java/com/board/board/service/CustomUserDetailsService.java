@@ -17,15 +17,18 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
-    private UserRepository userRepository;
-    private HttpSession httpSession;
+    private final UserRepository userRepository;
+    private final HttpSession httpSession;
 
-    /* email 중복 검사 */
+    /* 로그인 email 유무 검사 */
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username).orElseThrow(() ->
-                new UsernameNotFoundException("해당 사용자가 존재하지 않습니다. : " + username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        User user = userRepository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException("해당 사용자가 존재하지 않습니다. : " + email));
+
         httpSession.setAttribute("user",new SessionUser(user));
+
         return new CustomUserDetails(user);
     }
 

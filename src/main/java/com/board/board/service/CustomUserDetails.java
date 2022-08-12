@@ -20,16 +20,16 @@ public class CustomUserDetails implements UserDetails {
         return collectors;
     }
 
+    //사용자의 id를 반환 (email)
+    @Override
+    public String getUsername() {
+        return user.getEmail();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
     }
-
-    @Override
-    public String getUsername() {
-        return user.getName();
-    }
-
 
     //   계정 만료 여부 true : 만료 안됨 , false : 만료
     @Override

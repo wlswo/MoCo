@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class LoginController {
     // Lombok 아닌 경우 (@RequiredArgsConstructor 없는 경우)
     // @Autowired private ClientRegistrationRepository clientRegistrationRepository;
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") //loginPage 경로 설정
     @GetMapping("/login")
     public String getLoginPage(Model model) throws Exception {
 
@@ -42,4 +43,5 @@ public class LoginController {
 
         return "login/login";
     }
+
 }

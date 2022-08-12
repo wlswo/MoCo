@@ -23,7 +23,7 @@ public class User extends Time {
     @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = true)
     private String picture;
 
     @Enumerated(EnumType.STRING)
