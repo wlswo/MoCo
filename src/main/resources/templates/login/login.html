@@ -6,7 +6,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <title>로그인 (Please sign in)</title>
-
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"/>
   <link th:href="@{/css/loginPage.css}" rel="stylesheet">
 
 </head>
@@ -19,18 +21,21 @@
         <p class="text text-normal">New user? <span><a th:href="@{/signup}" class="text text-links">Create an account</a></span>
         </p>
       </div>
-      <form action="/loginProcess" name="login" class="form">
+      <form method="POST" th:action="@{/loginProcess}" name="login" class="form" >
         <div class="input-control">
           <label for="email" class="input-label" hidden>Email Address</label>
-          <input type="email" id="email" name="email" class="input-field" placeholder="Email Address">
+          <input type="email" id="email" name="username" class="input-field" placeholder="Email Address">
         </div>
         <div class="input-control">
           <label for="password" class="input-label" hidden>Password</label>
           <input type="password" id="password" name="password" class="input-field" placeholder="Password">
         </div>
+        <span th:if="${error}">
+          <p class="alert alert-danger" th:text="${exception}"></p>
+        </span>
         <div class="input-control">
           <a href="#" class="text text-links">Forgot Password</a>
-          <input type="button" name="submit" class="input-submit" value="Login" disabled>
+          <input type="submit" name="submit" class="input-submit" value="Login"/>
         </div>
       </form>
       <div class="striped">

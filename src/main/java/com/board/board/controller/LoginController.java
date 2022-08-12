@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,8 +26,11 @@ public class LoginController {
 
     @SuppressWarnings("unchecked") //loginPage 경로 설정
     @GetMapping("/login")
-    public String getLoginPage(Model model) throws Exception {
+    public String getLoginPage(@RequestParam(value = "error", required = false) String error,
+                               @RequestParam(value = "exception", required = false) String exception,
+                               Model model) throws Exception {
 
+        /* OAuth2 login Url Model에 담기
         Iterable<ClientRegistration> clientRegistrations = null;
         ResolvableType type = ResolvableType.forInstance(clientRegistrationRepository)
                 .as(Iterable.class);
@@ -40,7 +44,9 @@ public class LoginController {
                 oauth2AuthenticationUrls.put(registration.getClientName(),
                         authorizationRequestBaseUri + "/" + registration.getRegistrationId()));
         model.addAttribute("urls", oauth2AuthenticationUrls);
-
+        */
+        model.addAttribute("error",error);
+        model.addAttribute("exception",exception);
         return "login/login";
     }
 
