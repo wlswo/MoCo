@@ -1,5 +1,6 @@
 package com.board.board.controller;
 
+import com.board.board.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ResolvableType;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -28,6 +29,7 @@ public class LoginController {
     @GetMapping("/login")
     public String getLoginPage(@RequestParam(value = "error", required = false) String error,
                                @RequestParam(value = "exception", required = false) String exception,
+                               @RequestParam(value = "id", required = false) String id,
                                Model model) throws Exception {
 
         /* OAuth2 login Url Model에 담기
@@ -47,6 +49,7 @@ public class LoginController {
         */
         model.addAttribute("error",error);
         model.addAttribute("exception",exception);
+        model.addAttribute("id", id);
         return "login/login";
     }
 

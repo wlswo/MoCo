@@ -24,7 +24,7 @@
       <form method="POST" th:action="@{/loginProcess}" name="login" class="form" >
         <div class="input-control">
           <label for="email" class="input-label" hidden>Email Address</label>
-          <input type="email" id="email" name="username" class="input-field" placeholder="Email Address">
+          <input type="email" id="email" name="username" class="input-field" th:value="${id} ? ${id}" placeholder="Email Address">
         </div>
         <div class="input-control">
           <label for="password" class="input-label" hidden>Password</label>
