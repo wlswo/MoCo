@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: head('게시판입니다.')">
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label style="float: left" for="writer" class="col-sm-2 control-label">작성자</label>
                 <div class="col-sm-10" style="margin-top: 10px;">
-                    <input type="writer" class="form-control" id="writer" name="writer" placeholder="작성자"/>
+                    <input type="writer" class="form-control" id="writer" name="writer" th:value="${session.user['name']}" readonly="true"/>
                 </div>
             </div>
 

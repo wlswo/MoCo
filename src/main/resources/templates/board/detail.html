@@ -26,19 +26,21 @@
             <tr>
                 <th>제목</th>
                 <td th:text="${boardDto.title}"></td>
+                <td>작성자</td>
+                <td th:text="${boardDto.writer}"></td>
             </tr>
             <tbody>
             <tr>
-                <th>작성자</th>
-                <td th:text="${boardDto.writer}"></td>
+                <th>조회수</th>
+                <td th:text="${boardDto.view}" colspan="3"></td>
             </tr>
             <tr>
                 <th>작성일</th>
-                <td th:inline="text">[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</td>
+                <td th:inline="text" colspan="3">[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</td>
             </tr>
             <tr>
                 <th>본문 내용</th>
-                <td th:text="${boardDto.content}"></td>
+                <td th:text="${boardDto.content}" colspan="3"></td>
             </tr>
             </tbody>
         </table>
@@ -61,8 +63,6 @@
             /*]]>*/
         </script>
 
-        <!-- script -->
-        <script th:inline="javascript" th:src="@{/js/board.js}"></script>
 
     </div>
 </main>

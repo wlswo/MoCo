@@ -29,7 +29,7 @@
                 <th class="col-md-4">글제목</th>
                 <th class="col-md-3">작성자</th>
                 <th class="col-md-2">작성일</th>
-                <th class="col-md-2">수정일</th>
+                <th class="col-md-2">조회수</th>
             </tr>
             </thead>
 
@@ -40,7 +40,7 @@
                 <td><a th:href="'/board/post/'+${board.id}" th:text="${board.title}"></a></td>
                 <td th:text="${board.writer}"></td>
                 <td th:text="${board.createdDate} ? ${#temporals.format(board.createdDate,'yyyy-MM-dd HH:mm')} : ${board.createdDate}"></td>
-                <td th:text="${board.modifiedDate} ? ${#temporals.format(board.modifiedDate,'yyyy-MM-dd HH:mm')} : ${board.modifiedDate}"></td>
+                <td th:text="${board.view}"></td>
             </tr>
             </tbody>
         </table>
