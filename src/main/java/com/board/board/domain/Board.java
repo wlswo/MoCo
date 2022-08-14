@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import javax.persistence.*;
@@ -24,21 +25,25 @@ public class Board extends Time {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //PK 생성 규칙
     private Long id;
 
+    @Column(length = 500, nullable = false)
+    private String title;
+
     @Column(length = 10, nullable = false)
     private String writer;
-
-    @Column(length = 100, nullable = false)
-    private String title;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int view;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     //Java 디자인 패턴 , 생성 시점에 값을 채워줌
     @Builder
-    public Board(Long id, String title, String content, String writer, User user){
+    public Board(Long id, String title, String content, String writer, int view ,User user){
         //Assert 구문으로 안전한 객체 생성 패턴을 구현
         Assert.hasText(writer,"writer must not be empty");
         Assert.hasText(title, "title must not be empty");
@@ -48,6 +53,7 @@ public class Board extends Time {
         this.writer = writer;
         this.title = title;
         this.content = content;
+        this.view = view;
         this.user = user;
 
     }

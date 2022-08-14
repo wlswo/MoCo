@@ -4,6 +4,7 @@ package com.board.board.dto;
 //데이터를 캡슐화한 객체를 전달
 
 import com.board.board.domain.Board;
+import com.board.board.domain.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,20 +18,24 @@ public class BoardDto {
     private String writer;
     private String title;
     private String content;
+    private int  view;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private User user;
 
+    /* Dto -> Entity */
     public Board toEntity(){
-        Board board = Board.builder().id(id).writer(writer).title(title).content(content).build();
+        Board board = Board.builder().id(id).writer(writer).title(title).content(content).view(0).user(user).build();
         return board;
     }
 
     @Builder
-    public BoardDto(Long id, String title, String content,String writer, LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public BoardDto(Long id, String title, String content,String writer, int view,LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.id = id;
         this.title = title;
         this.writer = writer;
         this.content = content;
+        this.view = view;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
 

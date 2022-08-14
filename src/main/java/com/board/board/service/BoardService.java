@@ -1,8 +1,10 @@
 package com.board.board.service;
 
 import com.board.board.domain.Board;
+import com.board.board.domain.User;
 import com.board.board.dto.BoardDto;
 import com.board.board.repository.BoardRepository;
+import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +20,7 @@ import java.util.Optional;
 @Service
 public class BoardService {
 
-    //boardRepository 객체 생성
+    private UserRepository  userRepository;
     private BoardRepository boardRepository;
 
     private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
@@ -31,6 +33,7 @@ public class BoardService {
                 .title(board.getTitle())
                 .content(board.getContent())
                 .writer(board.getWriter())
+                .view(board.getView())
                 .createdDate(board.getCreatedDate())
                 .modifiedDate(board.getModifiedDate())
                 .build();
@@ -40,7 +43,7 @@ public class BoardService {
     @Transactional
     public List<BoardDto> getBoardlist(Integer pageNum) {
         Page<Board> page = boardRepository.findAll(PageRequest.of(
-                pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.ASC, "createdDate")));
+                pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "createdDate")));
 
         List<Board> boardEntities = page.getContent();
         List<BoardDto> boardDtoList = new ArrayList<>();
@@ -63,6 +66,7 @@ public class BoardService {
                 .title(board.getTitle())
                 .content(board.getContent())
                 .writer(board.getWriter())
+                .view(board.getView())
                 .createdDate(board.getCreatedDate())
                 .modifiedDate(board.getModifiedDate())
                 .build();
@@ -71,7 +75,11 @@ public class BoardService {
     }
 
     @Transactional
-    public Long savePost(BoardDto boardDto) {
+    public Long savePost(String name, BoardDto boardDto) {
+
+        User user = userRepository.findByName(name);
+        boardDto.setUser(user);
+
         return boardRepository.save(boardDto.toEntity()).getId();
     }
 
@@ -125,6 +133,12 @@ public class BoardService {
         }
 
         return pageList;
+    }
+
+    /* 조회수 */
+    @Transactional
+    public int updateView(Long id) {
+        return boardRepository.updateView(id);
     }
 
 }

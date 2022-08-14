@@ -1,6 +1,8 @@
 package com.board.board.controller;
 
 
+import com.board.board.config.LoginUser;
+import com.board.board.config.auth.SessionUser;
 import com.board.board.dto.BoardDto;
 import com.board.board.service.BoardService;
 import lombok.AllArgsConstructor;
@@ -42,8 +44,8 @@ public class BoardController {
     //글을 쓴뒤 POST메서드로 글 쓴 내용을 DB에 저장
     //그 후에는 /list 경로로 리디렉션해준다.
     @PostMapping("/post")
-    public String write(BoardDto boardDto) {
-        boardService.savePost(boardDto);
+    public String write(BoardDto boardDto, @LoginUser SessionUser sessionUser) {
+        boardService.savePost(sessionUser.getName(),boardDto);
         return "redirect:/board/list";
     }
 
@@ -52,7 +54,7 @@ public class BoardController {
     @GetMapping("/post/{no}")
     public String datail(@PathVariable("no") Long no , Model model) {
         BoardDto boardDTO = boardService.getPost(no);
-
+        boardService.updateView(no); //조회수++
         model.addAttribute("boardDto",boardDTO);
         return "board/detail";
     }
@@ -68,8 +70,8 @@ public class BoardController {
 
     //위는 GET메서드이며, PUT메서드를 이용해 게시물을 수정한 부분에 대해 적용
     @PutMapping("/post/edit/{no}")
-    public String update(BoardDto boardDTO) {
-        boardService.savePost(boardDTO);
+    public String update(BoardDto boardDto, @LoginUser SessionUser sessionUser) {
+        boardService.savePost(sessionUser.getName(),boardDto);
 
         return "redirect:/board/list";
     }
