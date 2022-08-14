@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head('detail.')">
+<head th:replace="fragments/header :: head('상세보기')">
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -15,7 +15,7 @@
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
 
-<main role="main" class="container">
+<main role="main" class="container" modelAttribute="boardDto">
     <div class="starter-template">
 
         <table class ="table table-bordered">
@@ -46,7 +46,7 @@
         </table>
 
         <!-- 수정/삭제 -->
-        <div>
+        <div th:if="${iswriter}">
             <a th:href="@{'/board/post/edit/' + ${boardDto.id}}">
                 <button class="btn btn-primary">수정</button>
             </a>

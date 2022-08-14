@@ -69,6 +69,7 @@ public class BoardService {
                 .view(board.getView())
                 .createdDate(board.getCreatedDate())
                 .modifiedDate(board.getModifiedDate())
+                .user(board.getUser())
                 .build();
 
         return boardDTO;

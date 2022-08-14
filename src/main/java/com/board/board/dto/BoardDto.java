@@ -30,7 +30,7 @@ public class BoardDto {
     }
 
     @Builder
-    public BoardDto(Long id, String title, String content,String writer, int view,LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public BoardDto(Long id, String title, String content,String writer, int view,LocalDateTime createdDate, LocalDateTime modifiedDate,User user) {
         this.id = id;
         this.title = title;
         this.writer = writer;
@@ -38,6 +38,6 @@ public class BoardDto {
         this.view = view;
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
-
+        this.user = user;
     }
 }

@@ -35,31 +35,38 @@ public class BoardController {
         return "board/list";
     }
 
-    //글쓰는 페이지
+    /* 글작성 페이지 */
     @GetMapping("/post")
     public String write(){
         return "board/write";
     }
 
-    //글을 쓴뒤 POST메서드로 글 쓴 내용을 DB에 저장
-    //그 후에는 /list 경로로 리디렉션해준다.
+    /* 글작성 Insert */
     @PostMapping("/post")
     public String write(BoardDto boardDto, @LoginUser SessionUser sessionUser) {
         boardService.savePost(sessionUser.getName(),boardDto);
         return "redirect:/board/list";
     }
 
-    //게시글 상세 페이지이며, {no}로 페이지 넘버를 받는다.
-    //PathVarible 어노테이션을 통해 no를 받음
-    @GetMapping("/post/{no}")
-    public String datail(@PathVariable("no") Long no , Model model) {
+    /* 게시글 Read */
+    @GetMapping("/post/read/{no}")
+    public String detail(@PathVariable("no") Long no, @LoginUser SessionUser sessionUser, Model model) {
         BoardDto boardDTO = boardService.getPost(no);
+
+        if(sessionUser != null){
+            model.addAttribute("user",sessionUser.getName());
+            /* 게시글 작성자 본인인지 확인 */
+            if(boardDTO.getUser().getId() == sessionUser.getId()) {
+                model.addAttribute("iswriter",true);
+            }
+        }
+
         boardService.updateView(no); //조회수++
         model.addAttribute("boardDto",boardDTO);
         return "board/detail";
     }
 
-    //게시글 수정 페이지이며, {no}로 페이지 넘버를 받는다.
+    /* 게시글 수정 */
     @GetMapping("post/edit/{no}")
     public String edit(@PathVariable("no") Long no, Model model) {
         BoardDto boardDTO = boardService.getPost(no);
@@ -68,7 +75,7 @@ public class BoardController {
         return "board/update";
     }
 
-    //위는 GET메서드이며, PUT메서드를 이용해 게시물을 수정한 부분에 대해 적용
+    /*  */
     @PutMapping("/post/edit/{no}")
     public String update(BoardDto boardDto, @LoginUser SessionUser sessionUser) {
         boardService.savePost(sessionUser.getName(),boardDto);

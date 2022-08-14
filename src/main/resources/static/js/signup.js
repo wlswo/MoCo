@@ -29,7 +29,30 @@ function checkemailDuplication(){
 }
  */
 //바닐라 자바스크립트 ajax , id 중복체크
-function test(){
+function checkemailDuplication(){
+    const idvaild = document.getElementById('idAvailable');
+    const idnotvaild = document.getElementById('idNotAvailable');
+    let id = document.getElementById("email").value;
+
+    // 검증에 사용할 정규식 변수 regExp에 저장
+    let regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    if(!id) {
+        idvaild.style.display = "none";
+        idnotvaild.style.display = "block";
+        idnotvaild.innerText = "아이디를 입력하세요."
+        idCheck = false;
+        return false;
+    }
+
+    if(id.match(regExp) == null) {
+        idvaild.style.display = "none";
+        idnotvaild.style.display = "block";
+        idnotvaild.innerText = "이메일 형식이 올바르지 않습니다."
+        idCheck = false;
+        return false;
+    }
+
     let csrf = document.getElementsByTagName('meta').item(name='_csrf').getAttribute("content");
 
     /* 현재 헤더 인스턴스 생성 */
@@ -37,7 +60,6 @@ function test(){
     myHeaders.set("X-CSRF-TOKEN",csrf);
 
     const baseUrl = "http://localhost:8080";
-    let id = document.getElementById("email").value;
     /* XMLHttpRequest 객체 정의 */
     httpRequest = new XMLHttpRequest();
 
@@ -51,8 +73,7 @@ function test(){
     httpRequest.onreadystatechange = () => {
         /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
         if(httpRequest.readyState === XMLHttpRequest.DONE) {
-            const idvaild = document.getElementById('idAvailable');
-            const idnotvaild = document.getElementById('idNotAvailable');
+
 
             if(httpRequest.status === 200) {
                 let result = httpRequest.response;

@@ -37,7 +37,7 @@
             <!-- CONTENTS !-->
             <tr th:each="board : ${boardList}">
                 <td th:text="${board.id}"></td>
-                <td><a th:href="'/board/post/'+${board.id}" th:text="${board.title}"></a></td>
+                <td><a th:href="'/board/post/read/'+${board.id}" th:text="${board.title}"></a></td>
                 <td th:text="${board.writer}"></td>
                 <td th:text="${board.createdDate} ? ${#temporals.format(board.createdDate,'yyyy-MM-dd HH:mm')} : ${board.createdDate}"></td>
                 <td th:text="${board.view}"></td>
