@@ -4,10 +4,13 @@ package com.board.board.dto;
 //데이터를 캡슐화한 객체를 전달
 
 import com.board.board.domain.Board;
+import com.board.board.domain.Comment;
 import com.board.board.domain.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -22,6 +25,7 @@ public class BoardDto {
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
     private User user;
+    private List<CommentDto> comments;
 
     /* Dto -> Entity */
     public Board toEntity(){
@@ -30,7 +34,15 @@ public class BoardDto {
     }
 
     @Builder
-    public BoardDto(Long id, String title, String content,String writer, int view,LocalDateTime createdDate, LocalDateTime modifiedDate,User user) {
+    public BoardDto(Long id,
+                    String title,
+                    String content,
+                    String writer,
+                    int view,
+                    LocalDateTime createdDate,
+                    LocalDateTime modifiedDate,
+                    User user,
+                    List<CommentDto> comments) {
         this.id = id;
         this.title = title;
         this.writer = writer;
@@ -39,5 +51,6 @@ public class BoardDto {
         this.createdDate = createdDate;
         this.modifiedDate = modifiedDate;
         this.user = user;
+        this.comments = comments;
     }
 }
