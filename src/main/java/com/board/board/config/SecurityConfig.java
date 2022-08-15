@@ -47,30 +47,31 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
-                .authorizeRequests()
-                .antMatchers("/", "/Savory-gh-pages/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/", "/css/**", "/img/**", "/js/**", "/h2/**", "/h2-console/**", "/favicon.ico").permitAll()
-                .antMatchers("/notice").permitAll()
-                .antMatchers("/board").permitAll()
-                .antMatchers("/signup","/login/signup").permitAll()
-                .antMatchers("/id/check").permitAll()
-                .anyRequest().authenticated()
+                    .authorizeRequests()
+                    .antMatchers("/", "/Savory-gh-pages/**").permitAll()
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/", "/css/**", "/img/**", "/js/**", "/h2/**", "/h2-console/**", "/favicon.ico").permitAll()
+                    .antMatchers("/notice").permitAll()
+                    .antMatchers("/board").permitAll()
+                    .antMatchers("/signup","/login/signup").permitAll()
+                    .antMatchers("/id/check").permitAll()
+                    .anyRequest().authenticated()
                 .and()
-                .oauth2Login()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
+                    .logout().logoutSuccessUrl("/")
                 .and()
-                .formLogin()
-                .loginPage("/login")                  //form 기반으로 인증 진입점
-                .loginProcessingUrl("/loginProcess")
-                .failureHandler(customFailureHandler).usernameParameter("username") //로그인 실패 핸들러
-                .defaultSuccessUrl("/")
-                .usernameParameter("username")
+                    .formLogin()
+                    .loginPage("/login")                  //form 기반으로 인증 진입점
+                    .loginProcessingUrl("/loginProcess")
+                    .failureHandler(customFailureHandler).usernameParameter("username") //로그인 실패 핸들러
+                    .defaultSuccessUrl("/")
+                    .usernameParameter("username")
                 .and()
-                .logout().logoutSuccessUrl("/")
-                .and()
-                .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService);
+                    .oauth2Login()
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/")
+                    .userInfoEndpoint()
+                    .userService(customOAuth2UserService);
+
 
         return http.build();
     }

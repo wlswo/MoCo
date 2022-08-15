@@ -11,7 +11,7 @@ import java.util.List;
 
 // JpaRepository<Entity 클래스, PK 타입>
 public interface BoardRepository extends JpaRepository<Board, Long> {
-
+    /* 게시글 Search */
     List<Board> findByTitleContaining(String keyword);
 
     @Modifying

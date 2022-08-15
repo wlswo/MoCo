@@ -56,14 +56,39 @@
             </form>
         </div>
 
-        <!-- 변수 셋팅 -->
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            var boardDto = /*[[${boardDto}]]*/ "";
-            /*]]>*/
-        </script>
-
-
+        <!-- 댓글 -->
+        <div class="card">
+            <div class="card-header bi bi-chat-dots" th:if="${comments != null}" th:text="${#lists.size(comments)}">Comments</div>
+            <!-- 내용 -->
+            <ul class="list-group-flush">
+                <li class="list-group-item" th:each="comment : ${comments}">
+                    <span>
+                        <span style="font-size: small" th:text="${comment.user.getName()}"></span>
+                        <span style="font-size: xx-small" th:text="${comment.createdDate}"></span>&nbsp;
+                        <button class="badge bi bi-pencil-square">수정</button>
+                        <button class="badge bi bi-trash">삭제</button>
+                    </span>
+                    <div th:text="comment"></div>
+                </li>
+            </ul>
+        </div><br>
+        <div class="card">
+            <div class="card-header bi bi-chat-dots">Write a Comment</div>
+            <form>
+                <input type="hidden" id="boardId" value="${board.id}">
+                <div th:if="${user != null}">
+                    <div class="card-body">
+                        <textarea id="comment" class="form-controll" rows="4" placeholder="댓글을 입력하세요."></textarea>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" id="btn-comment-save" class="btn btn-outline-primary bi bi-pencil-square">등록</button>
+                    </div>
+                </div>
+                <div th:if="${user == null}">
+                    <div class="card-body" style="font-size: small"><a href="/login">로그인</a>을 하시면 댓글을 등록하실수 있습니다.</div>
+                </div>
+            </form>
+        </div>
     </div>
 </main>
 
