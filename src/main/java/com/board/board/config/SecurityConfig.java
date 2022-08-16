@@ -1,5 +1,6 @@
 package com.board.board.config;
 
+import com.board.board.config.auth.OauthSuccessHandler;
 import com.board.board.service.CustomOAuth2UserService;
 import com.board.board.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +10,15 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -23,9 +28,11 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @EnableWebSecurity
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class SecurityConfig {
+public class SecurityConfig{
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomUserDetailsService customUserDetailsService;
+
+
     /* 로그인 실패 핸들러 의존성 주입 */
     private final AuthenticationFailureHandler  customFailureHandler;
 
@@ -33,7 +40,6 @@ public class SecurityConfig {
     public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
-
 
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(customUserDetailsService).passwordEncoder(encoder());
@@ -66,9 +72,9 @@ public class SecurityConfig {
                     .defaultSuccessUrl("/")
                     .usernameParameter("username")
                 .and()
-                    .oauth2Login()
+                    .oauth2Login()/* Oauth 로그인 진입점 */
                     .loginPage("/login")
-                    .defaultSuccessUrl("/")
+                    .successHandler(new OauthSuccessHandler()) /* 로그인 성공시 진입점 */
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
 

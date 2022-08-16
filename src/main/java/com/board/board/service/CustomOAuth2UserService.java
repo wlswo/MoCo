@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional
@@ -36,7 +37,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
         // OAuth2UserService
+
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
+        /* attributes <= 로그인 성공후 유저 데이터가 담긴 상태  */
         User user = saveOrUpdate(attributes);
         httpSession.setAttribute("user", new SessionUser(user)); // SessionUser (직렬화된 dto 클래스 사용)
 
@@ -47,9 +50,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     /* 소셜로그인시 기존 회원이 존재하면 수정날짜 정보만 업데이트하여 기존의 데이터는 그대로 보존 */
     private User saveOrUpdate(OAuthAttributes attributes){
+
         User user = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
+                .map(entity -> entity.update(attributes.getPicture()))
                 .orElse(attributes.toEntity());
+
         return userRepository.save(user);
     }
+
 }

@@ -33,6 +33,7 @@ public class UserDto { //홈페이지로 가입하는 사용자
                 .password(password)
                 .email(email)
                 .role(Role.USER)
+                .namecheck("true")
                 .build();
     }
 

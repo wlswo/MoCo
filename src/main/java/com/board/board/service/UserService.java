@@ -48,4 +48,24 @@ public class UserService {
         return useremailDuplication;
     }
 
+    /* 회원가입시 별명 중복 여부 */
+    @Transactional(readOnly = true)
+    public boolean checkUsernameDuplication(String name) {
+        boolean usernameDuplication = userRepository.existsByName(name);
+
+        //중복 = true
+        return usernameDuplication;
+    }
+
+    @Transactional
+    public User nameUpdate(String email, String name, String picture) {
+        User user = userRepository.findByEmail(email)
+                .map(entity -> entity.updateName(name, picture))
+                .orElseThrow(()-> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
+
+        user.isNameCheck();
+
+        return user;
+    }
+
 }

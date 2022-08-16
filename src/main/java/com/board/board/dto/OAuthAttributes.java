@@ -87,12 +87,14 @@ public class OAuthAttributes {
                 .build();
     }
 
+    /* 최초가입시 */
     public User toEntity() {
         return User.builder()
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .role(Role.GUEST)
+                .namecheck("false")
+                .role(Role.SNS)
                 .build();
     }
 }

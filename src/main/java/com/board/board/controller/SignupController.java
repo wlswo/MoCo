@@ -1,13 +1,21 @@
 package com.board.board.controller;
 
 
+import com.board.board.config.LoginUser;
 import com.board.board.config.auth.BadRequestExection;
 import com.board.board.config.auth.CheckUseremailValidator;
+import com.board.board.config.auth.SessionUser;
+import com.board.board.domain.User;
+import com.board.board.dto.BoardDto;
 import com.board.board.dto.UserDto;
 import com.board.board.service.CustomUserDetailsService;
 import com.board.board.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -15,6 +23,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -24,6 +33,7 @@ public class SignupController {
     private CustomUserDetailsService customUserDetailsService;
     private UserService userService;
     private final CheckUseremailValidator checkUseremailValidator;
+    private final HttpSession httpSession;
 
     /* 커스텀 유효성 검증을 위해 추가 */
     @InitBinder //: 특정 컨트롤러에서 바인딩 또는 검증 설정을 변경하고 싶을 때 사용
@@ -39,10 +49,9 @@ public class SignupController {
         return "/login/signup";
     }
 
-    //회원가입화면 아이디 중복확인
+    /* 회원가입화면 아이디 중복확인 (email) */
     @GetMapping("/id/check")
     public ResponseEntity<?> checkEmailDuplication(@RequestParam(value = "email") String email) throws BadRequestExection {
-
         if(userService.checkUseremailDuplication(email)) {
             throw new BadRequestExection("이미 사용중인 아이디 입니다.");
         }
@@ -50,8 +59,19 @@ public class SignupController {
         return ResponseEntity.ok("사용 가능한 아이디 입니다.");
     }
 
+    /* OAuth 로그인 별명 중복 체크 */
+    @GetMapping("/name/check")
+    public ResponseEntity<?> checkNameDupulication(@RequestParam(value = "nickname") String name) throws  BadRequestExection {
+        System.out.println(name);
+        if(userService.checkUsernameDuplication(name)) {
+            throw new BadRequestExection("이미 사용중인 별명 입니다.");
+        }
 
-    //회원가입 처리
+        return ResponseEntity.ok("사용 가능한 별명 입니다.");
+    }
+
+
+    /* 일반사용자 로그인 회원가입 처리 */
     @PostMapping("/login/signup")
     public String execSignup(@Valid UserDto userDto, Errors errors, Model model) {
 
@@ -71,6 +91,25 @@ public class SignupController {
 
         userService.join(userDto);
         return "redirect:/login/login";
+    }
+    /* SNS로그인 사용자 회원가입 처리 (실제로는 이름만 Update) */
+    @GetMapping("/signup/name/edit")
+    public String nickNameUpdate(@RequestParam String name, @LoginUser SessionUser sessionUser,Model model) {
+        String email = sessionUser.getEmail();
+        String picture = sessionUser.getPicture();
+
+        /* 별명 중복 가능성 */
+        if(userService.checkUsernameDuplication(name)) {
+            model.addAttribute("error","이미 존재하는 별명입니다.");
+            model.addAttribute("email",email);
+            model.addAttribute("nickname",name);
+            return "login/OauthNameCheck";
+        }
+
+        User user = userService.nameUpdate(email,name,picture);
+        httpSession.setAttribute("user", new SessionUser(user)); // SessionUser (직렬화된 dto 클래스 사용)
+
+        return "redirect:/";
     }
 
 }

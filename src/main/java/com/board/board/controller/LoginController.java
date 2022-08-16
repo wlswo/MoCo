@@ -1,5 +1,7 @@
 package com.board.board.controller;
 
+import com.board.board.config.LoginUser;
+import com.board.board.config.auth.SessionUser;
 import com.board.board.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ResolvableType;
@@ -32,25 +34,16 @@ public class LoginController {
                                @RequestParam(value = "id", required = false) String id,
                                Model model) throws Exception {
 
-        /* OAuth2 login Url Model에 담기
-        Iterable<ClientRegistration> clientRegistrations = null;
-        ResolvableType type = ResolvableType.forInstance(clientRegistrationRepository)
-                .as(Iterable.class);
-        if (type != ResolvableType.NONE &&
-                ClientRegistration.class.isAssignableFrom(type.resolveGenerics()[0])) {
-            clientRegistrations = (Iterable<ClientRegistration>) clientRegistrationRepository;
-        }
-
-        assert clientRegistrations != null;
-        clientRegistrations.forEach(registration ->
-                oauth2AuthenticationUrls.put(registration.getClientName(),
-                        authorizationRequestBaseUri + "/" + registration.getRegistrationId()));
-        model.addAttribute("urls", oauth2AuthenticationUrls);
-        */
         model.addAttribute("error",error);
         model.addAttribute("exception",exception);
         model.addAttribute("id", id);
         return "login/login";
+    }
+
+    @GetMapping("/OauthNameCheck")
+    public String nameCheck() {
+        return "login/OauthNameCheck";
+
     }
 
 }
