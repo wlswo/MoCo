@@ -1,6 +1,8 @@
 package com.board.board.domain;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
@@ -26,24 +28,39 @@ public class User extends Time {
     @Column(nullable = true)
     private String picture;
 
+    @Column(nullable = false)
+    private String namecheck;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Builder
-    public User(String name, String password, String email, String picture, Role role) {
+    public User(String name, String password, String email, String picture,String namecheck, Role role) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.picture = picture;
+        this.namecheck = namecheck;
         this.role = role;
     }
+    /* Oauth 로그인 갱신 날짜 갱신 */
+    public User update(String picture) {
+        this.picture = picture;
+        return this;
+    }
 
-    public User update(String name, String picture) {
+    /* 첫 소셜 로그인시 별명 중복검사 시키기 */
+    public User updateName(String name,String picture) {
         this.name = name;
         this.picture = picture;
         return this;
     }
+
+    public void isNameCheck() {
+        this.namecheck = "true";
+    }
+
 
     public String getRoleKey() {
         return this.role.getKey();
