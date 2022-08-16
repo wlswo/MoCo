@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"/>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="/js/oauthnamecheck.js"></script>
+    <link th:href="@{/css/loginPage.css}" rel="stylesheet">
+    <title th:text="${title}">Hello, Spring Boot!</title>
+</head>
+<body>
+<main class="main">
+    <div class="container">
+        <section class="wrapper">
+            <form method="GET" class="register-form" id="register-form" th:action="@{/signup/name/edit}"  onsubmit="return nameLastCheck();">
+                <input type="hidden" th:value="${session.user['email']}">
+                    <img class="rounded-circle" th:src="${session.user['picture']}" style="width: 30px; height: 30px;">SNS로그인
+                <div class="form-group">
+                    <label for="name"><i class="zmdi zmdi-account material-icons-name"></i>별명</label>
+                    <input type="text" class="form-control" name="name" id="name" th:value="${nickname} ? ${nickname} : ${session.user['name']}" placeholder="별명을 입력해주세요."/><br>
+                    <div th:if="${valid_name}" th:text="${valid_name}"></div>
+                    <div id="nameAvailable" class="valid-feedback" style="display : none;"></div>
+                    <div id="nameNotAvailable" class="invalid-feedback" style="display : none;"></div>
+                    <button class="btn btn-secondary" type="button" th:onclick="checknameDuplication()">중복체크</button>&ensp;
+                </div>
+                <!-- Error -->
+                <span th:if="${error}">
+                    <p class="alert alert-danger" th:text="${error}"></p>
+                </span>
+                <!-- button -->
+                <div class="form-group form-button">
+                    <input type="submit" id="signup" class="btn btn-secondary" value="가입"/>
+                    <input type="button" name="goBack" id="goBack" class="btn btn-secondary" value="돌아가기" th:onclick="location.href='@{/login}'"/>
+                </div>
+            </form>
+        </section>
+    </div>
+</main>
+</body>
