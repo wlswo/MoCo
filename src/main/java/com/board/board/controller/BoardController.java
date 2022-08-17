@@ -5,8 +5,8 @@ import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
 import com.board.board.dto.BoardDto;
 import com.board.board.dto.CommentDto;
-import com.board.board.service.BoardService;
-import com.board.board.service.CommentService;
+import com.board.board.service.board.BoardService;
+import com.board.board.service.comment.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
 
-
+    /* ----Board---- */
     /* 게시글 목록
        list 경로로 GET메서드 요청이 들어올 경우 list 메서드와 매핑
        list 경로에 요청 파라미터가 있을 경우 (?page=1), 그에 따른 페이징을 수행 */
@@ -44,19 +44,19 @@ public class BoardController {
         return "board/write";
     }
 
-    /* BOARD CREATE */
+    /* CREATE */
     @PostMapping("/post")
     public String write(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
         boardService.savePost(sessionUser.getName(),boardDto);
         return "redirect:/board/list";
     }
 
-    /* BOARD READ */
+    /* READ */
     @GetMapping("/post/read/{no}")
     public String detail(@PathVariable("no") Long no, @LoginUser SessionUser sessionUser, Model model) {
         BoardDto.Response boardDTO = boardService.findById(no);
         List<CommentDto.Response> comments = boardDTO.getComments();
-        System.out.println(comments.size());
+
         /* 댓글 관련 */
         if(comments != null && !comments.isEmpty()) {
             model.addAttribute("comments",comments);
@@ -85,7 +85,7 @@ public class BoardController {
         return "board/update";
     }
 
-    /* BOARD UPDATE */
+    /* UPDATE */
     @PutMapping("/post/edit/{no}")
     public String update(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
         boardService.savePost(sessionUser.getName(),boardDto);
@@ -93,7 +93,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    /* BOARD DELETE */
+    /* DELETE */
     @DeleteMapping("/post/{no}")
     public String delete(@PathVariable("no") Long no) {
         boardService.deletePost(no);
@@ -113,11 +113,27 @@ public class BoardController {
     }
 
 
-    /* COMMENT CREATE */
+    /* ----Comment---- */
+
+    /* CREATE */
     @PostMapping("/comment/{id}")
     public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
         System.out.println(id);
         return ResponseEntity.ok(commentService.commentSave(sessionUser.getName(), id, commentDto));
+    }
+
+    /* UPDATE */
+    @PutMapping("/post/{boardId}/comment/{commentId}")
+    public ResponseEntity commentUpdate(@PathVariable Long commentId, @RequestBody CommentDto.Request commentDto) {
+        commentService.commentUpdate(commentId, commentDto);
+        return ResponseEntity.ok(commentId);
+    }
+
+    /* DELETE */
+    @DeleteMapping("/post/{boardId}/comment/{commentId}")
+    public ResponseEntity commentDelete(@PathVariable Long commentId) {
+        commentService.commentDelete(commentId);
+        return ResponseEntity.ok(commentId);
     }
 
 }
