@@ -53,12 +53,6 @@ function checkemailDuplication(){
         return false;
     }
 
-    let csrf = document.getElementsByTagName('meta').item(name='_csrf').getAttribute("content");
-
-    /* 현재 헤더 인스턴스 생성 */
-    const myHeaders = new Headers();
-    myHeaders.set("X-CSRF-TOKEN",csrf);
-
     const baseUrl = "http://localhost:8080";
     /* XMLHttpRequest 객체 정의 */
     httpRequest = new XMLHttpRequest();
@@ -143,3 +137,6 @@ function LastCheck() {
     return true;
 }
 
+function aa() {
+    console.log("ss")
+}
