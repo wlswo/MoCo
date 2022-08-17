@@ -10,11 +10,11 @@ import com.board.board.service.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 /* 게시판 */
 @AllArgsConstructor
 @Controller
@@ -29,7 +29,7 @@ public class BoardController {
        list 경로에 요청 파라미터가 있을 경우 (?page=1), 그에 따른 페이징을 수행 */
     @GetMapping({"","/list"})
     public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
-        List<BoardDto> boardList = boardService.getBoardlist(pageNum);
+        List<BoardDto.Response> boardList = boardService.getBoardlist(pageNum);
         Integer[] pageList = boardService.getPageList(pageNum);
 
         model.addAttribute("boardList",boardList);
@@ -38,25 +38,25 @@ public class BoardController {
         return "board/list";
     }
 
-    /* 글작성 페이지 */
+    /* RETURN PAGE */
     @GetMapping("/post")
     public String write(){
         return "board/write";
     }
 
-    /* 글작성 Insert */
+    /* BOARD CREATE */
     @PostMapping("/post")
-    public String write(BoardDto boardDto, @LoginUser SessionUser sessionUser) {
+    public String write(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
         boardService.savePost(sessionUser.getName(),boardDto);
         return "redirect:/board/list";
     }
 
-    /* 게시글 Read */
+    /* BOARD READ */
     @GetMapping("/post/read/{no}")
     public String detail(@PathVariable("no") Long no, @LoginUser SessionUser sessionUser, Model model) {
-        BoardDto boardDTO = boardService.getPost(no);
-        List<CommentDto> comments = boardDTO.getComments();
-
+        BoardDto.Response boardDTO = boardService.findById(no);
+        List<CommentDto.Response> comments = boardDTO.getComments();
+        System.out.println(comments.size());
         /* 댓글 관련 */
         if(comments != null && !comments.isEmpty()) {
             model.addAttribute("comments",comments);
@@ -66,7 +66,7 @@ public class BoardController {
         if(sessionUser != null){
             model.addAttribute("user",sessionUser.getName());
             /* 게시글 작성자 본인인지 확인 */
-            if(boardDTO.getUser().getId() == sessionUser.getId()) {
+            if(boardDTO.getUserId() == sessionUser.getId()) {
                 model.addAttribute("iswriter",true);
             }
         }
@@ -76,24 +76,24 @@ public class BoardController {
         return "board/detail";
     }
 
-    /* 게시글 수정 페이지 */
+    /* RETURN PAGE */
     @GetMapping("post/edit/{no}")
     public String edit(@PathVariable("no") Long no, Model model) {
-        BoardDto boardDTO = boardService.getPost(no);
+        BoardDto.Response boardDTO = boardService.getPost(no);
 
         model.addAttribute("boardDto",boardDTO);
         return "board/update";
     }
 
-    /* 게시글 수정 */
+    /* BOARD UPDATE */
     @PutMapping("/post/edit/{no}")
-    public String update(BoardDto boardDto, @LoginUser SessionUser sessionUser) {
+    public String update(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
         boardService.savePost(sessionUser.getName(),boardDto);
 
         return "redirect:/board/list";
     }
 
-    //게시물 삭제는 deletePost 메서드를 사용하여 간단하게 삭제할 수 있다.
+    /* BOARD DELETE */
     @DeleteMapping("/post/{no}")
     public String delete(@PathVariable("no") Long no) {
         boardService.deletePost(no);
@@ -106,16 +106,17 @@ public class BoardController {
     Service로 부터 받은 boardDtoList를 model의 attribute로 전달해준다. */
     @GetMapping("/search")
     public String search(@RequestParam(value = "keyword") String keyword, Model model) {
-        List<BoardDto> boardDtoList = boardService.searchPosts(keyword);
+        List<BoardDto.Response> boardDtoList = boardService.searchPosts(keyword);
         System.out.println(keyword);
         model.addAttribute("boardList", boardDtoList);
         return "board/list";
     }
 
 
-    /* 댓글 작성 */
-    @PostMapping("/board/comment/{id}")
-    public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto commentDto, @LoginUser SessionUser sessionUser) {
+    /* COMMENT CREATE */
+    @PostMapping("/comment/{id}")
+    public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
+        System.out.println(id);
         return ResponseEntity.ok(commentService.commentSave(sessionUser.getName(), id, commentDto));
     }
 

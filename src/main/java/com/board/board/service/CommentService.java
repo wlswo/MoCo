@@ -22,7 +22,7 @@ public class CommentService {
 
     /* CREATE */
     @Transactional
-    public Long commentSave(String name, Long id, CommentDto commentDto) {
+    public Long commentSave(String name, Long id, CommentDto.Request commentDto) {
         User user = userRepository.findByName(name);
         Board board = boardRepository.findById(id).orElseThrow(() ->
             new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + id));

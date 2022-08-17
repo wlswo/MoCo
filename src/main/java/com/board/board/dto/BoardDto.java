@@ -1,8 +1,5 @@
 package com.board.board.dto;
 
-//DTO : 데이터 전달 목절
-//데이터를 캡슐화한 객체를 전달
-
 import com.board.board.domain.Board;
 import com.board.board.domain.Comment;
 import com.board.board.domain.User;
@@ -12,45 +9,54 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
-@ToString          //객체가 가지고 있는 정보나 값들을 문자열로 만들어 리턴하는 메소드
-@NoArgsConstructor //인자 없이 객체 생성 가능
 public class BoardDto {
-    private Long id;
-    private String writer;
-    private String title;
-    private String content;
-    private int  view;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
-    private User user;
-    private List<CommentDto> comments;
 
-    /* Dto -> Entity */
-    public Board toEntity(){
-        Board board = Board.builder().id(id).writer(writer).title(title).content(content).view(0).user(user).build();
-        return board;
-    }
-
+    @Data
+    @NoArgsConstructor //인자 없이 객체 생성 가능
+    @AllArgsConstructor
     @Builder
-    public BoardDto(Long id,
-                    String title,
-                    String content,
-                    String writer,
-                    int view,
-                    LocalDateTime createdDate,
-                    LocalDateTime modifiedDate,
-                    User user,
-                    List<CommentDto> comments) {
-        this.id = id;
-        this.title = title;
-        this.writer = writer;
-        this.content = content;
-        this.view = view;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
-        this.user = user;
-        this.comments = comments;
+    public static class Request{
+        private Long id;
+        private String writer;
+        private String title;
+        private String content;
+        private int view;
+        private LocalDateTime createdDate;
+        private LocalDateTime modifiedDate;
+        private User user;
+
+        /* Dto -> Entity */
+        public Board toEntity() {
+            Board board = Board.builder().id(id).writer(writer).title(title).content(content).view(0).user(user).build();
+            return board;
+        }
     }
+
+    @Getter
+    public static class Response {
+        private Long id;
+        private String title;
+        private String writer;
+        private String content;
+        private int  view;
+        private LocalDateTime createdDate;
+        private LocalDateTime modifiedDate;
+        private Long userId;
+        private List<CommentDto.Response> comments;
+
+        /* Entity -> Dto */
+        public Response(Board board) {
+            this.id = board.getId();
+            this.title = board.getTitle();
+            this.writer = board.getWriter();
+            this.content = board.getContent();
+            this.view = board.getView();
+            this.createdDate = board.getCreatedDate();
+            this.modifiedDate = board.getModifiedDate();
+            this.userId = board.getUser().getId();
+            this.comments = board.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+        }
+    }
+
 }
+

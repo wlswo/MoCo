@@ -26,61 +26,38 @@ public class BoardService {
     private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
     private static final int PAGE_POST_COUNT = 4; // 한 페이지에 존재하는 게시글 수
 
-    // Entity -> Dto로 변환
-    private BoardDto convertEntityToDto(Board board) {
-        return BoardDto.builder()
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .writer(board.getWriter())
-                .view(board.getView())
-                .createdDate(board.getCreatedDate())
-                .modifiedDate(board.getModifiedDate())
-                .build();
-    }
-
-
     @Transactional
-    public List<BoardDto> getBoardlist(Integer pageNum) {
+    public List<BoardDto.Response> getBoardlist(Integer pageNum) {
         Page<Board> page = boardRepository.findAll(PageRequest.of(
                 pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "createdDate")));
 
         List<Board> boardEntities = page.getContent();
-        List<BoardDto> boardDtoList = new ArrayList<>();
+        List<BoardDto.Response> boardDtoList = new ArrayList<>();
 
         for (Board board : boardEntities) {
-            boardDtoList.add(this.convertEntityToDto(board));
+            boardDtoList.add(new BoardDto.Response(board));
         }
 
         return boardDtoList;
     }
 
     @Transactional
-    public BoardDto getPost(Long id) {
-        // Optional : NPE(NullPointerException) 방지
+    public BoardDto.Response getPost(Long id) {
         Optional<Board> boardWrapper = boardRepository.findById(id);
         Board board = boardWrapper.get();
-
-        BoardDto boardDTO = BoardDto.builder()
-                .id(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .writer(board.getWriter())
-                .view(board.getView())
-                .createdDate(board.getCreatedDate())
-                .modifiedDate(board.getModifiedDate())
-                .user(board.getUser())
-                .build();
-
-        return boardDTO;
+        return new BoardDto.Response(board);
+    }
+    @Transactional
+    public BoardDto.Response findById(Long id) {
+        Optional<Board> boardWrapper = boardRepository.findById(id);
+        Board board = boardWrapper.get();
+        return new BoardDto.Response(board);
     }
 
     @Transactional
-    public Long savePost(String name, BoardDto boardDto) {
-
+    public Long savePost(String name, BoardDto.Request boardDto) {
         User user = userRepository.findByName(name);
         boardDto.setUser(user);
-
         return boardRepository.save(boardDto.toEntity()).getId();
     }
 
@@ -91,14 +68,14 @@ public class BoardService {
 
     // 검색 API
     @Transactional
-    public List<BoardDto> searchPosts(String keyword) {
+    public List<BoardDto.Response> searchPosts(String keyword) {
         List<Board> boardEntities = boardRepository.findByTitleContaining(keyword);
-        List<BoardDto> boardDtoList = new ArrayList<>();
+        List<BoardDto.Response> boardDtoList = new ArrayList<>();
 
         if (boardEntities.isEmpty()) return boardDtoList;
 
         for (Board board : boardEntities) {
-            boardDtoList.add(this.convertEntityToDto(board));
+            boardDtoList.add(new BoardDto.Response(board));
         }
 
         return boardDtoList;

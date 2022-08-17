@@ -14,6 +14,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     /* 게시글 Search */
     List<Board> findByTitleContaining(String keyword);
 
+    /* 조회수 */
     @Modifying
     @Query("update Board b set b.view = b.view + 1 where b.id = :id")
     int updateView(@Param("id") Long id);

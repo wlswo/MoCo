@@ -17,7 +17,6 @@ public class BaseController {
     public String index(Model model) {
         SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
-        //Optional 으로 변경 예정
         if(user != null) {
             model.addAttribute("userName",user.getName());
             model.addAttribute("userImg",user.getPicture());
