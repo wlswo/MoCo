@@ -1,14 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: head('상세보기')">
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
-    <link href="starter-template.css" rel="stylesheet"/>
-
     <title>detail</title>
 </head>
 
@@ -17,11 +9,7 @@
 
 <main role="main" class="container" modelAttribute="boardDto">
     <div class="starter-template">
-
         <table class ="table table-bordered">
-            <thead>
-            <caption>글 읽기</caption>
-            </thead>
             <tbody>
             <tr>
                 <th>제목</th>
@@ -57,31 +45,41 @@
         </div>
 
         <!-- 댓글 -->
-        <div class="card">
-            <div class="card-header bi bi-chat-dots" th:if="${comments != null}" th:text="${#lists.size(comments)}">Comments</div>
+        <div class="card" th:if="${comments != null}">
+            <div class="card-header bi bi-chat-dots"> [[${#lists.size(comments)}]] Comments</div>
             <!-- 내용 -->
             <ul class="list-group-flush">
-                <li class="list-group-item" th:each="comment : ${comments}">
+                <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${comments}">
                     <span>
-                        <span style="font-size: small" th:text="${comment.user.getName()}"></span>
-                        <span style="font-size: xx-small" th:text="${comment.createdDate}"></span>&nbsp;
-                        <button class="badge bi bi-pencil-square">수정</button>
-                        <button class="badge bi bi-trash">삭제</button>
+                        <span style="font-size: small" th:text="${comment.getName()}"></span>
+                        <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
+                        <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"></a>
+                        <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="bi bi-x-square"></a>
                     </span>
-                    <div th:text="comment"></div>
+                    <p class="collapse show" th:id="'multi-collapse-' + ${comment.getId()}" th:text="${comment.getComment()}"></p>
+                    <!-- 댓글 수정 -->
+                    <form th:class="collapse" th:id="'multi-collapse-' + ${comment.getId()}">
+                        <input type="hidden" id="commentId" th:value="${comment.getId()}">
+                        <input type="hidden" id="comment_boardId" th:value="${boardDto.id}">
+                        <div class="form-group">
+                            <textarea class="form-control" id="comment-content" rows="3" th:text="${comment.getComment()}"></textarea>
+                        </div>
+                        <button type="button" id="btn-comment-update" class="btn btn-outline-primary bi bi-pencil-square"> 수정</button>
+                    </form>
                 </li>
             </ul>
-        </div><br>
+        </div><br/>
+        <!-- 댓글 입력 -->
         <div class="card">
             <div class="card-header bi bi-chat-dots">Write a Comment</div>
             <form>
-                <input type="hidden" id="boardId" value="${board.id}">
+                <input type="hidden" id="boardId" th:value="${boardDto.id}"/>
                 <div th:if="${user != null}">
                     <div class="card-body">
-                        <textarea id="comment" class="form-controll" rows="4" placeholder="댓글을 입력하세요."></textarea>
+                        <textarea id="comment" class="form-control" rows="4" placeholder="댓글을 입력하세요."></textarea>
                     </div>
                     <div class="card-footer">
-                        <button type="button" id="btn-comment-save" class="btn btn-outline-primary bi bi-pencil-square">등록</button>
+                        <button class="btn btn-outline-primary bi bi-pencil-square" type="button" id="btn-comment-save" onclick="saveComment()" th:text=" 등록"></button>
                     </div>
                 </div>
                 <div th:if="${user == null}">
@@ -92,10 +90,6 @@
     </div>
 </main>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-</body>
+<script src="/js/comment.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script></body>
 </html>
