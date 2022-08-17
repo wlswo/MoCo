@@ -1,4 +1,4 @@
-package com.board.board.service;
+package com.board.board.service.comment;
 
 
 import com.board.board.domain.Board;
@@ -32,6 +32,21 @@ public class CommentService {
         commentRepository.save(commentDto.toEntity());
 
         return commentDto.getId();
+    }
+
+    /* UPDATE */
+    @Transactional
+    public void commentUpdate(Long id, CommentDto.Request commentDto) {
+        Comment comment = commentRepository.findById(id).orElseThrow(()->
+                new IllegalArgumentException("해당 댓글이 존재하지 않습니다." + id));
+        comment.update(commentDto.getComment());
+    }
+
+    /* DELETE */
+    public void commentDelete(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("해당 댓글이 존재하지 않습니다." + id));
+        commentRepository.delete(comment);
     }
 
 }

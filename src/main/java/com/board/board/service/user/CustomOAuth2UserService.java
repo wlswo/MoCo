@@ -1,4 +1,4 @@
-package com.board.board.service;
+package com.board.board.service.user;
 
 import com.board.board.config.auth.SessionUser;
 import com.board.board.domain.User;

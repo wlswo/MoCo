@@ -1,16 +1,13 @@
-package com.board.board.service;
+package com.board.board.service.user;
 
 import com.board.board.config.auth.SessionUser;
 import com.board.board.domain.User;
-import com.board.board.dto.UserDto;
 import com.board.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 
