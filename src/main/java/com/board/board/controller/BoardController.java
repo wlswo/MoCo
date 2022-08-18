@@ -57,7 +57,7 @@ public class BoardController {
         BoardDto.Response boardDTO = boardService.findById(no);
         List<CommentDto.Response> comments = boardDTO.getComments();
 
-        /* 댓글 관련 */
+        /* 댓글 리스트 */
         if(comments != null && !comments.isEmpty()) {
             model.addAttribute("comments",comments);
         }
@@ -68,6 +68,13 @@ public class BoardController {
             /* 게시글 작성자 본인인지 확인 */
             if(boardDTO.getUserId() == sessionUser.getId()) {
                 model.addAttribute("iswriter",true);
+            }
+
+            /* 댓글 작성자 본인인지 확인 */
+            for (int i = 0; i < comments.size(); i++) {
+                //댓글 작성자 id와 현재 사용자 id를 비교
+                boolean iswriterComment = comments.get(i).getUserId().equals(sessionUser.getId());
+                model.addAttribute("iswriterComment", iswriterComment);
             }
         }
 

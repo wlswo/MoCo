@@ -35,6 +35,7 @@ public class CommentDto {
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
         private String name;
+        private Long userId;
         private Long boardId;
 
         /* Entity -> Dto */
@@ -44,6 +45,7 @@ public class CommentDto {
             this.createdDate = comment.getCreatedDate();
             this.modifiedDate = comment.getModifiedDate();
             this.name = comment.getUser().getName();
+            this.userId = comment.getUser().getId();
             this.boardId = comment.getBoard().getId();
         }
     }

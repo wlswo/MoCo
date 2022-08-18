@@ -53,8 +53,12 @@
                     <span>
                         <span style="font-size: small" th:text="${comment.getName()}"></span>
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
-                        <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"></a>
-                        <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="bi bi-x-square"></a>
+                        <span sec:authorize="isAuthenticated()" th:if="${comment.getUserId()} == ${session.user['id']}">
+                            <!-- 댓글 수정 버튼 -->
+                            <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"></a>
+                            <!-- 댓글 삭제 버튼 -->
+                            <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="bi bi-x-square"></a>
+                        </span>
                     </span>
                     <p class="collapse show" th:id="'multi-collapse-' + ${comment.getId()}" th:text="${comment.getComment()}"></p>
                     <!-- 댓글 수정 -->
@@ -74,7 +78,7 @@
             <div class="card-header bi bi-chat-dots">Write a Comment</div>
             <form>
                 <input type="hidden" id="boardId" th:value="${boardDto.id}"/>
-                <div th:if="${user != null}">
+                <div sec:authorize="isAuthenticated()">
                     <div class="card-body">
                         <textarea id="comment" class="form-control" rows="4" placeholder="댓글을 입력하세요."></textarea>
                     </div>
@@ -82,7 +86,7 @@
                         <button class="btn btn-outline-primary bi bi-pencil-square" type="button" id="btn-comment-save" onclick="saveComment()" th:text=" 등록"></button>
                     </div>
                 </div>
-                <div th:if="${user == null}">
+                <div sec:authorize="isAnonymous()">
                     <div class="card-body" style="font-size: small"><a href="/login">로그인</a>을 하시면 댓글을 등록하실수 있습니다.</div>
                 </div>
             </form>
