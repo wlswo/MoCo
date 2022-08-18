@@ -47,7 +47,7 @@ function saveComment(){
         }
     }
 }
-
+/* 이벤트 부여 */
 document.querySelectorAll("#btn-comment-update").forEach(function (item){
     item.addEventListener("click",function (){
         const form = this.closest('form'); /* btn의 가장 가까운 조상의 Element(form)을 반환(closet) */
