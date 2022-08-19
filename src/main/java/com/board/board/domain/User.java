@@ -57,11 +57,12 @@ public class User extends Time {
         return this;
     }
 
+    /* 별명 체크 여부 */
     public void isNameCheck() {
         this.namecheck = "true";
     }
 
-
+    /* 권한 타입 가져오기 */
     public String getRoleKey() {
         return this.role.getKey();
     }

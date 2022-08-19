@@ -136,7 +136,3 @@ function LastCheck() {
     }
     return true;
 }
-
-function aa() {
-    console.log("ss")
-}
