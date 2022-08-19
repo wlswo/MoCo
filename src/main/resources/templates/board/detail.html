@@ -24,7 +24,17 @@
             </tr>
             <tr>
                 <th>작성일</th>
-                <td th:inline="text" colspan="3">[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</td>
+                <td th:inline="text" colspan="2">[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</td>
+                <!-- 좋아요 -->
+                <td>
+                    <!-- 로그인 X -->
+                    <span sec:authorize="isAnonymous()" class="bi bi-heart" th:onclick="plzLogin()"></span>
+                    <!-- 로그인 O -->
+                    <span sec:authorize="isAuthenticated()">
+                        <span th:if="${!isLiked}" class="bi bi-heart" th:onclick="|likeCheck('${boardDto.id}',0)|"></span>
+                        <span th:if="${isLiked}" class="bi bi-heart-fill" th:onclick="|likeCheck('${boardDto.id}',1)|"></span>
+                    <span>
+                </td>
             </tr>
             <tr>
                 <th>본문 내용</th>
@@ -95,5 +105,6 @@
 </main>
 
 <script src="/js/comment.js"></script>
+<script src="/js/like.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script></body>
 </html>
