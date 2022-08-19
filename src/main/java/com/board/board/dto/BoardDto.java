@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BoardDto {
@@ -43,6 +44,7 @@ public class BoardDto {
         private LocalDateTime modifiedDate;
         private Long userId;
         private List<CommentDto.Response> comments;
+        private Set<LikeDto.Response> likes;
 
         /* Entity -> Dto */
         public Response(Board board) {
@@ -55,6 +57,7 @@ public class BoardDto {
             this.modifiedDate = board.getModifiedDate();
             this.userId = board.getUser().getId();
             this.comments = board.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+            this.likes = board.getLikes().stream().map(LikeDto.Response::new).collect(Collectors.toSet());
         }
     }
 

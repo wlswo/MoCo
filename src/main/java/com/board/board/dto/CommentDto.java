@@ -38,7 +38,7 @@ public class CommentDto {
         private Long userId;
         private Long boardId;
 
-        /* Entity -> Dto */
+        /* Entity -> DTO */
         public Response(Comment comment) {
             this.id = comment.getId();
             this.comment = comment.getComment();

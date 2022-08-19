@@ -6,13 +6,19 @@ import com.board.board.config.auth.SessionUser;
 import com.board.board.dto.BoardDto;
 import com.board.board.dto.CommentDto;
 import com.board.board.service.board.BoardService;
-import com.board.board.service.comment.CommentService;
+import com.board.board.service.board.CommentService;
+import com.board.board.service.board.LikeService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /* 게시판 */
@@ -22,6 +28,8 @@ import java.util.List;
 public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
+    private final LikeService likeService;
+    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----Board---- */
     /* 게시글 목록
@@ -52,10 +60,45 @@ public class BoardController {
     }
 
     /* READ */
-    @GetMapping("/post/read/{no}")
-    public String detail(@PathVariable("no") Long no, @LoginUser SessionUser sessionUser, Model model) {
-        BoardDto.Response boardDTO = boardService.findById(no);
+    @GetMapping("/post/read/{boardId}")
+    public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
+        BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = boardDTO.getComments();
+
+        /* 쿠키 관련 */
+        Cookie oldCookie = null;
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("viewCookie")) {
+                    oldCookie = cookie;
+                }
+            }
+            if (oldCookie != null) {
+                log.info("oldCookie Name : " + oldCookie.getName());
+                log.info("oldCookie Value : " + oldCookie.getValue());
+                if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
+                    boardService.updateView(boardId); /* 조회수++ */
+                    oldCookie.setValue(oldCookie.getValue() + "[" + boardId + "]");
+                    oldCookie.setPath("/");
+                    oldCookie.setMaxAge(60 * 60 * 2); /* 유효시간 */
+                    response.addCookie(oldCookie);
+                }
+            }
+        }else {
+            Cookie newCookie = new Cookie("viewCookie", "[" + boardId + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60 * 60 * 2);
+            response.addCookie(newCookie);
+            boardService.updateView(boardId); /* 조회수++ */
+        }
+        /* 좋아요 관련 */
+        if(likeService.findLike(sessionUser.getName(), boardId)){
+            model.addAttribute("isLiked",true);
+        }else {
+            model.addAttribute("isLiked", false);
+        }
+
 
         /* 댓글 리스트 */
         if(comments != null && !comments.isEmpty()) {
@@ -64,7 +107,6 @@ public class BoardController {
 
         /* 사용자 관련 */
         if(sessionUser != null){
-            model.addAttribute("user",sessionUser.getName());
             /* 게시글 작성자 본인인지 확인 */
             if(boardDTO.getUserId() == sessionUser.getId()) {
                 model.addAttribute("iswriter",true);
@@ -77,8 +119,6 @@ public class BoardController {
                 model.addAttribute("iswriterComment", iswriterComment);
             }
         }
-
-        boardService.updateView(no); //조회수++
         model.addAttribute("boardDto",boardDTO);
         return "board/detail";
     }
@@ -125,7 +165,6 @@ public class BoardController {
     /* CREATE */
     @PostMapping("/comment/{id}")
     public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-        System.out.println(id);
         return ResponseEntity.ok(commentService.commentSave(sessionUser.getName(), id, commentDto));
     }
 
@@ -143,6 +182,19 @@ public class BoardController {
         return ResponseEntity.ok(commentId);
     }
 
+    /* ----Likes---- */
+
+    /* CREATE */
+    @PostMapping("/post/{boardId}/like")
+    public ResponseEntity likeSave(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
+        return ResponseEntity.ok(likeService.likeSave(sessionUser.getName(),boardId));
+    }
+
+    /* DELETE */
+    @DeleteMapping("/post/{boardId}/like")
+    public ResponseEntity deleteLike(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
+        return ResponseEntity.ok(likeService.deleteLike(sessionUser.getName(), boardId));
+    }
 }
 
 
