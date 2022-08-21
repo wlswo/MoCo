@@ -12,4 +12,7 @@ public interface LikeRepository extends JpaRepository<Like,Long> {
 
     /* likeGet - find */
     Like findByUser_IdAndBoard_Id(Long user_id,Long board_id);
+
+    /* likeSize - count */
+    Long countByBoard_Id(Long board_id);
 }
