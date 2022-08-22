@@ -33,16 +33,15 @@
                     <span sec:authorize="isAuthenticated()">
                         <span th:if="${!isLiked}" class="bi bi-heart" th:onclick="|likeCheck('${boardDto.id}',0)|"></span>
                         <span th:if="${isLiked}" class="bi bi-heart-fill" th:onclick="|likeCheck('${boardDto.id}',1)|"></span>
-                    <span>
+                    </span>
                 </td>
             </tr>
             <tr>
                 <th>본문 내용</th>
-                <td th:text="${boardDto.content}" colspan="3"></td>
+                <td th:utext="${boardDto.content}" colspan="3"></td>
             </tr>
             </tbody>
         </table>
-
         <!-- 수정/삭제 -->
         <div th:if="${iswriter}">
             <a th:href="@{'/board/post/edit/' + ${boardDto.id}}">

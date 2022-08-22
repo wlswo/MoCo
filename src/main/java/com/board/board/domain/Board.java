@@ -37,6 +37,9 @@ public class Board extends Time {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
+    @Column(length = 300, nullable = true)
+    private String thumbnail;
+
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 

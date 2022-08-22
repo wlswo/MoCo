@@ -1,0 +1,30 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    background-color: #121212;
+    font-family: "Century Gothic", sans-serif;
+}
+
+.title {
+    background-color: #121212;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    color: white;
+    font-size: larger;
+    font-family: 'GmarketSansMedium', sans-serif;
+    border: none;
+    width: 100%;
+}
+input:focus {
+    border-color: #121212;
+    outline: none;
+}
+
+.placeholder ProseMirror-widget{
+    color: #80868b !important;
+    font-size: large !important;
+}

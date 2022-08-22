@@ -47,7 +47,7 @@ function likeCheck(boardId,isLiked) {
         /* XMLHttpRequest 객체 정의 */
         httpRequest = new XMLHttpRequest();
 
-        /* POST 방식으로 요청 */
+        /* DELETE 방식으로 요청 */
         httpRequest.open('DELETE', baseUrl + "/board/post/"+boardId+"/like");
 
         /* ResponseType Json */

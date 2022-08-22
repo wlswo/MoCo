@@ -8,6 +8,7 @@ import com.board.board.dto.CommentDto;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +16,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Objects;
 
 /* 게시판 */
 @AllArgsConstructor
@@ -38,12 +41,19 @@ public class BoardController {
     @GetMapping({"","/list"})
     public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
         List<BoardDto.Response> boardList = boardService.getBoardlist(pageNum);
-        Integer[] pageList = boardService.getPageList(pageNum);
+        Integer pageList = boardService.getPageList(pageNum);
 
         model.addAttribute("boardList",boardList);
-        model.addAttribute("pageList", pageList);
+        model.addAttribute("totalPage", pageList);
 
         return "board/list";
+    }
+    /* 무한스크롤 AJAX */
+    @GetMapping("/listJson")
+    public ResponseEntity listJson(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
+        List<BoardDto.Response> boardList = boardService.getBoardlist(pageNum);
+
+        return ResponseEntity.ok(boardList);
     }
 
     /* RETURN PAGE */
@@ -55,6 +65,7 @@ public class BoardController {
     /* CREATE */
     @PostMapping("/post")
     public String write(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
+        boardDto.setWriter(sessionUser.getName());
         boardService.savePost(sessionUser.getName(),boardDto);
         return "redirect:/board/list";
     }
@@ -68,22 +79,22 @@ public class BoardController {
         /* 쿠키 관련 */
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
+        if(cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("viewCookie")) {
                     oldCookie = cookie;
                 }
             }
-            if (oldCookie != null) {
-                log.info("oldCookie Name : " + oldCookie.getName());
-                log.info("oldCookie Value : " + oldCookie.getValue());
-                if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
-                    boardService.updateView(boardId); /* 조회수++ */
-                    oldCookie.setValue(oldCookie.getValue() + "[" + boardId + "]");
-                    oldCookie.setPath("/");
-                    oldCookie.setMaxAge(60 * 60 * 2); /* 유효시간 */
-                    response.addCookie(oldCookie);
-                }
+        }
+        if (oldCookie != null) {
+            log.info("oldCookie Name : " + oldCookie.getName());
+            log.info("oldCookie Value : " + oldCookie.getValue());
+            if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
+                boardService.updateView(boardId); /* 조회수++ */
+                oldCookie.setValue(oldCookie.getValue() + "[" + boardId + "]");
+                oldCookie.setPath("/");
+                oldCookie.setMaxAge(60 * 60 * 24); /* 유효시간 */
+                response.addCookie(oldCookie);
             }
         }else {
             Cookie newCookie = new Cookie("viewCookie", "[" + boardId + "]");
@@ -92,13 +103,20 @@ public class BoardController {
             response.addCookie(newCookie);
             boardService.updateView(boardId); /* 조회수++ */
         }
+
         /* 좋아요 관련 */
-        if(likeService.findLike(sessionUser.getName(), boardId)){
-            model.addAttribute("isLiked",true);
+        Long like_count = likeService.findLikeCount(boardId);
+        model.addAttribute("likeCount", like_count);
+
+        if(sessionUser != null){
+            if(likeService.findLike(sessionUser.getName(), boardId)){
+                model.addAttribute("isLiked",true);
+            }else {
+                model.addAttribute("isLiked", false);
+            }
         }else {
             model.addAttribute("isLiked", false);
         }
-
 
         /* 댓글 리스트 */
         if(comments != null && !comments.isEmpty()) {
@@ -108,7 +126,8 @@ public class BoardController {
         /* 사용자 관련 */
         if(sessionUser != null){
             /* 게시글 작성자 본인인지 확인 */
-            if(boardDTO.getUserId() == sessionUser.getId()) {
+            if(boardDTO.getUserId().equals(sessionUser.getId())) {
+                log.info("check");
                 model.addAttribute("iswriter",true);
             }
 
@@ -156,7 +175,7 @@ public class BoardController {
         List<BoardDto.Response> boardDtoList = boardService.searchPosts(keyword);
         System.out.println(keyword);
         model.addAttribute("boardList", boardDtoList);
-        return "board/list";
+        return "/board/list";
     }
 
 
@@ -195,6 +214,8 @@ public class BoardController {
     public ResponseEntity deleteLike(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
         return ResponseEntity.ok(likeService.deleteLike(sessionUser.getName(), boardId));
     }
+
+
 }
 
 

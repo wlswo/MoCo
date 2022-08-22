@@ -5,6 +5,7 @@ import com.board.board.domain.Comment;
 import com.board.board.domain.User;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class CommentDto {

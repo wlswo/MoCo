@@ -1,63 +1,66 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head('게시판입니다.')">
-    <title>게시판입니다.</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+  <link th:href="@{/css/list.css}" rel="stylesheet">
+</head>
 </head>
 
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
-
-
-<main role="main" class="container">
-    <div class="starter-template">
-
-        <table class="table table-bordered">
-            <!-- CONTENTS !-->
-            <thead>
-            <tr>
-                <th class="col-md-1">번호</th>
-                <th class="col-md-4">글제목</th>
-                <th class="col-md-3">작성자</th>
-                <th class="col-md-2">작성일</th>
-                <th class="col-md-2">조회수</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <!-- CONTENTS !-->
-            <tr th:each="board : ${boardList}">
-                <td th:text="${board.id}"></td>
-                <td><a th:href="'/board/post/read/'+${board.id}" th:text="${board.title}"></a></td>
-                <td th:text="${board.writer}"></td>
-                <td th:text="${board.createdDate} ? ${#temporals.format(board.createdDate,'yyyy-MM-dd HH:mm')} : ${board.createdDate}"></td>
-                <td th:text="${board.view}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- Pagination -->
-        <div style="margin: 10px">
-            <span th:each="pageNum : ${pageList}" th:inline="text">
-                <a th:href="@{'/board/list/?page=' + ${pageNum}}">[[${pageNum}]]</a>
-            </span>
-            <!-- 글쓰기 버튼 -->
-            <a style="float: right" class="btn btn-primary" th:href="@{/board/post}">글쓰기</a>
-        </div>
-
-        <!-- 검색 form -->
-        <form action="/board/search" method="GET">
-            <div>
-                <input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
-                <button class="btn btn-primary">검색하기</button>
-            </div>
-        </form>
-
+  <!-- 검색 form -->
+  <form action="/board/search" method="GET">
+    <div class="mainTop">
+      <svg width="17" height="17" viewBox="0 0 17 17"><path fill-rule="evenodd" d="M13.66 7.36a6.3 6.3 0 1 1-12.598 0 6.3 6.3 0 0 1 12.598 0zm-1.73 5.772a7.36 7.36 0 1 1 1.201-1.201l3.636 3.635c.31.31.31.815 0 1.126l-.075.075a.796.796 0 0 1-1.126 0l-3.636-3.635z" clip-rule="evenodd" fill="currentColor"></path></svg>
+      <input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
+      <button class="button">검색하기</button>
+      <!-- 글쓰기 버튼 -->
+      <!-- 로그인 O -->
+      <span sec:authorize="isAuthenticated()">
+      <a class="btn btn-primary" th:href="@{/board/post}">글쓰기</a>
+      </span>
+      <!-- 로그인 X -->
+      <span sec:authorize="isAnonymous()">
+      <a class="btn btn-primary" onclick="alert('로그인이 필요합니다.')">글쓰기</a>
+      </span>
     </div>
-</main>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </form>
+  <div id="articles" class="articles">
+    <article th:each="board : ${boardList}">
+      <a th:href="@{'/board/post/read/'+${board.id}}"><figure>
+        <img th:src="${board.thumbnail}" alt="" />
+      </figure></a>
+      <div class="article-body">
+        <a th:text="${board.title}" th:href="@{'/board/post/read/'+${board.id}}"></a>
+        <span>
+          [[${#temporals.format(board.createdDate, 'yyyy년 MM월 dd일')}]] • [[${board.comments.size()}]]개의 댓글
+        </span>
+      </div>
+      <div class="article-bottom">
+        <div class="read-more">
+            by : <b> [[${board.writer}]]</b> &ensp;view:[[${board.view}]]
+            <div class="like">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="bi bi-heart-fill" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z" clip-rule="evenodd" />
+              </svg>
+              <b>&nbsp;️[[${board.likes.size()}]]</b>
+            </div>
+        </div>
+      </div>
+    </article>
+    <!-- Pagination -->
+    <!--
+    <div style="margin: 10px">
+                <span th:each="pageNum : ${pageList}" th:inline="text">
+                    <a th:href="@{'/board/list/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+                </span>
+    </div>
+    -->
+    <input type="hidden" id="totalPage" th:value="${totalPage}" style="display: none"></input>
+  </div>
+  <script src="/js/list.js"></script>
 </body>
 </html>

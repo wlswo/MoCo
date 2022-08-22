@@ -3,6 +3,7 @@ package com.board.board.dto;
 import com.board.board.domain.Board;
 import com.board.board.domain.Comment;
 import com.board.board.domain.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ public class BoardDto {
         private String writer;
         private String title;
         private String content;
+        private String thumbnail;
         private int view;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
@@ -28,10 +30,11 @@ public class BoardDto {
 
         /* Dto -> Entity */
         public Board toEntity() {
-            Board board = Board.builder().id(id).writer(writer).title(title).content(content).view(0).user(user).build();
+            Board board = Board.builder().id(id).writer(writer).title(title).content(content).thumbnail(thumbnail).view(0).user(user).build();
             return board;
         }
     }
+
 
     @Getter
     public static class Response {
@@ -39,6 +42,7 @@ public class BoardDto {
         private String title;
         private String writer;
         private String content;
+        private String thumbnail;
         private int  view;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
@@ -52,6 +56,7 @@ public class BoardDto {
             this.title = board.getTitle();
             this.writer = board.getWriter();
             this.content = board.getContent();
+            this.thumbnail = board.getThumbnail();
             this.view = board.getView();
             this.createdDate = board.getCreatedDate();
             this.modifiedDate = board.getModifiedDate();

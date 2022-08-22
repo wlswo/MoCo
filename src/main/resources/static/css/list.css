@@ -93,7 +93,7 @@ body {
     font-size: small;
     color: white;
 }
-.article-body div {
+.article-body a {
     position: relative;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -163,3 +163,8 @@ img {
     height: 24px;
 }
 
+img {
+    width: 300px;
+    height: 150px;
+    object-fit: cover;
+}

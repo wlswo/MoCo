@@ -6,7 +6,7 @@ const Articles = document.querySelector('#articles');
 
 /* 게시글 호출 Function */
 function nextPage(){
-    if(!loading) {
+    if(loading) {
         return false;
     }
     loading = true;
@@ -29,13 +29,18 @@ function nextPage(){
         /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
-                let succes = httpRequest.response;
-                succes.forEach((item,index) => {
-                    const {id,title,writer,content,view,createdDate,modifiedDate,usetId,comments,likes} = item;
+                let success = httpRequest.response;
+                success.forEach((item,index) => {
+                    /* 구조분해할당 */
+                    let {id,title,writer,content,thumbnail,view,createdDate,modifiedDate,usetId,comments,likes} = item;
+                    /* 날짜 포맷 변경 */
+                    CustomDate = createdDate.toString().split('T')[0].split(/-/);
+                    createdDate = CustomDate[0]+"년 "+CustomDate[1]+"월 "+CustomDate[2]+"일";
+                    /* 데이터 삽입 */
                     const Article = document.createElement('article');
-                    postHtml = `<figure>
-                                   <img src="https://velog.velcdn.com/images/lilseongwon/post/abb71e17-4d0c-465b-a9c7-418cca3dbb51/image.png" alt="" />
-                                </figure>
+                    postHtml = `<a href="/board/post/read/${id}"><figure>
+                                   <img src="${thumbnail}" alt="" />
+                                </figure></a>
                                    <div class="article-body">
                                     <a href="/board/post/read/${id}">${title}</a>
                                     <span>
@@ -75,11 +80,45 @@ window.addEventListener("scroll", function () {
     const Doc_total_height = document.body.offsetHeight;
     const isBottom = Window_height + Scrolled_height + 100 >= Doc_total_height;
     if (isBottom) {
-        console.log(totalPage)
-        if(page > totalPage) {
-            return false;
-        }
-
         nextPage();
     }
 });
+
+/* Cookie Set */
+function setCookie(name, value, exp) {
+    var date = new Date();
+    date.setTime(date.getTime() + exp*24*60*60*1000);
+    document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+}
+/* Cookie GET */
+function getCookie(name) {
+    var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    return value? value[2] : null;
+}
+
+/* 뒤로가기로 왔을 경우 스크롤 위치 유지 */
+window.onpageshow = async function (e) {
+        /* BackForward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우 */
+    if (e.persisted || window.performance.getEntriesByType("navigation")[0].type === 'back_forward') {
+        page = getCookie('page');
+        /* 데이터 로드 */
+        await loadPage();
+        /* 스크롤 이동 */
+        window.scrollTo(0, getCookie('scroll'));
+    }
+}
+function loadPage(){
+    document.getElementById('articles').innerHTML =  sessionStorage.getItem('data');
+}
+
+/* 페이지를 벗어날때 스크롤 위치,데이터 기억 */
+window.onbeforeunload = function (ev) {
+    /* 스크롤위치 */
+    setCookie('scroll',window.scrollY,1);
+
+    /* 현재까지 로드된 데이터들 */
+    window.sessionStorage.setItem('data',document.getElementById('articles').innerHTML);
+
+    /* AJAX 호출을 막기위한 PAGE */
+    setCookie('page',page,1);
+};

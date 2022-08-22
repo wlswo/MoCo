@@ -10,8 +10,8 @@ import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -36,13 +36,20 @@ public class LikeService {
     }
 
     /* READ */
-    @Transactional
+    @Transactional(readOnly = true)
     public boolean findLike(String name, Long boardId) {
         User user = userRepository.findByName(name);
         return likeRepository.existsByUser_IdAndBoard_Id(user.getId(), boardId);
     }
 
+    /* READ COUNT */
+    @Transactional(readOnly = true)
+    public Long findLikeCount(Long boardId) {
+        return likeRepository.countByBoard_Id(boardId);
+    }
+
     /* DELETE */
+    @Transactional
     public Long deleteLike(String name, Long boardId) {
         User user = userRepository.findByName(name);
         Like like = likeRepository.findByUser_IdAndBoard_Id(user.getId(), boardId);
