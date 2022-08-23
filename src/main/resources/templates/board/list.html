@@ -1,66 +1,83 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-  <link th:href="@{/css/list.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!-- BootStrap / CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link th:href="@{/css/list.css}" rel="stylesheet">
 </head>
-</head>
-
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
-  <!-- 검색 form -->
+<div>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
+</div>
+<!-- 검색 및 글쓰기 -->
+<div class="mainTop">
   <form action="/board/search" method="GET">
-    <div class="mainTop">
-      <svg width="17" height="17" viewBox="0 0 17 17"><path fill-rule="evenodd" d="M13.66 7.36a6.3 6.3 0 1 1-12.598 0 6.3 6.3 0 0 1 12.598 0zm-1.73 5.772a7.36 7.36 0 1 1 1.201-1.201l3.636 3.635c.31.31.31.815 0 1.126l-.075.075a.796.796 0 0 1-1.126 0l-3.636-3.635z" clip-rule="evenodd" fill="currentColor"></path></svg>
-      <input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
-      <button class="button">검색하기</button>
-      <!-- 글쓰기 버튼 -->
-      <!-- 로그인 O -->
-      <span sec:authorize="isAuthenticated()">
+    <svg width="17" height="17" viewBox="0 0 17 17"><path fill-rule="evenodd" d="M13.66 7.36a6.3 6.3 0 1 1-12.598 0 6.3 6.3 0 0 1 12.598 0zm-1.73 5.772a7.36 7.36 0 1 1 1.201-1.201l3.636 3.635c.31.31.31.815 0 1.126l-.075.075a.796.796 0 0 1-1.126 0l-3.636-3.635z" clip-rule="evenodd" fill="currentColor"></path></svg>
+    <input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
+    <button class="button">검색하기</button>
+    <!-- 글쓰기 버튼 -->
+    <!-- 로그인 O -->
+    <span sec:authorize="isAuthenticated()">
       <a class="btn btn-primary" th:href="@{/board/post}">글쓰기</a>
       </span>
-      <!-- 로그인 X -->
-      <span sec:authorize="isAnonymous()">
+    <!-- 로그인 X -->
+    <span sec:authorize="isAnonymous()">
       <a class="btn btn-primary" onclick="alert('로그인이 필요합니다.')">글쓰기</a>
       </span>
-    </div>
   </form>
-  <div id="articles" class="articles">
-    <article th:each="board : ${boardList}">
-      <a th:href="@{'/board/post/read/'+${board.id}}"><figure>
-        <img th:src="${board.thumbnail}" alt="" />
-      </figure></a>
-      <div class="article-body">
-        <a th:text="${board.title}" th:href="@{'/board/post/read/'+${board.id}}"></a>
-        <span>
-          [[${#temporals.format(board.createdDate, 'yyyy년 MM월 dd일')}]] • [[${board.comments.size()}]]개의 댓글
-        </span>
+</div>
+
+<!-- 게시글 -->
+<div class="container" id="container">
+  <div class="card" th:each="board : ${boardList}">
+    <div class="card-header">
+      <!-- 썸네일 -->
+      <a th:href="@{'/board/post/read/'+${board.id}}">
+      <span th:if = "${board.thumbnail != null}">
+         <img th:src="${board.thumbnail}" alt="" onerror="this.style.display='none'"/>
+      </span>
+      <span th:if = "${board.thumbnail == null || board.thumbnail.trim().equals('')}">
+         <img th:src="@{/img/panda.png}" alt="" />
+      </span>
+      </a>
+    </div>
+    <!-- 몸통 -->
+    <div class="card-body">
+      <span class="tag tag-pink">AnyTag</span>
+      <!-- 제목 -->
+      <a th:href="@{'/board/post/read/'+${board.id}}"><h4 th:text="${board.title}"> Title </h4></a>
+      <!-- 글 내용 -->
+      <p>
+        [[${board.content}]]
+      </p>
+      <!-- 좋아요 -->
+      <div class="like">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="bi bi-heart-fill" viewBox="0 0 24 24" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z" clip-rule="evenodd" />
+        </svg>
+        <b>&nbsp;️[[${board.likes.size()}]]</b> • [[${board.view}]] views
       </div>
-      <div class="article-bottom">
-        <div class="read-more">
-            by : <b> [[${board.writer}]]</b> &ensp;view:[[${board.view}]]
-            <div class="like">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" class="bi bi-heart-fill" viewBox="0 0 24 24" fill="currentColor">
-                <path fill-rule="evenodd" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z" clip-rule="evenodd" />
-              </svg>
-              <b>&nbsp;️[[${board.likes.size()}]]</b>
-            </div>
+      <!-- 유저 정보 -->
+      <div class="user">
+        <img th:src="${board.userImg}" onerror="this.src='/img/userIcon.svg'" alt="user" />
+        <div class="user-info">
+          <h5>[[${board.writer}]]</h5>
+          <small>[[${#temporals.format(board.createdDate, 'yyyy년 MM월 dd일')}]] • <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 20">
+            <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+            <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
+          </svg>&nbsp;[[${board.comments.size()}]]</small>
         </div>
       </div>
-    </article>
-    <!-- Pagination -->
-    <!--
-    <div style="margin: 10px">
-                <span th:each="pageNum : ${pageList}" th:inline="text">
-                    <a th:href="@{'/board/list/?page=' + ${pageNum}}">[[${pageNum}]]</a>
-                </span>
     </div>
-    -->
-    <input type="hidden" id="totalPage" th:value="${totalPage}" style="display: none"></input>
   </div>
-  <script src="/js/list.js"></script>
+</div>
+<input type="hidden" id="totalPage" th:value="${totalPage}" style="display: none"></input>
+<!-- script -->
+<script src="/js/list.js"></script>
 </body>
 </html>
+

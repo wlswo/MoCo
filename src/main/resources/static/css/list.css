@@ -1,170 +1,107 @@
-.mainTop {
-    padding-top: 15px;
-    text-align: center;
-    color: white;
-}
-
-article {
-    --img-scale: 1.001;
-    --title-color: black;
-    --link-icon-translate: -20px;
-    --link-icon-opacity: 0;
-    position: relative;
-    border-radius: 4px;
-    width: 200px;
-    overflow: hidden;
-    box-shadow: none;
-    background: #1e1e1e;
-    transform-origin: center center;
-    transition: all 0.4s ease-in-out;
-}
-
-article img {
-    transform-origin: center;
-    transform: scale(var(--img-scale));
-    transition: transform 0.4s ease-in-out;
-}
-
-article:has(a:hover, a:focus-within) {
-    --img-scale: 1.1;
-    --title-color: #28666e;
-    --link-icon-translate: 0;
-    --link-icon-opacity: 1;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px,
-    rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
-}
-
-article h2 {
-    margin: 0 0 18px 0;
-    font-family: "Century Gothic", sans-serif;
-    font-size: 1.9rem;
-    letter-spacing: 0.06em;
-    color: #ececec;
-    transition: color 0.3s ease-out;
-}
-
-article a {
-    display: block;
-    color: var(--title-color);
-}
-
-article a:focus {
-    outline: 1px dotted #28666e;
-}
-
-article a::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    cursor: pointer;
-    content: "";
-}
-
-.read-more .icon {
-    transform: translateX(var(--link-icon-translate));
-    opacity: var(--link-icon-opacity);
-    transition: all 0.3s;
-}
-
-/************************
-Generic layout
-**************************/
-
-*,
-*::before,
-*::after {
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+* {
     box-sizing: border-box;
 }
+.mainTop {
+    text-align: center;
+}
 
-body {
+.posts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin: 0;
-    font-family: "Century Gothic", sans-serif;
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-    background-color: #121212;
+    background-color: #f7f8fc;
+    font-family: "Roboto", sans-serif;
+    color: #10182f;
+    font-size: small;
+}
+.container {
+    display: flex;
+    width: 1040px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.card {
+    margin: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 300px;
+}
+.card-header img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    min-height: 250px;
 }
 
-.article-body {
-    position: relative;
-    padding: 12px;
-    height: 100px;
-    font-size: small;
-    color: white;
-}
-.article-body a {
-    position: relative;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: bold;
+.card-body h4 {
+    padding-top: 11px;
     font-size: large;
 }
-.article-body span {
-    align: center;
-    padding: 4px;
-    position: absolute;
-    float: left;
-    left: 0;
-    bottom: 0;
-    font-size: small;
-    color: #787878;
-}
 
-.article-bottom{
-    border-top: 1px solid #373737;
-}
-
-.articles {
-    display: grid;
-    padding-top: 30px;
-    max-width: 800px;
-    margin: 0 auto;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 48px;
-}
-
-figure {
+.tag {
+    background: #cccccc;
+    border-radius: 50px;
+    font-size: 12px;
     margin: 0;
-    padding: 0;
-    aspect-ratio: 16 / 9;
+    color: #fff;
+    padding: 2px 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.tag-teal {
+    background-color: #47bcd4;
+}
+.tag-purple {
+    background-color: #5e76bf;
+}
+.tag-pink {
+    background-color: #cd5b9f;
 }
 
-img {
-    max-width: 100%;
-    line-height: 0;
+.card-body p {
+    font-size: 13px;
+    margin: 0 0 40px;
 }
-
-.read-more {
-    padding: 5px;
-    text-decoration: none;
+.like {
     font-size: small;
-    color: #787878;
 }
-.read-more b{
-    align-items: center;
+
+.user {
+    display: flex;
+    margin-top: auto;
+}
+
+.user img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+.user-info h5 {
+    margin: 0;
+    font-size: medium;
+}
+.user-info small {
+    color: #545d7a;
+}
+
+a {
     text-decoration: none;
-    font-size: small;
-    font-weight: normal;
-    color: white;
-}
-.read-more .like {
-    padding-right: 6px;
-    float: right;
+    color: black;
 }
 
-.read-more .icon {
-    margin-left: 5px;
-}
-
-.icon {
-    min-width: 24px;
-    width: 24px;
-    height: 24px;
-}
-
-img {
-    width: 300px;
-    height: 150px;
-    object-fit: cover;
+p {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
