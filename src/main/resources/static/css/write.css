@@ -7,7 +7,8 @@
 body {
     background-color: #1e1e1e;
     font-family: "Century Gothic", sans-serif;
-    overflow-y: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .title {
@@ -31,6 +32,10 @@ input:focus {
     font-size: large !important;
 }
 /* 슬라이드 */
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
 
 .swiper-slide {
     text-align: center;
@@ -76,6 +81,13 @@ textarea {
     width: 300px;
     height: 200px;
     background-color: #252525;
+    color: #cccccc;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    padding: 0.75rem 1rem;
+}
+textarea:hover {
+    outline: none;
 }
 
 h4 {
@@ -93,5 +105,14 @@ h4 {
 .img-a-tag {
     color: #cccccc;
     display: none;
+}
+
+.textcount {
+    font-size: small;
+    color: #ACACAC;
+}
+.totaltext {
+    font-size: small;
+    color: #ACACAC;
 }
 

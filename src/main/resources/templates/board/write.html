@@ -14,8 +14,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
-
+<nav th:replace="fragments/header :: menu('home')"></nav>
 <main class="container">
     <div>
         <form class="form-horizontal" th:action="@{/board/post}" method="post" th:onsubmit="mdGet();">
@@ -27,7 +26,7 @@
                 <div class="swiper-wrapper">
                     <!-- Slides -->
                     <div class="swiper-slide">
-                        <div style="display: block;">
+                        <div style="display: block; height: 100%; width: 100%; object-fit: cover;">
                             <input type="title" class="title" id="title" name="title" placeholder="제목을 입력하세요."/>
                             <div id="editor"></div>
                             <div style="padding-top: 15px;">
@@ -46,8 +45,9 @@
                                         <a class="img-a-tag" id="reUploadImg"> 재업로드 </a> • <a class="img-a-tag" id="deleteimg"> 제거 </a>
                                     </div>
                                     <div style="background-color: #252525; height: 200px; width: 300px">
+                                    <!-- 썸네일 미리보기 -->
                                     <div style="padding-bottom: 15px; align-content: center; position: relative;">
-                                        <img class="thumbnail-preview" id='thumbnail-preview'style="display: none; position:absolute;width: 300px; height: 200px;"/>
+                                        <input type="image" class="thumbnail-preview" id='thumbnail-preview'style="display: none; position:absolute;width: 300px; height: 200px;"/>
                                         <div id="svgicon">
                                         <svg width="107" height="105" fill="none" viewBox="0 0 107 65">
                                             <path fill="#868E96" d="M105.155 0H1.845A1.844 1.844 0 0 0 0 1.845v81.172c0 1.02.826 1.845 1.845 1.845h103.31A1.844 1.844 0 0 0 107 83.017V1.845C107 .825 106.174 0 105.155 0zm-1.845 81.172H3.69V3.69h99.62v77.482z"></path>
@@ -62,18 +62,23 @@
                                     <input type="file" id="uploadThumbnail" accept="image/*" class="btn btn-primary" style="display: none;"></input>
                                     </div>
                                 </section>
+                                <!-- 게시글 미리보기 글 -->
                                 <div class="outer"><div class="inner"></div></div>
                                 <section>
                                     <h4>게시글 소개</h4>
                                     <div style="padding-top: 27px;">
-                                        <textarea placeholder="당신의 포스트를 소개해보세요."></textarea>
+                                        <textarea id="subcontent"name="subcontent" placeholder="당신의 포스트를 소개해보세요."></textarea>
+                                        <div style="display: flex; justify-content: right;">
+                                            <p class="textcount">0</p>
+                                            <p class="totaltext">/150</p>
+                                        </div>
                                     </div>
                                 </section>
                             </div>
                             <div class="uploadSection">
                                 <span class="btn btn-primary" id="prev">취소</span>
                                 <div style="width: 7%;"></div>
-                                <button class="btn btn-primary">작성완료</button>
+                                <button type="submit" class="btn btn-primary">작성완료</button>
                             </div>
                         </div>
                     </div>

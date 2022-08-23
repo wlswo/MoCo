@@ -62,7 +62,8 @@ deleteImg.addEventListener('click', () => {
 const reUploadImg = document.getElementById('reUploadImg');
 reUploadImg.addEventListener('click', ()=> thumbnail.click());
 document.querySelector('a').style.display = 'none';
-/* 썸네일 이미지서버와 AJAX */
+
+/* 썸네일 이미지서버로 AJAX */
 function uploadThumbnail(e) {
     const files = e.currentTarget.files;
     console.log(typeof files, files);
@@ -94,6 +95,7 @@ function uploadThumbnail(e) {
             document.getElementById('svgicon').style.display = 'none';
             document.getElementById('thumbnail-preview').style.display = 'block';
             document.querySelector('.thumbnail-preview').setAttribute('src',displayUrl);
+            document.getElementById('thumbnail').value = displayUrl;
             deleteImg.style.display = 'block';
             reUploadImg.style.display = 'block';
             document.getElementById('uploadImg').style.display = 'none';
@@ -108,10 +110,34 @@ function uploadThumbnail(e) {
 var menu = ['Slide 1', 'Slide 2']
 var mySwiper = new Swiper ('.swiper-container', {
     allowTouchMove:false,
+    simulateTouch:false,
     speed:500,
-    // Navigation arrows
+    /* 스크롤바 */
+    scrollbar: {
+        container: '.swiper-scrollbar',
+        draggable: false,
+    },
+    /* 이동 방향 */
     navigation: {
         nextEl: '#next',
         prevEl: '#prev',
     },
+    slidesPerView : 'auto',
+    centeredSlides: true,
+    spaceBetween: 200,
+});
+
+/* 게시글 소개글 글자수 표시 */
+document.getElementById('subcontent').addEventListener('keyup', () => {
+    let content = document.getElementById('subcontent').value;
+    /* 글자수 카운트 */
+    if(content.length == 0 || content == null) {
+        document.querySelector('.textcount').textContent = '0';
+    }else {
+        document.querySelector('.textcount').textContent = content.length;
+    }
+    /* 글자수 제한 */
+    if(content.length > 150) {
+        document.getElementById('subcontent').value = content.substring(0,150);
+    }
 });

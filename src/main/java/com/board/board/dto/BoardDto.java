@@ -31,7 +31,7 @@ public class BoardDto {
 
         /* Dto -> Entity */
         public Board toEntity() {
-            Board board = Board.builder().id(id).writer(writer).title(title).content(content).thumbnail(thumbnail).view(0).user(user).build();
+            Board board = Board.builder().id(id).writer(writer).title(title).content(content).subcontent(subcontent).thumbnail(thumbnail).view(0).user(user).build();
             return board;
         }
     }
