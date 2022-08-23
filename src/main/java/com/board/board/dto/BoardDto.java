@@ -22,6 +22,7 @@ public class BoardDto {
         private String writer;
         private String title;
         private String content;
+        private String subcontent;
         private String thumbnail;
         private int view;
         private LocalDateTime createdDate;
@@ -42,11 +43,13 @@ public class BoardDto {
         private String title;
         private String writer;
         private String content;
+        private String subcontent;
         private String thumbnail;
         private int  view;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
         private Long userId;
+        private String userImg;
         private List<CommentDto.Response> comments;
         private Set<LikeDto.Response> likes;
 
@@ -56,11 +59,13 @@ public class BoardDto {
             this.title = board.getTitle();
             this.writer = board.getWriter();
             this.content = board.getContent();
+            this.subcontent = board.getSubcontent();
             this.thumbnail = board.getThumbnail();
             this.view = board.getView();
             this.createdDate = board.getCreatedDate();
             this.modifiedDate = board.getModifiedDate();
             this.userId = board.getUser().getId();
+            this.userImg = board.getUser().getPicture();
             this.comments = board.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
             this.likes = board.getLikes().stream().map(LikeDto.Response::new).collect(Collectors.toSet());
         }
