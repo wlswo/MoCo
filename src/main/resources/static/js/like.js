@@ -2,12 +2,11 @@ function plzLogin() {
     alert("로그인후 이용해주세요.");
 }
 
+/* CREATE */
 function likeCheck(boardId,isLiked) {
-
     /* isLiked == 0 좋아요를 누르지않은상태
      * isLiked == 1 좋아요를 누른상태
      */
-
     console.log(boardId+"  "+isLiked);
 
     /* CREATE */
