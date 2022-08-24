@@ -10,7 +10,7 @@
     <!-- markDown -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css">
-    <title>게시판입니다.</title>
+    <title>글작성</title>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
                     <!-- Slides -->
                     <div class="swiper-slide">
                         <div style="display: block; height: 100%; width: 100%; object-fit: cover;">
-                            <input type="title" class="title" id="title" name="title" placeholder="제목을 입력하세요."/>
+                            <textarea class="title" id="title" name="title" placeholder="제목을 입력하세요."></textarea>
                             <div id="editor"></div>
                             <div style="padding-top: 15px;">
                                 <a th:href="@{/board/list}" class="btn btn-secondary">뒤로 가기</a>
@@ -75,9 +75,8 @@
                                     </div>
                                 </section>
                             </div>
-                            <div class="uploadSection">
+                            <div class="uploadSection" style="justify-content: space-between">
                                 <span class="btn btn-primary" id="prev">취소</span>
-                                <div style="width: 7%;"></div>
                                 <button type="submit" class="btn btn-primary">작성완료</button>
                             </div>
                         </div>

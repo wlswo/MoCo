@@ -5,8 +5,10 @@ const editor = new Editor({
     previewStyle: 'vertical',
     height: '500px',
     theme: 'dark',
+    initialValue: document.getElementById('content').value,
     previewHighlight:false,
-    // hooks 에서 addImageBlobHook를 커스텀
+    /* imgbb에 이미지 업로드 후 업로드된 이미지 주소 반환 */
+    /* hooks 에서 addImageBlobHook를 커스텀 */
     hooks:{
         addImageBlobHook: async (blob, callback) => {
             /* blob : JS 파일 인스턴스 */
@@ -28,7 +30,7 @@ const editor = new Editor({
                     // 형식 : ![대체 텍스트](주소)
                     displayUrl = JSON.parse(data).data.display_url;
                     console.log(displayUrl)
-                    callback(displayUrl, '사진');
+                    callback(displayUrl, '이미지');
                 },
                 error: function(e) {
                     callback('image_load_fail', '이미지업로드 실패');
@@ -61,7 +63,6 @@ deleteImg.addEventListener('click', () => {
 /* 썸네일 재 업로드 */
 const reUploadImg = document.getElementById('reUploadImg');
 reUploadImg.addEventListener('click', ()=> thumbnail.click());
-document.querySelector('a').style.display = 'none';
 
 /* 썸네일 이미지서버로 AJAX */
 function uploadThumbnail(e) {
@@ -92,13 +93,9 @@ function uploadThumbnail(e) {
         success: function(data) {
             displayUrl = JSON.parse(data).data.display_url;
             console.log(displayUrl);
-            document.getElementById('svgicon').style.display = 'none';
-            document.getElementById('thumbnail-preview').style.display = 'block';
             document.querySelector('.thumbnail-preview').setAttribute('src',displayUrl);
+            thumbnailChange();
             document.getElementById('thumbnail').value = displayUrl;
-            deleteImg.style.display = 'block';
-            reUploadImg.style.display = 'block';
-            document.getElementById('uploadImg').style.display = 'none';
         },
         error: function(e) {
             console.log(e);
@@ -106,7 +103,7 @@ function uploadThumbnail(e) {
     });
 }
 
-/* 슬라이드 처리 */
+/* 슬라이드 처리 Swiper.js 세팅 */
 var menu = ['Slide 1', 'Slide 2']
 var mySwiper = new Swiper ('.swiper-container', {
     allowTouchMove:false,
@@ -128,16 +125,50 @@ var mySwiper = new Swiper ('.swiper-container', {
 });
 
 /* 게시글 소개글 글자수 표시 */
-document.getElementById('subcontent').addEventListener('keyup', () => {
-    let content = document.getElementById('subcontent').value;
+document.getElementById('subcontent').addEventListener('keyup', () =>{
+    textAreaCheck();
+});
+/* 게시글 수정으로 들어올시 textArea,thumbnail 변경 */
+const title = document.querySelector('title').text;
+if(title === '수정') {
+    textAreaCheck();
+    isImgExist  = document.getElementById('thumbnail-preview').getAttribute('src');
+    if(isImgExist == null || isImgExist.trim() === '') {
+        thumbnailChange();
+        document.getElementById('thumbnail-preview').setAttribute('src','/img/panda.png') ;
+    }else {
+        thumbnailChange();
+    }
+}
+/*  */
+function thumbnailChange() {
+    document.getElementById('svgicon').style.display = 'none';
+    document.getElementById('uploadImg').style.display = 'none'; /* 업로드버튼 */
+    document.getElementById('thumbnail-preview').style.display = 'block';
+    deleteImg.style.display = 'block';
+    reUploadImg.style.display = 'block';
+}
+
+/* 게시글 소개 글자수 체크 */
+function textAreaCheck() {
+    let content = document.getElementById('subcontent').value
+    let textcount = document.querySelector('.textcount');
+    let totaltext = document.querySelector('.totaltext');
+
     /* 글자수 카운트 */
     if(content.length == 0 || content == null) {
-        document.querySelector('.textcount').textContent = '0';
+        textcount.textContent = '0';
     }else {
-        document.querySelector('.textcount').textContent = content.length;
+        textcount.textContent = content.length;
     }
     /* 글자수 제한 */
-    if(content.length > 150) {
+    if(content.length >= 150) {
         document.getElementById('subcontent').value = content.substring(0,150);
+        textcount.textContent = '150';
+        textcount.style.color = 'red';
+        totaltext.style.color = 'red';
+    }else{
+        textcount.style.color = '#ACACAC';
+        totaltext.style.color = '#ACACAC';
     }
-});
+}

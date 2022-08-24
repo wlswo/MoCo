@@ -31,7 +31,7 @@ function nextPage(){
                 let success = httpRequest.response;
                 success.forEach((item,index) => {
                     /* 구조분해할당 */
-                    let {id,title,writer,content,thumbnail,view,createdDate,modifiedDate,usetId,userImg,comments,likes} = item;
+                    let {id,title,writer,content,thumbnail,subcontent,view,createdDate,modifiedDate,usetId,userImg,comments,likes} = item;
                     /* 날짜 포맷 변경 */
                     CustomDate = createdDate.toString().split('T')[0].split(/-/);
                     createdDate = CustomDate[0]+"년 "+CustomDate[1]+"월 "+CustomDate[2]+"일";
@@ -62,7 +62,7 @@ function nextPage(){
                                     <a href="/board/post/read/${id}"><h4> ${title} </h4></a>
                                     <!-- 글 내용 -->
                                     <p>
-                                      글 내용
+                                      ${subcontent}
                                     </p>
                                     <!-- 좋아요 -->
                                     <div class="like">

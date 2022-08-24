@@ -75,7 +75,7 @@ input:focus {
 
 
 /* textArea */
-textarea {
+#subcontent {
     resize: none;
     border: none;
     width: 300px;
@@ -86,9 +86,18 @@ textarea {
     line-height: 1.5;
     padding: 0.75rem 1rem;
 }
+#title {
+    resize: none;
+    border: none;
+    height: 80px;
+    line-height: 1.5;
+    color: #ECECEC;
+}
 textarea:hover {
     outline: none;
+    border: none;
 }
+
 
 h4 {
     font-size: large;
@@ -98,7 +107,7 @@ h4 {
 .uploadSection {
     display: flex;
     padding-top: 20px;
-    justify-content: center;
+    /* justify-content: center; */
     border-top: 1px solid #757575;
 }
 
