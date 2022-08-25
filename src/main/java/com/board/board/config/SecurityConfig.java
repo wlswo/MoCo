@@ -60,9 +60,9 @@ public class SecurityConfig{
                     .logout().logoutSuccessUrl("/")
                 .and()
                     .formLogin()
-                    .loginPage("/login")                  //form 기반으로 인증 진입점
+                    .loginPage("/login")                  /* form 기반으로 인증 진입점 */
                     .loginProcessingUrl("/loginProcess")
-                    .failureHandler(customFailureHandler).usernameParameter("username") //로그인 실패 핸들러
+                    .failureHandler(customFailureHandler).usernameParameter("username") /* 로그인 실패 핸들러 */
                     .defaultSuccessUrl("/")
                     .usernameParameter("username")
                 .and()

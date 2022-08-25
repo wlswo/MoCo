@@ -9,7 +9,7 @@ function nameLastCheck() {
 
 }
 
-//바닐라 자바스크립트 ajax , name 중복체크
+/* 별명중복체크 */
 function checknameDuplication(){
     const namevaild = document.getElementById('nameAvailable');
     const namenotvaild = document.getElementById('nameNotAvailable');
@@ -40,7 +40,7 @@ function checknameDuplication(){
 
     /* GET 방식으로 요청 */
     httpRequest.open('GET', baseUrl+"/name/check?nickname="+nickname);
-    /* ResponseType Json */
+    /* ResponseType text */
     httpRequest.responseType = "text";
     httpRequest.send();
 
