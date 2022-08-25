@@ -8,70 +8,71 @@
   <title>로그인 (Please sign in)</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"/>
-  <link th:href="@{/css/loginPage.css}" rel="stylesheet">
-
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+  <link th:href="@{/css/login.css}" rel="stylesheet">
 </head>
 <body>
-<main class="main">
-  <div class="container">
-    <section class="wrapper">
-      <div class="heading">
-        <h1 class="text text-large">Sign In</h1>
-        <p class="text text-normal">New user? <span><a th:href="@{/signup}" class="text text-links">Create an account</a></span>
-        </p>
-      </div>
-      <form method="POST" th:action="@{/loginProcess}" name="login" class="form" >
-        <div class="input-control">
-          <label for="email" class="input-label" hidden>Email Address</label>
-          <input type="email" id="email" name="username" class="input-field" th:value="${id} ? ${id}" placeholder="Email Address">
-        </div>
-        <div class="input-control">
-          <label for="password" class="input-label" hidden>Password</label>
-          <input type="password" id="password" name="password" class="input-field" placeholder="Password">
-        </div>
-        <span th:if="${error}">
-          <p class="alert alert-danger" th:text="${exception}"></p>
-        </span>
-        <div class="input-control">
-          <a href="#" class="text text-links">Forgot Password</a>
-          <input type="submit" name="submit" class="input-submit" value="Login"/>
-        </div>
-      </form>
-      <div class="striped">
-        <span class="striped-line"></span>
-        <span class="striped-text">Or</span>
-        <span class="striped-line"></span>
-      </div>
-      <div class="method">
-        <div class="method-control">
-          <a href="/oauth2/authorization/google" class="method-action">
-            <i class="ion ion-logo-google"></i>
-            <span>Sign in with Google</span>
-          </a>
-        </div>
-        <div class="method-control">
-          <a href="/oauth2/authorization/github" class="method-action">
-            <i class="ion ion-logo-github"></i>
-            <span></i>Sign in with Github</span>
-          </a>
-        </div>
-        <div class="method-control">
-          <a href="/oauth2/authorization/kakao" class="method-action">
-            <i class="ion ion-logo-kakao"></i>
-            <span></i>Sign in with KaKao</span>
-          </a>
-        </div>
-        <div class="method-control">
-          <a href="/oauth2/authorization/naver" class="method-action">
-            <i class="ion ion-logo-naver"></i>
-            <span></i>Sign in with Naver</span>
-          </a>
-        </div>
-      </div>
-    </section>
+<!-- start -->
+<!-- BASEN ON DRIBBBLE SHOT: https://dribbble.com/shots/2209627-UI8-Nav -->
+
+<div class="container">
+  <span class="menu-trigger">
+    <i class="menu-trigger-bar top"></i>
+    <i class="menu-trigger-bar middle"></i>
+    <i class="menu-trigger-bar bottom"></i>
+  </span>
+  <span class="close-trigger">
+    <i class="close-trigger-bar left"></i>
+    <i class="close-trigger-bar right"></i>
+  </span>
+  <span class="logo">
+    <span>
+      ⛄️
+    </span>
+  </span>
+  <div class="inner-container">
+    <i class="menu-bg top"></i>
+    <i class="menu-bg middle"></i>
+    <i class="menu-bg bottom"></i>
+    <div class="menu-container">
+      <ul class="menu">
+        <li>
+          <a href="#" class="login">Login</a>
+          <form method="POST" th:action="@{/loginProcess}" name="login" class="form" >
+            <input type="email" id="email" name="username" class="input-field" th:value="${id} ? ${id}" placeholder="Email Address">
+            <input type="password" id="password" name="password" class="input-field" placeholder="Password">
+            <span th:if="${error}">
+            <p class="alert alert-danger" th:text="${exception}" style="font-size: small;"></p>
+            </span>
+            <button type="submit" style="margin-bottom: 15px;">로그인</button>
+          </form>
+          <div class="wrapper">
+              <div class="google"><a href="/oauth2/authorization/google"><i class="xi-google"></i></a></div>
+              <div class="naver"><a href="/oauth2/authorization/naver"><i class="xi-naver"></i></a></div>
+              <div class="kakotalk"><a href="/oauth2/authorization/kakao"><i class="xi-kakaotalk"></i></a></div>
+              <div class="github"><a href="/oauth2/authorization/github"><i class="xi-github"></i></a></div>
+          </div>
+        </li>
+        <li>
+          <a class="create-account" th:href="@{/signup}">Create account</a>
+        </li>
+        <li>
+          <a class="create-account" href="/">Return</a>
+        </li>
+      </ul>
+    </div>
   </div>
-</main>
 </div>
+<!-- 제작자 -->
+<div id='links'>
+  <a id='twitter' href="https://twitter.com/karlovidek" target="_blank"><span class='fa fa-twitter'></span></a>
+  <div id='pens'><a href="https://codepen.io/karlovidek/" target="_blank"><span class='fa fa-codepen'></span></a> my other Pens</div>
+</div>
+<!-- Script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.0.2/TweenMax.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/js/login.js"></script>
 </body>
 </html>

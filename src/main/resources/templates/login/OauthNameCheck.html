@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/html">
 <head th:fragment="head(title)">
     <!-- Required meta tags -->
     <meta charset="utf-8" />
@@ -9,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"/>
     <script defer src="/js/oauthnamecheck.js"></script>
-    <link th:href="@{/css/loginPage.css}" rel="stylesheet">
+    <link href="/css/signup.css" rel="stylesheet">
     <title th:text="${title}">Hello, Spring Boot!</title>
 </head>
 <body>
@@ -34,7 +35,7 @@
                 <!-- button -->
                 <div class="form-group form-button">
                     <input type="submit" id="signup" class="btn btn-secondary" value="가입"/>
-                    <input type="button" name="goBack" id="goBack" class="btn btn-secondary" value="돌아가기" th:onclick="location.href='@{/login}'"/>
+                    <a name="goBack" id="goBack" class="btn btn-secondary" th:href="@{/login}">돌아가기</a>
                 </div>
             </form>
         </section>
