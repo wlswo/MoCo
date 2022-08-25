@@ -36,10 +36,10 @@ public class SignupController {
     }
 
 
-    //회원가입 페이지
+    /* 회원가입 페이지 */
     @GetMapping("/signup")
     public String sign_up_page(Model model) {
-        model.addAttribute("userDto",new UserDto()); //빈객체 전달
+        model.addAttribute("userDto",new UserDto.Request()); //빈객체 전달
         return "/login/signup";
     }
 
@@ -53,10 +53,9 @@ public class SignupController {
         return ResponseEntity.ok("사용 가능한 아이디 입니다.");
     }
 
-    /* OAuth 로그인 별명 중복 체크 */
+    /* 별명 중복 체크 */
     @GetMapping("/name/check")
     public ResponseEntity<?> checkNameDupulication(@RequestParam(value = "nickname") String name) throws  BadRequestExection {
-        System.out.println(name);
         if(userService.checkUsernameDuplication(name)) {
             throw new BadRequestExection("이미 사용중인 별명 입니다.");
         }
@@ -67,7 +66,7 @@ public class SignupController {
 
     /* 일반사용자 로그인 회원가입 처리 */
     @PostMapping("/login/signup")
-    public String execSignup(@Valid UserDto userDto, Errors errors, Model model) {
+    public String execSignup(@Valid UserDto.Request userDto, Errors errors, Model model) {
 
         if(errors.hasErrors()) {
             /* 회원가입 실패시 입력 데이터 값을 유지 */
@@ -84,7 +83,7 @@ public class SignupController {
         }
 
         userService.join(userDto);
-        return "redirect:/login/login";
+        return "redirect:/login";
     }
     /* SNS로그인 사용자 회원가입 처리 (실제로는 이름만 Update) */
     @GetMapping("/signup/name/edit")
