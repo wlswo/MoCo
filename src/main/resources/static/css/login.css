@@ -1,0 +1,383 @@
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans:400,700);
+body {
+    background-color: white;
+    padding: 50px 0;
+    font-family: "Noto Sans", sans-serif;
+    text-align: center;
+}
+
+.container {
+    background-color: #A8B3AB;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 320px;
+    min-height: 568px;
+    margin: 0 auto;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    -webkit-box-shadow: 0px 9px 13px 0px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 9px 13px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 9px 13px 0px rgba(0, 0, 0, 0.3);
+    -webkit-transform: scale(1);
+}
+
+.menu-trigger, .close-trigger {
+    position: absolute;
+    top: 32px;
+    right: 20px;
+    display: block;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    z-index: 333;
+}
+.menu-trigger:hover .menu-trigger-bar:before, .close-trigger:hover .menu-trigger-bar:before {
+    width: 100%;
+}
+.menu-trigger:hover .close-trigger-bar:before, .close-trigger:hover .close-trigger-bar:before {
+    width: 100%;
+}
+
+.close-trigger {
+    z-index: 5;
+    top: 42px;
+}
+
+.menu-trigger-bar {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: #1e1e1e;
+    margin-bottom: 6px;
+    transform: rotate(-45deg);
+    position: relative;
+}
+.menu-trigger-bar:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 0%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.menu-trigger-bar.top {
+    width: 50%;
+}
+.menu-trigger-bar.middle:before {
+    left: auto;
+    right: 0;
+}
+.menu-trigger-bar.bottom {
+    width: 50%;
+    margin-left: 50%;
+}
+
+.close-trigger-bar {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: #222222;
+    position: relative;
+}
+.close-trigger-bar:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 0%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.close-trigger-bar.left {
+    transform: translateX(100px) translateY(-100px) rotate(-45deg);
+}
+.close-trigger-bar.right {
+    transform: translateX(-100px) translateY(-100px) rotate(45deg);
+     top: -3px;
+}
+
+.logo {
+    display: block;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -52px;
+    margin-left: -32px;
+    text-align: center;
+    z-index: 10;
+}
+.logo span {
+    display: block;
+    text-align: center;
+    line-height: 62px;
+    font-size: 72px;
+    color: white;
+}
+
+.logo-title {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: #222222;
+    font-size: 32px;
+
+}
+
+.logo-badge {
+    position: absolute;
+    display: block;
+    width: 24px;
+    height: 24px;
+    top: 6px;
+    right: -6px;
+    border-radius: 100%;
+    background-color: #fffacd;
+    font-size: 12px;
+    line-height: 2;
+    text-align: center;
+}
+
+.inner-container, .menu-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.inner-container {
+    z-index: 20;
+}
+
+.menu-container {
+    display: flex;
+    align-items: center;
+}
+
+.menu {
+    display: block;
+    width: 100%;
+    padding: 20%;
+}
+.menu li {
+    text-align: left;
+    display: block;
+    padding: 15px 5px;
+}
+.menu a {
+    text-decoration: none;
+    color: #222222;
+    display: inline-block;
+    padding: 10px 0;
+    position: relative;
+}
+.create-account:hover{
+    color: #cccccc ;
+}
+.create-account:hover:before {
+    opacity: 1;
+    transform: translateX(0px);
+}
+.create-account:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 18px;
+    height: 4px;
+    opacity: 0;
+    background-color: #222222;
+    transform: translateX(100px);
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+
+.menu input:hover:before {
+    opacity: 1;
+    transform: translateX(0px);
+}
+.menu input:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 18px;
+    height: 4px;
+    opacity: 0;
+    background-color: #222222;
+    transform: translateX(100px);
+    transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.menu-bg {
+    position: absolute;
+    display: block;
+    width: 200%;
+    left: -53%;
+    top: -25%;
+    height: 40%;
+    background-color: #80868a;
+}
+.menu-bg.middle {
+    top: 29%;
+    left: -53%;
+    transform: rotate(-45deg) scaleY(0);
+}
+.menu-bg.top {
+    left: -34%;
+    top: 0;
+    transform: rotate(-45deg) translateY(-152%);
+}
+.menu-bg.bottom {
+    top: 105%;
+    transform: rotate(-45deg) translateY(25%);
+    left: -20%;
+}
+
+.menu input {
+    margin-bottom: 15px;
+    outline: none;
+}
+
+#links {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    font-size: 13px;
+    font-family: tahoma;
+    color: #fff;
+}
+
+#links a {
+    text-decoration: none;
+    font-size: 2.3em;
+    color: #101011;
+}
+
+#twitter {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+}
+
+#pens {
+    position: absolute;
+    bottom: 15px;
+    left: 20px;
+}
+
+
+/* SNS ICON */
+.wrapper {
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+/* Style the Un-order list by setting its list-style to none */
+
+
+/* Style the list items inside the UL list, by setting its width, height and line-height
+  and float them to left and set its border and border-radius.
+ */
+.wrapper {
+    width: 35px;
+    height: 35px;
+    margin-top:10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    transition: all 0.5s ease;
+    font-size: 40px;
+}
+.wrapper .naver{
+    margin-left: 7px;
+    margin-right: 7px;
+}
+.wrapper .kakotalk{
+    margin-left: 7px;
+    margin-right: 7px;
+}
+
+/* Now target the specific li classes for styling and use box-shadow effect to border and text-shadow effect
+  to icons for glowing effect and use transition property for smooth transition effect. */
+/* google */
+.google:hover.google {
+    transition: all 0.5s ease;
+}
+
+.google:hover .xi-google {
+    color: #dd4b39;
+    transition: all 0.5s ease;
+}
+/*naver*/
+.naver:hover.naver {
+    transition: all 0.5s ease;
+}
+
+.naver:hover .xi-naver {
+    color: greenyellow;
+    transition: all 0.5s ease;
+}
+
+/*kakotalk*/
+.kakotalk:hover.kakotalk {
+    transition: all 0.5s ease;
+}
+
+.kakotalk:hover .xi-kakaotalk{
+    color: yellow;
+    transition: all 0.5s ease;
+}
+
+/* github */
+.github:hover.github{
+    transition: all 0.5s ease;
+}
+
+.github:hover .xi-github{
+    color: #545d7a;
+    transition: all 0.5s ease;
+}
+
+/* media queries */
+
+@media screen and (max-width: 640px){
+    .wrapper {
+        width: 350px;
+    }
+    .wrapper ul li{
+        margin-top: 10px;
+    }
+    .wrapper ul li.google{
+        margin-left: 60px;
+    }
+}
+
+
+@media screen and (max-width: 340px){
+    .wrapper {
+        width: 150px;
+    }
+    .wrapper ul li{
+        margin:15px;
+    }
+    .wrapper ul li.google{
+        margin-left: 15px;
+    }
+}
