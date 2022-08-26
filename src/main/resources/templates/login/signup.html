@@ -18,11 +18,11 @@
       <form method="POST" class="register-form" id="register-form" th:action="@{/login/signup}" modelAttribute="userDto" onsubmit="return LastCheck();">
         <input type="hidden" name="picture" value="https://img.icons8.com/external-xnimrodx-lineal-color-xnimrodx/344/external-user-shopping-mall-xnimrodx-lineal-color-xnimrodx.png">
         <div class="form-group">
-          <label for="email"><i class="zmdi zmdi-email"></i>이메일주소</label>
+          <label for="email"><i class="zmdi zmdi-email"></i>&nbsp; 이메일주소</label>
           <input type="email"  class="form-control" name="email" id="email" th:value="${userDto.email} ? ${userDto.email}" placeholder="Your Email"/>
           <div id="idAvailable" class="valid-feedback" style="display : none;"></div>
           <div id="idNotAvailable" class="invalid-feedback" style="display : none;"></div>
-          <button class="btn btn-secondary" type="button" th:onclick="checkemailDuplication()" style="margin-top: 8px;">중복체크</button><br/>
+          <a class="btn btn-secondary" type="button" th:onclick="checkemailDuplication()" style="margin-top: 8px; color: white;">중복체크</a><br/>
         </div>
         <div class="form-group">
           <label for="name"><i class="zmdi zmdi-account material-icons-name"></i>&nbsp;별명</label>
@@ -31,15 +31,15 @@
           <!-- 별명 중복 체크 -->
           <div id="nameAvailable" class="valid-feedback" style="display : none;"></div>
           <div id="nameNotAvailable" class="invalid-feedback" style="display : none;"></div>
-          <button class="btn btn-secondary" type="button" th:onclick="checknameDuplication()" style="margin-top: 8px;">중복체크</button><br/>
+          <a type="button" class="btn btn-secondary" onclick="checknameDuplication()" style="margin-top: 8px; color: #ffffff">중복체크</a><br/>
         </div>
         <div class="form-group">
-          <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+          <label for="pass"><i class="zmdi zmdi-lock"></i>&nbsp; 비밀번호 </label>
           <input type="password" class="form-control" name="password" id="pass" th:value="${userDto.password} ? ${userDto.password}" placeholder="Password" required/><br>
           <div th:if="${valid_password}" th:text="${valid_password}"></div>
         </div>
         <div class="form-group">
-          <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i></label>
+          <label for="re_pass"><i class="zmdi zmdi-lock-outline"></i>&nbsp; 비밀번호 확인</label>
           <input type="password" class="form-control" name="re_password" id="re_pass" onkeyup="repassCheck()" placeholder="Repeat your password" required/>
           <div id="pwAvailable" class="valid-feedback" style="display : none;"></div>
           <div id="pwNotAvailable" class="invalid-feedback" style="display : none;"></div>

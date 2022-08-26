@@ -16,7 +16,6 @@
 <body>
 <!-- start -->
 <!-- BASEN ON DRIBBBLE SHOT: https://dribbble.com/shots/2209627-UI8-Nav -->
-
 <div class="container">
   <span class="menu-trigger">
     <i class="menu-trigger-bar top"></i>
@@ -43,10 +42,10 @@
           <form method="POST" th:action="@{/loginProcess}" name="login" class="form" >
             <input type="email" id="email" name="username" class="input-field" th:value="${id} ? ${id}" placeholder="Email Address">
             <input type="password" id="password" name="password" class="input-field" placeholder="Password">
-            <span th:if="${error}">
+            <span id="login-error" th:if="${error}">
             <p class="alert alert-danger" th:text="${exception}" style="font-size: small;"></p>
             </span>
-            <button type="submit" style="margin-bottom: 15px;">로그인</button>
+            <button type="submit" style="margin-bottom: 15px;" class="btn btn-dark">로그인</button>
           </form>
           <div class="wrapper">
               <div class="google"><a href="/oauth2/authorization/google"><i class="xi-google"></i></a></div>

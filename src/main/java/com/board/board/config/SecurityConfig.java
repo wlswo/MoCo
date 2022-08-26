@@ -54,7 +54,7 @@ public class SecurityConfig{
                     .antMatchers("/board/post").authenticated()
                     .antMatchers("/board/**").permitAll()
                     .antMatchers("/signup","/login/signup").permitAll()
-                    .antMatchers("/id/check").permitAll()
+                    .antMatchers("/id/check","/name/check").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .logout().logoutSuccessUrl("/")

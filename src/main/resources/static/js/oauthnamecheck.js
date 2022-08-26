@@ -16,7 +16,7 @@ function checknameDuplication(){
     let nickname = document.getElementById("name").value;
 
     //특수문자를 제외한 2~10 글자 사이
-    const regExp = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{2,10}$/;
+    const regExp = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/;
 
     if(!nickname) {
         namevaild.style.display = "none";

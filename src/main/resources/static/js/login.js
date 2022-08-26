@@ -142,3 +142,11 @@ closeTrigger.on('click', function(){
         tlClose.restart();
     }
 });
+/* 로그인에러시 애니메이션 실행 */
+if(document.getElementById('login-error')) {
+    if(tlOpen.progress() < 1){
+        tlOpen.play();
+    } else {
+        tlOpen.restart();
+    }
+}

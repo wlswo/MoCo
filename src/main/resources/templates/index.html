@@ -1,26 +1,195 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: head('detail.')">
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
-    <link href="starter-template.css" rel="stylesheet"/>
-
-    <title>detail</title>
+<!--  This site was created in Webflow. http://www.webflow.com -->
+<!--  Last Published: Tue Jun 06 2017 16:10:22 GMT+0000 (UTC)  -->
+<html xmlns:th="http://www.thymeleaf.org" data-wf-page="593329b4bfc2fb644ac0d811" data-wf-site="593329b4bfc2fb644ac0d810">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <title>Spring-Board</title>
+    <meta content="Inspired by the beautiful static design of Michael Korwin, Waldo Broodryk built out a NASA home page mock-up in Webflow and recorded the process. 🚀" name="description">
+    <meta content="NASA 🚀 | Design by Michael K., built by Waldo in Webflow" property="og:title">
+    <meta content="Inspired by the beautiful static design of Michael Korwin, Waldo Broodryk built out a NASA home page mock-up in Webflow and recorded the process. 🚀" property="og:description">
+    <meta content="https://daks2k3a4ib2z.cloudfront.net/593329b4bfc2fb644ac0d810/59361c75e0bdde51b2ddf95d_nasa-1200x630.jpg" property="og:image">
+    <meta content="summary" name="twitter:card">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="Webflow" name="generator">
+    <link href="/css/normalize.css" rel="stylesheet" type="text/css">
+    <link href="/css/webflow.css" rel="stylesheet" type="text/css">
+    <link href="/css/nasa-site.webflow.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
+    <script type="text/javascript">
+        WebFont.load({
+            google: {
+                families: ["Lato:100,100italic,300,300italic,400,400italic,700,700italic,900,900italic"]
+            }
+        });
+    </script>
+    <script src="https://use.typekit.net/cnh3mnl.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <script src="/js/modernizr.js" type="text/javascript"></script>
+    <link href="https://daks2k3a4ib2z.cloudfront.net/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="https://daks2k3a4ib2z.cloudfront.net/img/webclip.png" rel="apple-touch-icon">
 </head>
-
+<nav id="list-nav" th:replace="fragments/header :: menu('home')"></nav>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
+<div class="hero-section">
+    <div class="centered-element"><img data-ix="fadein" sizes="(max-width: 479px) 92vw, 300px" src="/img/moon.png" srcset="/img/moon.png 500w, /img/moon.png 600w" width="300">
+        <div class="nasa-heading">
+            <h1 class="heading" data-ix="fadein-2">Culture</h1>
+            <div class="text-block" data-ix="fadein-2">the ablilty <span class="text-span">to look</span> around</div>
+        </div>
+    </div>
+    <div class="container w-container">
+        <div class="row w-row">
+            <div class="w-col w-col-6" id="our-mission">
+                <h2 class="heading-2" data-ix="fade-in-on-scroll">Our mission...</h2><img class="image" data-ix="fade-in-on-scroll" src="/img/patch-2.png" width="54"><img class="image" data-ix="fade-in-on-scroll" src="/img/patch-icon.png" width="54"><img class="image" data-ix="fade-in-on-scroll" src="/img/flag-icon.png" width="54">
+                <p class="paragraph" data-ix="fade-in-on-scroll">That's one small step for [a] man, one giant leap for mankind.
 
+                    Astronomy compels the soul to look upward, and leads us from this world to another.
 
+                    If you could see the earth illuminated when you were in a place as dark as night, it would look to you more splendid than the moon.
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+                    Houston, Tranquillity Base here. The Eagle has landed.
+                    <br>
+                    <br>Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds, to seek out new life and new civilizations, to boldly go where no man has gone before.</p>
+            </div>
+            <div class="column w-col w-col-6"></div>
+        </div>
+    </div>
+</div>
+<div class="number-section">
+    <div class="w-container">
+        <div class="in-the-numbers-box" data-ix="fade-in-on-scroll-2"><img class="image-2" src="/img/nasa-logo.png" width="120">
+            <div class="text-block-2">in the numbers</div>
+            <div class="_2016-flipped">2016</div>
+        </div>
+        <div class="row-2 w-row">
+            <div class="w-col w-col-4">
+                <div class="div-block-2" data-ix="fade-in-on-scroll-2"><img src="/img/Milestraveled-ellipse.png" width="348">
+                    <div class="absolute-centered">
+                        <div class="text-block-3">8</div>
+                        <p class="paragraph-2">miles travelled</p>
+                        <div class="quantity">billion</div>
+                    </div>
+                </div>
+                <div class="div-block-2 v2" data-ix="fade-in-on-scroll-2"><img src="/img/returned-to-earth-ellipse.png" width="348">
+                    <div class="absolute-centered">
+                        <div class="text-block-3">255k</div>
+                        <p class="paragraph-2 v2">returned to Earth</p>
+                        <div class="quantity v2">images</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-col w-col-4">
+                <div class="div-block-2 v3" data-ix="fade-in-on-scroll-2"><img src="/img/around-the-sun.png" width="348">
+                    <div class="absolute-centered">
+                        <div class="text-block-3">29</div>
+                        <p class="paragraph-2 v3">around the sun</p>
+                        <div class="quantity">Trips</div>
+                    </div>
+                </div>
+                <div class="div-block-2 v3"><img src="/img/Orbits-on-mars-ellipse.png" width="348">
+                    <div class="absolute-centered">
+                        <div class="small text-block-3">3,308</div>
+                        <p class="paragraph-2 v4">around the sun</p>
+                        <div class="quantity v3">orbits</div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-col w-col-4">
+                <div class="div-block-2 v4" data-ix="fade-in-on-scroll-2"><img sizes="(max-width: 479px) 100vw, (max-width: 767px) 55vw, (max-width: 991px) 23vw, 299.984375px" src="/img/Average-speed-ellipse.png" srcset="/img/Average-speed-ellipse-p-500.png 500w, /img/Average-speed-ellipse.png 696w" width="348">
+                    <div class="absolute-centered">
+                        <div class="small text-block-3">97,730</div>
+                        <p class="paragraph-2 v5">around the sun</p>
+                        <div class="quantity v3">MPH</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="image-section" id="photos-and-videos">
+    <div class="left-side-content">
+        <div class="half-block" data-ix="fade-in-on-scroll">
+            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
+                <div class="text-block-4">Share</div>
+                <h4 class="heading-3">Photo Heading</h4>
+                <div class="expanding-container" data-ix="on-load-0px">
+                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+                </div>
+            </a>
+        </div>
+        <div class="half-block v2" data-ix="fade-in-on-scroll-2">
+            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
+                <div class="text-block-4">Share</div>
+                <h4 class="heading-3">Photo Heading</h4>
+                <div class="expanding-container" data-ix="on-load-0px">
+                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+                </div>
+            </a>
+        </div>
+        <div class="full-block" data-ix="fade-in-on-scroll-3">
+            <a class="half hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
+                <div class="text-block-4">Share</div>
+                <h4 class="heading-3">Photo Heading</h4>
+                <div class="expanding-container" data-ix="on-load-0px">
+                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="right-side-content">
+        <div class="tall-image" data-ix="fade-in-on-scroll-3">
+            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
+                <div class="text-block-4">Share</div>
+                <h4 class="heading-3">Photo Heading</h4>
+                <div class="expanding-container" data-ix="on-load-0px">
+                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+                </div>
+            </a>
+        </div>
+        <div class="half-block v3">
+            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
+                <div class="text-block-4">Share</div>
+                <h4 class="heading-3">Photo Heading</h4>
+                <div class="expanding-container" data-ix="on-load-0px">
+                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.&nbsp;</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<footer class="footer"><img class="nasa-logo" src="/img/nasa-logo-2.png" width="182">
+    <div class="div-block-3"><a class="footer-link" href="#">No fear act</a><a class="footer-link" href="#">FOIA</a><a class="footer-link" href="#">Privacy</a>
+    </div>
+    <div class="div-block-3"><a class="footer-link" href="#">Office of inspiector</a><a class="footer-link" href="#">Agency reports</a><a class="footer-link" href="#">FAQ</a>
+    </div>
+    <div class="div-block-3"><a class="footer-link" href="#">Articles</a><a class="footer-link" href="#">Photos &amp; Videos</a><a class="footer-link" href="#">Conctact</a>
+    </div>
+    <div class="div-block-3"><a class="footer-link" href="#">Twitter</a><a class="footer-link" href="#">Instagram</a><a class="footer-link" href="#">Facebook</a>
+    </div>
+    <div class="div-block-3 extended">
+        <h3 class="footer-title">Newsletter</h3>
+        <div class="w-form">
+            <form class="form" data-name="Email Form" id="email-form" name="email-form">
+                <input class="text-field w-input" data-name="Email" id="email" maxlength="256" name="email" placeholder="Your e-mail" required="required" type="email">
+                <input class="submit-button w-button" data-wait="Please wait..." type="submit" value="Send">
+            </form>
+            <div class="w-form-done">
+                <div>Thank you! Your submission has been received!</div>
+            </div>
+            <div class="w-form-fail">
+                <div>Oops! Something went wrong while submitting the form</div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="paragraph-3">National Aeronautics and Space Administration
+            <br>NASA 🚀 | Design by Michael K., built by Waldo in Webflow</p>
+    </div>
+    <a class="dribbble-link" href="https://dribbble.com/shots/3546309-NASA-Design-by-Michael-K-built-by-Waldo-in-Webflow" target="_blank"><img src="/img/dribbble.svg" width="35"></a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
+<script src="/js/webflow.js" type="text/javascript"></script>
+<!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
 </body>
 </html>

@@ -10,6 +10,8 @@ import com.board.board.dto.UserDto;
 import com.board.board.service.user.CustomUserDetailsService;
 import com.board.board.service.user.UserService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,7 +69,6 @@ public class SignupController {
     /* 일반사용자 로그인 회원가입 처리 */
     @PostMapping("/login/signup")
     public String execSignup(@Valid UserDto.Request userDto, Errors errors, Model model) {
-
         if(errors.hasErrors()) {
             /* 회원가입 실패시 입력 데이터 값을 유지 */
             model.addAttribute("userDto", userDto);
