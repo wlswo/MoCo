@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@font-face {
+  font-family: 'NEXON Lv1 Gothic OTF';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 nav {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
@@ -35,10 +41,10 @@ p {
   min-height: 100vh;
   padding-top: 30px;
   padding-bottom: 150px;
-  background-color: #0f131e;
-  background-image: -webkit-linear-gradient(270deg, rgba(9, 14, 27, .45), rgba(9, 14, 27, .45)), url('../img/full-bg.jpg');
-  background-image: linear-gradient(180deg, rgba(9, 14, 27, .45), rgba(9, 14, 27, .45)), url('../img/full-bg.jpg');
-  background-position: 0px 0px, 50% 0px;
+  background-color: #ffe4c4;
+  background-image: -webkit-linear-gradient(270deg, rgba(252, 252, 253, 0.79), rgba(252, 252, 253, 0.79)), url('../img/full-bg.jpg');
+  background-image: linear-gradient(180deg, rgba(252, 252, 253, 0.79), rgba(252, 252, 253, 0.79)), url('../img/full-bg.jpg');
+  background-position: 0px 0px, 60% 0px;
   background-size: auto, cover;
   background-repeat: repeat, no-repeat;
   background-attachment: scroll, fixed;
@@ -107,20 +113,21 @@ p {
   font-weight: 400;
   text-align: right;
   letter-spacing: 1px;
+  color: rgb(16, 16, 17);
 }
 
 .text-span {
   padding-bottom: 2px;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #101011;
 }
 
 .heading-2 {
   margin-bottom: 25px;
-  font-family: futura-pt, sans-serif;
-  color: #fff;
-  font-size: 15px;
+  font-family: 'NEXON Lv1 Gothic OTF', sans-serif;
+  color: #232429;
+  font-size: 20px;
   line-height: 1.4em;
-  font-weight: 400;
+  font-weight: 1000;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
@@ -131,7 +138,7 @@ p {
 
 .paragraph {
   margin-top: 25px;
-  color: #cbc7bc;
+  color: #252525;
 }
 
 .column {
@@ -169,7 +176,7 @@ p {
   padding-top: 75px;
   padding-bottom: 75px;
   clear: left;
-  background-image: url('../img/space-walk-numbers-bg.jpg');
+  background-image: url('../img/second-full-bg.jpg');
   background-position: 50% 50%;
   background-size: cover;
   background-repeat: no-repeat;
@@ -181,10 +188,11 @@ p {
   max-width: 220px;
   margin-right: auto;
   margin-left: auto;
-  padding: 20px 26px 20px 45px;
-  border: 2px solid #2d3d55;
+  padding: 20px 26px 20px 20px;
+  border: 2px solid #516077;
   font-family: sofia-pro, sans-serif;
   color: #fff;
+  font-size: large;
   font-weight: 300;
   text-align: center;
 }
@@ -196,22 +204,6 @@ p {
 .image-2 {
   width: 30px;
   margin-right: 5px;
-}
-
-._2016-flipped {
-  position: absolute;
-  left: -21px;
-  top: 20px;
-  width: 67px;
-  height: 28px;
-  padding-left: 4px;
-  border-bottom: 2px solid #2d3d55;
-  -webkit-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
-  color: #ff5353;
-  font-size: 12px;
-  letter-spacing: 3px;
 }
 
 .div-block-2 {
@@ -245,7 +237,7 @@ p {
 .text-block-3 {
   font-family: sofia-pro, sans-serif;
   color: #fff;
-  font-size: 90px;
+  font-size: 30px;
   line-height: 1em;
   font-weight: 400;
   text-align: center;
@@ -653,10 +645,8 @@ html.w-mod-js *[data-ix="on-load-0px"] {
     padding-top: 125px;
     padding-right: 10px;
     padding-left: 10px;
-    /*
     background-image: -webkit-linear-gradient(270deg, null, null), url('../img/full-bg.jpg');
     background-image: linear-gradient(180deg, null, null), url('../img/full-bg.jpg');
-     */
     background-position: 0px 0px, 71% 100%;
     background-size: auto, cover;
     background-attachment: scroll, scroll;
@@ -689,8 +679,8 @@ html.w-mod-js *[data-ix="on-load-0px"] {
     transform: none;
   }
   .number-section {
-    background-image: -webkit-linear-gradient(270deg, rgba(21, 23, 46, .84), rgba(21, 23, 46, .84)), url('../img/space-walk-numbers-bg.jpg');
-    background-image: linear-gradient(180deg, rgba(21, 23, 46, .84), rgba(21, 23, 46, .84)), url('../img/space-walk-numbers-bg.jpg');
+    background-image: -webkit-linear-gradient(270deg, rgba(21, 23, 46, .84), rgba(21, 23, 46, .84)), url('../img/second-full-bg.jpg');
+    background-image: linear-gradient(180deg, rgba(21, 23, 46, .84), rgba(21, 23, 46, .84)), url('../img/second-full-bg.jpg');
     background-position: 0px 0px, 77% 100%;
     background-size: auto, cover;
     background-repeat: repeat, no-repeat;
