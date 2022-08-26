@@ -39,3 +39,6 @@ out/
 ### oauth ###
 /src/main/resources/application-oauth2.yml
 /src/main/resources/application.yml
+
+### images ###
+/src/main/resources/static/img/
