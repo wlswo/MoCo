@@ -65,6 +65,12 @@ public class BoardController {
     /* CREATE */
     @PostMapping("/post")
     public String write(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
+        if (boardDto.getThumbnail().equals(null)) {
+            log.info("thumbnail Check : null");
+        }
+        if (boardDto.getThumbnail().equals("")){
+            log.info("thumbnaul Check : 공백");
+        }
         boardDto.setWriter(sessionUser.getName());
         boardService.savePost(sessionUser.getName(),boardDto);
         return "redirect:/board/list";
