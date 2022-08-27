@@ -8,9 +8,11 @@ body {
     background-color: #1e1e1e;
     font-family: "Century Gothic", sans-serif;
     position: relative;
-    overflow: hidden;
+    overflow-y: hidden;
 }
-
+.container {
+    padding-top: 5px;
+}
 .title {
     background-color: #1e1e1e;
     padding-top: 30px;

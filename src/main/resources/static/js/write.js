@@ -39,8 +39,28 @@ const editor = new Editor({
         }}
 });
 
-/* submit 전에 content 값 hidden에 주입 */
+/* submit 전에 content 값 hidden에 주입 및 제목 유효성 검사 */
 function mdGet() {
+    const title = document.getElementById("title").value;
+    if (title == null || title.trim() === '') {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
+        Toast.fire({
+            icon: 'warning',
+            background:'#e76876',
+            title: '<h4 style="color: white;">제목이 비어있습니다.</h4>'
+        })
+        return false;
+    }
     document.getElementById('content').value = editor.getHTML();
     var a = document.getElementById('content').value;
 }
@@ -140,7 +160,7 @@ if(title === '수정') {
         thumbnailChange();
     }
 }
-/*  */
+/* 썸네일 공통 로직 */
 function thumbnailChange() {
     document.getElementById('svgicon').style.display = 'none';
     document.getElementById('uploadImg').style.display = 'none'; /* 업로드버튼 */
