@@ -6,6 +6,7 @@ import com.board.board.domain.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,7 @@ public class BoardDto {
     public static class Request{
         private Long id;
         private String writer;
+        @NotBlank(message = "제목을 입력해주세요.")
         private String title;
         private String content;
         private String subcontent;

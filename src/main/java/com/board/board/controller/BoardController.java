@@ -15,13 +15,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /* 게시판 */
@@ -64,12 +67,19 @@ public class BoardController {
 
     /* CREATE */
     @PostMapping("/post")
-    public String write(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
-        if (boardDto.getThumbnail().equals(null)) {
-            log.info("thumbnail Check : null");
+    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model) {
+        /* 글작성 유효성 검사 */
+        if(errors.hasErrors()) {
+            /* 글작성 실패시 입력 데이터 값 유지 */
+            model.addAttribute("boardDto",boardDto) ;
+            /* 유효성 통과 못한 필드와 메세지를 핸들링 */
+            model.addAttribute("error","제목을 입력해주세요.");
+            return "board/write";
         }
-        if (boardDto.getThumbnail().equals("")){
-            log.info("thumbnaul Check : 공백");
+
+
+        if (boardDto.getThumbnail().equals("") || boardDto.getThumbnail().equals(null)){
+            boardDto.setThumbnail("/img/panda.png");
         }
         boardDto.setWriter(sessionUser.getName());
         boardService.savePost(sessionUser.getName(),boardDto);
