@@ -71,12 +71,7 @@
     <div class="card-header">
       <!-- 썸네일 -->
       <a th:href="@{'/board/post/read/'+${board.id}}">
-      <span th:if = "${board.thumbnail != null}">
-         <img th:src="${board.thumbnail}" alt="" onerror="this.style.display='none'"/>
-      </span>
-      <span th:if = "${board.thumbnail == null || board.thumbnail.trim().equals('')}">
-         <img th:src="@{/img/panda.png}" alt="" />
-      </span>
+         <img th:src="${board.thumbnail}" alt="" />
       </a>
     </div>
     <!-- 몸통 -->
