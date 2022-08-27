@@ -51,7 +51,7 @@ public class SecurityConfig{
                     .antMatchers("/login").permitAll()
                     .antMatchers("/", "/css/**", "/img/**", "/js/**", "/h2/**", "/h2-console/**", "/favicon.ico").permitAll()
                     .antMatchers("/notice").permitAll()
-                    .antMatchers("/board/post").authenticated()
+                    .antMatchers("/board/post/**").authenticated()
                     .antMatchers("/board/**").permitAll()
                     .antMatchers("/signup","/login/signup").permitAll()
                     .antMatchers("/id/check","/name/check").permitAll()
