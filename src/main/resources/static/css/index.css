@@ -747,4 +747,44 @@ html.w-mod-js *[data-ix="on-load-0px"] {
     line-height: 1.3em;
   }
 }
+/* BackToTop button */
+#backToTop {
+  display: inline-block;
+  background-color: rgba(255, 152, 0, 0.54);
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: background-color .3s,
+  opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+  outline: none;
+  text-decoration: none;
+}
+#backToTop::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#backToTop:hover {
+  cursor: pointer;
+  background-color: #333;
+  text-decoration: none;
+}
+#backToTop:active {
+  background-color: #555;
+}
+#backToTop.show {
+  opacity: 1;
+  visibility: visible;
+}
 

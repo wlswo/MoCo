@@ -2335,3 +2335,19 @@ Webflow.require('ix').init([
   {"slug":"on-load-0px","name":"On load 0px","value":{"style":{"height":"0px"},"triggers":[]}},
   {"slug":"expand-container","name":"Expand container","value":{"style":{},"triggers":[{"type":"hover","selector":".expanding-container","descend":true,"stepsA":[{"height":"auto","transition":"height 500ms ease-in-out-back 0"}],"stepsB":[{"height":"0px","transition":"height 200 ease 0"}]}]}}
 ]);
+
+
+var btn = $('#backToTop');
+
+$(window).scroll(function() {
+  if ($(window).scrollTop() > 300) {
+    btn.addClass('show');
+  } else {
+    btn.removeClass('show');
+  }
+});
+
+btn.on('click', function(e) {
+  e.preventDefault();
+  $('html, body').animate({scrollTop:0}, '300');
+});
