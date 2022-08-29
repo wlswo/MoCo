@@ -24,8 +24,6 @@ public class LoginController {
     Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
 
     private final ClientRegistrationRepository clientRegistrationRepository;
-    // Lombok 아닌 경우 (@RequiredArgsConstructor 없는 경우)
-    // @Autowired private ClientRegistrationRepository clientRegistrationRepository;
 
     @SuppressWarnings("unchecked") //loginPage 경로 설정
     @GetMapping("/login")
