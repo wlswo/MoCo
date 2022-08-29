@@ -2,16 +2,15 @@ package com.board.board.controller;
 
 
 import com.board.board.config.LoginUser;
-import com.board.board.config.auth.BadRequestExection;
+import com.board.board.config.auth.CustomAuthFailureHandler;
 import com.board.board.config.auth.CheckUseremailValidator;
 import com.board.board.config.auth.SessionUser;
 import com.board.board.domain.User;
 import com.board.board.dto.UserDto;
+import com.board.board.service.mail.ConfirmationTokenService;
 import com.board.board.service.user.CustomUserDetailsService;
 import com.board.board.service.user.UserService;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +28,7 @@ public class SignupController {
     private CustomUserDetailsService customUserDetailsService;
     private UserService userService;
     private final CheckUseremailValidator checkUseremailValidator;
+    private final ConfirmationTokenService confirmationTokenService;
     private final HttpSession httpSession;
 
     /* 커스텀 유효성 검증을 위해 추가 */
@@ -47,9 +47,9 @@ public class SignupController {
 
     /* 회원가입화면 아이디 중복확인 (email) */
     @GetMapping("/id/check")
-    public ResponseEntity<?> checkEmailDuplication(@RequestParam(value = "email") String email) throws BadRequestExection {
+    public ResponseEntity<?> checkEmailDuplication(@RequestParam(value = "email") String email) throws CustomAuthFailureHandler.BadRequestExection {
         if(userService.checkUseremailDuplication(email)) {
-            throw new BadRequestExection("이미 사용중인 아이디 입니다.");
+            throw new CustomAuthFailureHandler.BadRequestExection("이미 사용중인 아이디 입니다.");
         }
 
         return ResponseEntity.ok("사용 가능한 아이디 입니다.");
@@ -57,16 +57,16 @@ public class SignupController {
 
     /* 별명 중복 체크 */
     @GetMapping("/name/check")
-    public ResponseEntity<?> checkNameDupulication(@RequestParam(value = "nickname") String name) throws  BadRequestExection {
+    public ResponseEntity<?> checkNameDupulication(@RequestParam(value = "nickname") String name) throws CustomAuthFailureHandler.BadRequestExection {
         if(userService.checkUsernameDuplication(name)) {
-            throw new BadRequestExection("이미 사용중인 별명 입니다.");
+            throw new CustomAuthFailureHandler.BadRequestExection("이미 사용중인 별명 입니다.");
         }
 
         return ResponseEntity.ok("사용 가능한 별명 입니다.");
     }
 
 
-    /* 일반사용자 로그인 회원가입 처리 */
+    /* 일반사용자 회원가입 처리 */
     @PostMapping("/login/signup")
     public String execSignup(@Valid UserDto.Request userDto, Errors errors, Model model) {
         if(errors.hasErrors()) {
@@ -82,8 +82,11 @@ public class SignupController {
             /* 회원가입 페이지로 다시 리턴 */
             return "/login/signup";
         }
-
+        /* 회원저장 */
         userService.join(userDto);
+        /* 이메일 발송 */
+        confirmationTokenService.createEmailConfirmationToken(userDto.getEmail(),userDto.getEmail());
+
         return "redirect:/login";
     }
     /* SNS로그인 사용자 회원가입 처리 (실제로는 이름만 Update) */
@@ -104,6 +107,14 @@ public class SignupController {
         httpSession.setAttribute("user", new SessionUser(user)); // SessionUser (직렬화된 dto 클래스 사용)
 
         return "redirect:/";
+    }
+
+    /* 이메일 인증관련 */
+    @GetMapping("/confirm-email")
+    public String viewConfirmEmail(@Valid @RequestParam String token) {
+        /* 이메일 인증 컬럼 Update */
+        userService.confirmEmail(token);
+        return "redirect:/login";
     }
 
 }

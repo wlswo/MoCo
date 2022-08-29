@@ -3,20 +3,21 @@ package com.board.board.domain;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Setter
 @Getter
 @Entity
-@Table(name = "user")
+@Table(name = "user") @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //외부에서의 생성을 열어 둘 필요가 없을 때 , 보안적으로 권장됨
 public class User extends Time {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)    //id
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = true)
@@ -31,17 +32,21 @@ public class User extends Time {
     @Column(nullable = false)
     private String namecheck;
 
+    @Column(columnDefinition = "varchar(10) default 'false'", nullable = false)
+    private String emailcheck;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Builder
-    public User(String name, String password, String email, String picture,String namecheck, Role role) {
+    public User(String name, String password, String email, String picture,String namecheck, String emailcheck,Role role) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.picture = picture;
         this.namecheck = namecheck;
+        this.emailcheck = emailcheck;
         this.role = role;
     }
     /* Oauth 로그인 갱신 날짜 갱신 */
@@ -57,7 +62,7 @@ public class User extends Time {
         return this;
     }
 
-    /* 별명 체크 여부 */
+    /* 별명 체크 업데이트 */
     public void isNameCheck() {
         this.namecheck = "true";
     }
@@ -65,5 +70,10 @@ public class User extends Time {
     /* 권한 타입 가져오기 */
     public String getRoleKey() {
         return this.role.getKey();
+    }
+
+    /* 유저이메일 인증 성공 */
+    public void emailVerifiedSuccess() {
+        this.emailcheck = "true";
     }
 }

@@ -38,7 +38,6 @@ public class SecurityConfig{
         auth.userDetailsService(customUserDetailsService).passwordEncoder(encoder());
     }
 
-
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -48,7 +47,7 @@ public class SecurityConfig{
                 .and()
                     .authorizeRequests()
                     .antMatchers("/", "/Savory-gh-pages/**").permitAll()
-                    .antMatchers("/login").permitAll()
+                    .antMatchers("/login","/confirm-email/**").permitAll()
                     .antMatchers("/", "/css/**", "/img/**", "/js/**", "/h2/**", "/h2-console/**", "/favicon.ico").permitAll()
                     .antMatchers("/notice").permitAll()
                     .antMatchers("/board/post/**").authenticated()

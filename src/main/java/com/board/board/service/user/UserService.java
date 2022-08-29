@@ -1,8 +1,10 @@
 package com.board.board.service.user;
 
+import com.board.board.domain.ConfirmationToken;
 import com.board.board.domain.User;
 import com.board.board.dto.UserDto;
 import com.board.board.repository.UserRepository;
+import com.board.board.service.mail.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
     /* 회원가입 */
     @Transactional
@@ -57,6 +60,7 @@ public class UserService {
         return usernameDuplication;
     }
 
+    /* SNS 로그인시 별명 검사 완료 */
     @Transactional
     public User nameUpdate(String email, String name, String picture) {
         User user = userRepository.findByEmail(email)
@@ -68,4 +72,13 @@ public class UserService {
         return user;
     }
 
+    /* 이메일 인증시 가입처리 */
+    @Transactional
+    public void confirmEmail(String token){
+        ConfirmationToken findConfirmationToken = confirmationTokenService.findByIdAndExpirationDateAfterAndExpired(token);
+        User user = userRepository.findByEmail(findConfirmationToken.getUserId()).orElseThrow(() ->
+                new IllegalArgumentException("유저 불러오기 실패 : 해당 유저가 존재하지 않습니다."));
+        findConfirmationToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true로 변경
+        user.emailVerifiedSuccess();	    // 유저의 이메일 인증 값 변경 emailcheck 컬럼 true
+    }
 }
