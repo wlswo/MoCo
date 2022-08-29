@@ -41,7 +41,7 @@ public class Board extends Time {
     @Column(columnDefinition = "TEXT", nullable = true)
     private String subcontent;
 
-    @Column(columnDefinition = "varchar default '/img/panda.png",length = 300, nullable = false)
+    @Column(length = 300, nullable = false)
     private String thumbnail;
 
     @Column(columnDefinition = "integer default 0", nullable = false)
