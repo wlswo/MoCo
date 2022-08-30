@@ -322,9 +322,7 @@ body {
     margin-right: 25px;
 }
 
-span {
-    transform: skewX(15deg)
-}
+
 
 span:nth-child(2) {
     width: 20px;
@@ -387,23 +385,29 @@ path.two {
     color: #10182f;
     font-size: small;
 }
-.container {
+.post-container {
     display: flex;
-    width: 1120px;
-    justify-content: space-evenly;
+    width: 100%;
+    justify-content: center;
     flex-wrap: wrap;
 }
 .card {
-    margin: 10px;
+    margin: 20px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    width: 300px;
+    width: 280px;
+    box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
 }
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.3), 0 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
 .card-header img {
     width: 100%;
-    height: 200px;
+    height: 180px;
     object-fit: cover;
 }
 .card-body {
@@ -412,7 +416,7 @@ path.two {
     justify-content: center;
     align-items: flex-start;
     padding: 20px;
-    min-height: 250px;
+    min-height: 230px;
 }
 
 .card-body h4 {

@@ -134,7 +134,7 @@ window.onpageshow = async function (e) {
     }
 }
 function loadPage(){
-    document.getElementById('articles').innerHTML =  sessionStorage.getItem('data');
+    document.getElementById('container').innerHTML =  sessionStorage.getItem('data');
 }
 
 /* 페이지를 벗어날때 스크롤 위치,데이터 기억 */
@@ -143,7 +143,7 @@ window.onbeforeunload = function (ev) {
     setCookie('scroll',window.scrollY,1);
 
     /* 현재까지 로드된 데이터들 */
-    window.sessionStorage.setItem('data',document.getElementById('articles').innerHTML);
+    window.sessionStorage.setItem('data',document.getElementById('container').innerHTML);
 
     /* AJAX 호출을 막기위한 PAGE */
     setCookie('page',page,1);
