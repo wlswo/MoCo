@@ -1,13 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments/header :: head('상세보기')">
-    <title>detail</title>
+<head>
+    <title>글보기</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <!-- BootStrap / CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <link href="/css/detail.css" rel="stylesheet">
 </head>
 
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
 
 <main role="main" class="container" modelAttribute="boardDto">
+    <!-- 제목 -->
+    <div class="detail-title">
+        <h1>[[${boardDto.title}]]</h1>
+    </div>
+    <div class="detail-information">
+        <!-- 작성자 / 작성일 -->
+        <div class="detail-information-user">
+            <span class="username" th:text="${boardDto.writer}"></span>&nbsp;•&nbsp;
+            <span>[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
+        </div>
+        <!-- 좋아요 -->
+        <div class="detail-information-likes">
+            <button class="button-likes">
+                <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"></path></svg>
+                <span class="likesSize">[[${boardDto.likes.size()}]]</span>
+            </button>
+        </div>
+    </div>
+    <!-- 글내용 -->
+    <div class="detail-container">
+        <div class="detail-content">
+            [[${boardDto.content}]]
+        </div>
+    </div>
     <div class="starter-template">
         <table class ="table table-bordered">
             <tbody>

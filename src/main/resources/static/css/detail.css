@@ -1,0 +1,75 @@
+.detail-title {
+    font-size: 2.25rem;
+    line-height: 1.5;
+    letter-spacing: -0.004em;
+    margin-top: 0px;
+    font-weight: 800;
+    color: #101011;
+    margin-bottom: 2rem;
+    word-break: keep-all;
+    transition: color 0.125s ease-in 0s;
+}
+
+.detail-information {
+    -webkit-box-align: center;
+    align-items: center;
+    font-size: 1rem;
+    color: #101011;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+
+.username {
+    color: #232429;
+    font-weight: bold;
+}
+
+.detail-information-likes {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+}
+
+.button-likes {
+    background: black;
+    border: 1px solid gray;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 1.5rem;
+    border-radius: 0.75rem;
+    outline: none;
+}
+
+svg {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.75rem;
+    color: gray;
+}
+
+.likesSize {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: gray;
+}
+
+.detail-container {
+    width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.detail-content {
+    ont-size: 1rem;
+    color: black;
+    transition: color 0.125s ease-in 0s;
+    line-height: 1.7;
+    letter-spacing: -0.004em;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+

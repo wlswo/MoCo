@@ -90,7 +90,7 @@
       </div>
       <!-- 유저 정보 -->
       <div class="user">
-        <img th:src="${board.userImg}" onerror="this.src='/img/userIcon.svg'" alt="user" />
+        <img th:src="${board.userImg} ? ${board.userImg} : '/img/userIcon.svg'" alt="user" />
         <div class="user-info">
           <h5>[[${board.writer}]]</h5>
           <small>[[${#temporals.format(board.createdDate, 'yyyy년 MM월 dd일')}]] • <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 20">
