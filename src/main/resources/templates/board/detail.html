@@ -7,6 +7,11 @@
     <!-- BootStrap / CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/loaders/DRACOLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
     <link href="/css/detail.css" rel="stylesheet">
 </head>
 
@@ -25,17 +30,55 @@
             <span>[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
         </div>
         <!-- 좋아요 -->
-        <div class="detail-information-likes">
-            <button class="button-likes">
-                <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M18 1l-6 4-6-4-6 5v7l12 10 12-10v-7z"></path></svg>
-                <span class="likesSize">[[${boardDto.likes.size()}]]</span>
-            </button>
+        <div>
+            <!-- 로그인 X -->
+            <span sec:authorize="isAnonymous()">
+                <button class="button-star" onclick="plzLogin()">
+                    <canvas></canvas>
+                    <div class="label">
+                        <span class="default">Star<span class="success">red</span></span>
+                    </div>
+                    <div class="number">
+                        <span class="current">[[${boardDto.likes.size()}]]</span>
+                        <span class="new">[[${boardDto.likes.size()}+1]]</span>
+                        <div class="add">+1</div>
+                    </div>
+                </button>
+            </span>
+            <!-- 로그인 O -->
+            <span sec:authorize="isAuthenticated()">
+                <input id='isClick' value="noclick" style="display: none;"/>
+                <!-- 좋아요를 누르지 않은 상태 -->
+                <button th:if="${!isLiked}" class="button-star" name="click" th:onclick="|likeCheck('${boardDto.id}')|">
+                    <canvas></canvas>
+                    <div class="label">
+                        <span class="default">Star<span class="success">red</span></span>
+                    </div>
+                    <div class="number">
+                        <span class="current">[[${boardDto.likes.size()}]]</span>
+                        <span class="new">[[${boardDto.likes.size()}+1]]</span>
+                        <div class="add">+1</div>
+                    </div>
+                </button>
+                <!-- 좋아요를 누른 상태 -->
+                <button th:if="${isLiked}" class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
+                    <canvas></canvas>
+                    <div class="label">
+                        <span class="default">Star<span class="success">red</span></span>
+                    </div>
+                    <div class="number">
+                        <span class="current">[[${boardDto.likes.size()}]]</span>
+                        <span class="new">[[${boardDto.likes.size()}]]</span>
+                        <div class="add">+1</div>
+                    </div>
+                </button>
+            </span>
         </div>
     </div>
     <!-- 글내용 -->
     <div class="detail-container">
         <div class="detail-content">
-            [[${boardDto.content}]]
+            <p th:utext="${boardDto.content}"></p>
         </div>
     </div>
     <div class="starter-template">
@@ -132,8 +175,8 @@
         </div>
     </div>
 </main>
-
-<script src="/js/comment.js"></script>
-<script src="/js/like.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script></body>
+</body>
+<!-- Script -->
+<script src="/js/detail.js"></script>
+<script src="/js/detail-like-button.js"></script>
 </html>

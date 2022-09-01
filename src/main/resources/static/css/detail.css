@@ -2,7 +2,7 @@
     font-size: 2.25rem;
     line-height: 1.5;
     letter-spacing: -0.004em;
-    margin-top: 0px;
+    margin-top: 30px;
     font-weight: 800;
     color: #101011;
     margin-bottom: 2rem;
@@ -23,12 +23,6 @@
 .username {
     color: #232429;
     font-weight: bold;
-}
-
-.detail-information-likes {
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
 }
 
 .button-likes {
@@ -73,3 +67,108 @@ svg {
     overflow-wrap: break-word;
 }
 
+.button-star {
+    --button-label-x: 24px;
+    --button-label-success-opacity: 0;
+    --button-star-scale: 0.75;
+    --button-star-greyscale: 85%;
+    --button-star-hue: 170deg;
+    --button-star-opacity: 0.45;
+    --button-star-add-opacity: 0;
+    --button-star-add-y: 16px;
+    --button-star-current-opacity: 1;
+    --button-star-current-y: 0px;
+    --button-star-new-opacity: 0;
+    --button-star-new-y: 16px;
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    background-color: #1f2024;
+    color: #fff;
+    border-radius: 13px;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins";
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    position: relative;
+    text-align: center;
+    display: flex;
+    box-shadow: inset 0 0 0 1px #35373f, 0px 1px 3px rgba(52, 54, 63, 0.1), 0px 4px 10px rgba(52, 54, 63, 0.15);
+    transition: transform 0.15s;
+    transform: translateZ(0);
+}
+.button-star:active {
+    transform: scale(0.985, 0.98) translateZ(0);
+}
+.button-star canvas {
+    display: block;
+    width: 400px;
+    height: 200px;
+    position: absolute;
+    z-index: 1;
+    left: -176px;
+    top: -84px;
+    pointer-events: none;
+    filter: Grayscale(var(--button-star-greyscale)) hue-rotate(var(--button-star-hue));
+    transform: scale(var(--button-star-scale));
+    transform-origin: 50% 52%;
+    opacity: var(--button-star-opacity);
+}
+.button-star .label {
+    width: 90px;
+    padding: 10px 0;
+    transform: translateZ(0);
+}
+.button-star .label .default {
+    display: block;
+    transform: translateX(var(--button-label-x));
+}
+.button-star .label .default .success {
+    opacity: var(--button-label-success-opacity);
+}
+.button-star .number {
+    padding: 10px 0;
+    width: 44px;
+    position: relative;
+    transform: translateZ(0);
+}
+.button-star .number:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1px;
+    bottom: 1px;
+    width: 1px;
+    background-color: #35373f;
+}
+.button-star .number .current {
+    color: #8a8d9b;
+    opacity: var(--button-star-current-opacity);
+    transform: translateY(var(--button-star-current-y));
+    transition: color 0.2s;
+    display: block;
+}
+.button-star .number .new {
+    opacity: var(--button-star-new-opacity);
+    transform: translateY(var(--button-star-new-y));
+    color: #fbfaaa;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    display: block;
+}
+.button-star .number .add {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    opacity: var(--button-star-add-opacity);
+    transform: translateY(var(--button-star-add-y));
+    pointer-events: none;
+    color: #d0d0db;
+    display: block;
+}
