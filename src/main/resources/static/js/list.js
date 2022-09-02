@@ -122,6 +122,12 @@ function getCookie(name) {
     return value? value[2] : null;
 }
 
+/*  구글 SAME SITE 이슈 */
+document.cookie = "safeCookie1=foo; SameSite=Lax";
+document.cookie = "safeCookie2=foo";
+document.cookie = "crossCookie=bar; SameSite=None; Secure"
+
+
 /* 뒤로가기로 왔을 경우 스크롤 위치 유지 */
 window.onpageshow = async function (e) {
         /* BackForward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우 */
