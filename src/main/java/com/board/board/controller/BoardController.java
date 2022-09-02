@@ -8,7 +8,7 @@ import com.board.board.dto.CommentDto;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.furstenheim.CopyDown;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,16 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 /* 게시판 */
 @AllArgsConstructor
 @Controller
@@ -162,14 +157,20 @@ public class BoardController {
     @GetMapping("post/edit/{no}")
     public String edit(@PathVariable("no") Long no, Model model) {
         BoardDto.Response boardDTO = boardService.getPost(no);
+        /* Html -> MarkDown */
+        CopyDown converter = new CopyDown();
+        String myHtml = boardDTO.getContent();
+        boardDTO.setContent(converter.convert(myHtml));
 
         model.addAttribute("boardDto",boardDTO);
+        model.addAttribute("no", no);
         return "board/update";
     }
 
     /* UPDATE */
     @PutMapping("/post/edit/{no}")
     public String update(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
+        boardDto.setWriter(sessionUser.getName());
         boardService.savePost(sessionUser.getName(),boardDto);
 
         return "redirect:/board/list";

@@ -38,7 +38,7 @@ public class BoardDto {
         }
     }
 
-
+    @Setter
     @Getter
     public static class Response {
         private Long id;
