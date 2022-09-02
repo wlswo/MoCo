@@ -1,3 +1,9 @@
+let likebuttonisClick ;
+/* 로그인이 된 상태 체크 */
+if(document.getElementById('isLoggedIn')) {
+    likebuttonisClick = document.getElementsByName('isClick').item(0).value;
+
+}
 
 
 const addLight = (x, y, z, i, s) => {
@@ -48,6 +54,26 @@ document.querySelectorAll('.button-star').forEach((button) => {
             scene.add(object);
 
             let scaleTween, rotateTweenXZ, rotateTweenY, rotateTweenZ;
+
+            /* 게시글을 클릭했을때 좋아요를 이미 누른상태면 */
+            if(likebuttonisClick === 'clicked') {
+                button.classList.add("active");
+                gsap.to(button, {
+                    "--button-label-x": "0px",
+                    "--button-label-success-opacity": 1,
+                    "--button-star-scale": 0,
+                    "--button-star-greyscale": "0%",
+                    "--button-star-hue": "0deg",
+                    "--button-star-opacity": 0,
+                    "--button-star-opacity": 0,
+                    "--button-star-new-opacity": 1,
+                    "--button-star-new-y": "0px",
+                    "--button-star-current-opacity": 0,
+                    "--button-star-current-y": "-16px",
+                    duration: 0,
+                    delay: 0,
+                });
+            }
 
             button.addEventListener("pointerenter", () => {
                 if (button.classList.contains("active")) {
@@ -101,10 +127,12 @@ document.querySelectorAll('.button-star').forEach((button) => {
                     return;
                 }
 
-                scaleTween.kill();
-                rotateTweenXZ.kill();
-                rotateTweenY.kill();
-                rotateTweenZ.kill();
+                if(scaleTween && rotateTweenY && rotateTweenXZ && rotateTweenZ){
+                    scaleTween.kill();
+                    rotateTweenXZ.kill();
+                    rotateTweenY.kill();
+                    rotateTweenZ.kill();
+                }
                 gsap.to(button, {
                     "--button-star-scale": 0.75,
                     "--button-star-greyscale": "85%",
@@ -121,6 +149,7 @@ document.querySelectorAll('.button-star').forEach((button) => {
             });
 
             button.addEventListener("click", () => {
+                /* 좋아요를 누른상태면 */
                 if (button.classList.contains("active")) {
                     gsap.to(button, {
                         "--button-label-x": "24px",
@@ -138,8 +167,11 @@ document.querySelectorAll('.button-star').forEach((button) => {
                     });
                     return;
                 }
-                scaleTween.kill();
-                rotateTweenY.kill();
+                /* 좋아요를 누르지 않은상태 */
+                if(scaleTween && rotateTweenY) {
+                    scaleTween.kill();
+                    rotateTweenY.kill();
+                }
 
                 button.classList.add("active");
 

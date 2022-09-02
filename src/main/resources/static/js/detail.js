@@ -9,7 +9,7 @@ function likeCheck(boardId) {
     /* isLiked == 0 좋아요를 누르지않은상태
      * isLiked == 1 좋아요를 누른상태
      */
-    const isClick = document.getElementById('isClick').value;
+    const isClick = document.getElementsByName('isClick').item(0).value;
     console.log(isClick);
 
     /* CREATE */
@@ -33,8 +33,10 @@ function likeCheck(boardId) {
             /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 if (httpRequest.status === 200) {
-                    document.getElementById('isClick').value = 'clicked'
-                   /* window.location.reload(); */
+                    document.getElementsByName('isClick').item(0).value = 'clicked'
+                    document.getElementsByClassName("new").item(0).textContent++;
+                    document.getElementsByClassName("current").item(0).textContent++;
+                    /* window.location.reload(); */
                 } else {
                     let error = httpRequest.response;
                     console.log(error.message);
@@ -64,7 +66,9 @@ function likeCheck(boardId) {
             /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 if (httpRequest.status === 200) {
-                    document.getElementById('isClick').value = 'noclick';
+                    document.getElementsByName('isClick').item(0).value = 'noclick';
+                    document.getElementsByClassName("new").item(0).textContent--;
+                    document.getElementsByClassName("current").item(0).textContent--;
                 } else {
                     let error = httpRequest.response;
                     console.log(error.message);

@@ -7,6 +7,8 @@
     <!-- BootStrap / CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <!-- Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/loaders/DRACOLoader.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/loaders/GLTFLoader.js"></script>
@@ -29,10 +31,22 @@
             <span class="username" th:text="${boardDto.writer}"></span>&nbsp;•&nbsp;
             <span>[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
         </div>
-        <!-- 좋아요 -->
-        <div>
-            <!-- 로그인 X -->
-            <span sec:authorize="isAnonymous()">
+        <!-- 글수정 / 삭제 -->
+        <span th:if="${iswriter}" style="display:flex;">
+            <a th:href="@{'/board/post/edit/' + ${boardDto.id}}">
+                <button>수정</button>
+            </a>
+            <form id="delete-form" th:action="@{'/board/post/' + ${boardDto.id}}" method="post">
+                <input type="hidden" name="_method" value="delete"/>
+                <button id="delete-btn">삭제</button>
+            </form>
+        </span>
+    </div>
+    <!-- 좋아요 -->
+    <div style="width:100%; height: 70px;">
+    <div style="float: right;">
+        <!-- 로그인 X -->
+        <span sec:authorize="isAnonymous()">
                 <button class="button-star" onclick="plzLogin()">
                     <canvas></canvas>
                     <div class="label">
@@ -40,27 +54,27 @@
                     </div>
                     <div class="number">
                         <span class="current">[[${boardDto.likes.size()}]]</span>
-                        <span class="new">[[${boardDto.likes.size()}+1]]</span>
-                        <div class="add">+1</div>
+                        <span class="new">[[${boardDto.likes.size()}]]</span>
+                        <div class="add">+0</div>
                     </div>
                 </button>
             </span>
-            <!-- 로그인 O -->
-            <span sec:authorize="isAuthenticated()">
-                <input id='isClick' value="noclick" style="display: none;"/>
+        <!-- 로그인 O -->
+        <span id="isLoggedIn" sec:authorize="isAuthenticated()">
                 <!-- 좋아요를 누르지 않은 상태 -->
-                <button th:if="${!isLiked}" class="button-star" name="click" th:onclick="|likeCheck('${boardDto.id}')|">
+                <button th:if="${!isLiked}" class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
                     <canvas></canvas>
                     <div class="label">
                         <span class="default">Star<span class="success">red</span></span>
                     </div>
                     <div class="number">
                         <span class="current">[[${boardDto.likes.size()}]]</span>
-                        <span class="new">[[${boardDto.likes.size()}+1]]</span>
+                        <span class="new">[[${boardDto.likes.size()}]]</span>
                         <div class="add">+1</div>
                     </div>
+                    <input name="isClick" value="noclick" style="display: none;"/>
                 </button>
-                <!-- 좋아요를 누른 상태 -->
+            <!-- 좋아요를 누른 상태 -->
                 <button th:if="${isLiked}" class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
                     <canvas></canvas>
                     <div class="label">
@@ -71,9 +85,10 @@
                         <span class="new">[[${boardDto.likes.size()}]]</span>
                         <div class="add">+1</div>
                     </div>
+                    <input name="isClick" value="clicked" style="display: none;"/>
                 </button>
             </span>
-        </div>
+    </div>
     </div>
     <!-- 글내용 -->
     <div class="detail-container">
@@ -82,50 +97,6 @@
         </div>
     </div>
     <div class="starter-template">
-        <table class ="table table-bordered">
-            <tbody>
-            <tr>
-                <th>제목</th>
-                <td th:text="${boardDto.title}"></td>
-                <td>작성자</td>
-                <td th:text="${boardDto.writer}"></td>
-            </tr>
-            <tbody>
-            <tr>
-                <th>조회수</th>
-                <td th:text="${boardDto.view}" colspan="3"></td>
-            </tr>
-            <tr>
-                <th>작성일</th>
-                <td th:inline="text" colspan="2">[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</td>
-                <!-- 좋아요 -->
-                <td>
-                    <!-- 로그인 X -->
-                    <span sec:authorize="isAnonymous()" class="bi bi-heart" th:onclick="plzLogin()"></span>
-                    <!-- 로그인 O -->
-                    <span sec:authorize="isAuthenticated()">
-                        <span th:if="${!isLiked}" class="bi bi-heart" th:onclick="|likeCheck('${boardDto.id}',0)|"></span>
-                        <span th:if="${isLiked}" class="bi bi-heart-fill" th:onclick="|likeCheck('${boardDto.id}',1)|"></span>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <th>본문 내용</th>
-                <td th:utext="${boardDto.content}" colspan="3"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- 수정/삭제 -->
-        <div th:if="${iswriter}">
-            <a th:href="@{'/board/post/edit/' + ${boardDto.id}}">
-                <button class="btn btn-primary">수정</button>
-            </a>
-            <form id="delete-form" th:action="@{'/board/post/' + ${boardDto.id}}" method="post">
-                <input type="hidden" name="_method" value="delete"/>
-                <button class="btn btn-warning" id="delete-btn">삭제</button>
-            </form>
-        </div>
-
         <!-- 댓글 -->
         <div class="card" th:if="${comments != null}">
             <div class="card-header bi bi-chat-dots"> [[${#lists.size(comments)}]] Comments</div>
@@ -137,14 +108,14 @@
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
                         <span sec:authorize="isAuthenticated()" th:if="${comment.getUserId()} == ${session.user['id']}">
                             <!-- 댓글 수정 버튼 -->
-                            <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"></a>
+                            <a type="button" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"    ></a>
                             <!-- 댓글 삭제 버튼 -->
                             <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="bi bi-x-square"></a>
                         </span>
                     </span>
                     <p class="collapse show" th:id="'multi-collapse-' + ${comment.getId()}" th:text="${comment.getComment()}"></p>
-                    <!-- 댓글 수정 -->
-                    <form th:class="collapse" th:id="'multi-collapse-' + ${comment.getId()}">
+                    <!-- 댓글 수정 폼 -->
+                    <form class="collapse" th:id="'multi-collapse-' + ${comment.getId()}">
                         <input type="hidden" id="commentId" th:value="${comment.getId()}">
                         <input type="hidden" id="comment_boardId" th:value="${boardDto.id}">
                         <div class="form-group">
