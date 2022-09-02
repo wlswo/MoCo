@@ -4,7 +4,6 @@ const editor = new Editor({
     el: document.querySelector('#editor'),
     previewStyle: 'vertical',
     height: '500px',
-    theme: 'dark',
     initialValue: document.getElementById('content').value,
     previewHighlight:false,
     /* imgbb에 이미지 업로드 후 업로드된 이미지 주소 반환 */
@@ -18,7 +17,7 @@ const editor = new Editor({
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
-                url: 'https://api.imgbb.com/1/upload?key=add794e5ba66a94a09b9661bb2884722',
+                url: 'https://api.imgbb.com/1/upload?key=720b3071d5d77a7147ad4b18ce241469',
                 data: form,
                 mimeType: "multipart/form-data",
                 processData: false,
@@ -103,7 +102,7 @@ function uploadThumbnail(e) {
     $.ajax({
         type: 'POST',
         enctype: 'multipart/form-data',
-        url: 'https://api.imgbb.com/1/upload?key=add794e5ba66a94a09b9661bb2884722',
+        url: 'https://api.imgbb.com/1/upload?key=720b3071d5d77a7147ad4b18ce241469',
         data: form,
         mimeType: "multipart/form-data",
         processData: false,
