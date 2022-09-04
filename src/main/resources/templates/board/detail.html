@@ -15,6 +15,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
     <link href="/css/detail.css" rel="stylesheet">
+    <!-- alert Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
 <body>
@@ -61,33 +63,33 @@
             </span>
         <!-- 로그인 O -->
         <span id="isLoggedIn" sec:authorize="isAuthenticated()">
-                <!-- 좋아요를 누르지 않은 상태 -->
-                <button th:if="${!isLiked}" class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
-                    <canvas></canvas>
-                    <div class="label">
-                        <span class="default">Star<span class="success">red</span></span>
-                    </div>
-                    <div class="number">
-                        <span class="current">[[${boardDto.likes.size()}]]</span>
-                        <span class="new">[[${boardDto.likes.size()}]]</span>
-                        <div class="add">+1</div>
-                    </div>
-                    <input name="isClick" value="noclick" style="display: none;"/>
-                </button>
+            <!-- 좋아요를 누르지 않은 상태 -->
+            <button th:if="${!isLiked}" class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
+                <canvas></canvas>
+                <div class="label">
+                    <span class="default">Star<span class="success">red</span></span>
+                </div>
+                <div class="number">
+                    <span class="current">[[${boardDto.likes.size()}]]</span>
+                    <span class="new">[[${boardDto.likes.size()}]]</span>
+                    <div class="add">+1</div>
+                </div>
+                <input name="isClick" value="noclick" style="display: none;"/>
+            </button>
             <!-- 좋아요를 누른 상태 -->
-                <button th:if="${isLiked}" class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
-                    <canvas></canvas>
-                    <div class="label">
-                        <span class="default">Star<span class="success">red</span></span>
-                    </div>
-                    <div class="number">
-                        <span class="current">[[${boardDto.likes.size()}]]</span>
-                        <span class="new">[[${boardDto.likes.size()}]]</span>
-                        <div class="add">+1</div>
-                    </div>
-                    <input name="isClick" value="clicked" style="display: none;"/>
-                </button>
-            </span>
+            <button th:if="${isLiked}" class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
+                <canvas></canvas>
+                <div class="label">
+                    <span class="default">Star<span class="success">red</span></span>
+                </div>
+                <div class="number">
+                    <span class="current">[[${boardDto.likes.size()}]]</span>
+                    <span class="new">[[${boardDto.likes.size()}]]</span>
+                    <div class="add">+1</div>
+                </div>
+                <input name="isClick" value="clicked" style="display: none;"/>
+            </button>
+        </span>
     </div>
     </div>
     <!-- 글내용 -->
@@ -108,7 +110,7 @@
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
                         <span sec:authorize="isAuthenticated()" th:if="${comment.getUserId()} == ${session.user['id']}">
                             <!-- 댓글 수정 버튼 -->
-                            <a type="button" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"    ></a>
+                            <a type="button" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"></a>
                             <!-- 댓글 삭제 버튼 -->
                             <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="bi bi-x-square"></a>
                         </span>

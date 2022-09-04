@@ -1,7 +1,22 @@
 /* 좋아요 */
-
 function plzLogin() {
-    alert("로그인후 이용해주세요.");
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+    Toast.fire({
+        icon: 'warning',
+        background:'#e76876',
+        title: '<h4 style="color: white;">로그인후 이용해주세요.</h4>'
+    })
+    return false;
 }
 
 /* CREATE */
