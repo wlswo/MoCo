@@ -39,7 +39,7 @@ const editor = new Editor({
 });
 
 /* submit 전에 content 값 hidden에 주입 및 제목 유효성 검사 */
-function mdGet() {
+function mdGet() { /* md = MarkDown */
     const title = document.getElementById("title").value;
     if (title == null || title.trim() === '') {
         const Toast = Swal.mixin({
@@ -191,3 +191,17 @@ function textAreaCheck() {
         totaltext.style.color = '#ACACAC';
     }
 }
+
+/* 해스태그 입력창 */
+var input = document.querySelector('input[name="tags"]');
+var whitelist = ["C","C++","C#","JAVA","FrontEnd","BackEnd"];
+var tagify = new Tagify(input, {
+    whitelist:whitelist,
+    maxTags: 10,
+    dropdown: {
+        maxItems: 20,
+        classname: "tags-look",
+        enabled: 0,
+        closeOnSelect: false
+    }
+})

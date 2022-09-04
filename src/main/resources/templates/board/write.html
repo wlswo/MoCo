@@ -13,6 +13,11 @@
     <!-- markDown -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css">
+    <!-- 해시 태그/폴리필(구버전 브라우저 지원) -->
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
     <title>글작성</title>
 </head>
 
@@ -29,10 +34,14 @@
                     <!-- Slides -->
                     <div class="swiper-slide">
                         <div style="display: block; height: 100%; width: 100%; object-fit: cover;">
+                            <!-- 제목 -->
                             <textarea class="title" id="title" name="title" placeholder="제목을 입력하세요."></textarea>
                                 <span id="login-error" th:if="${error}">
                                     <p class="alert alert-danger" th:text="${error}" style="font-size: small;"></p>
                                 </span>
+                            <div class="title-line"></div>
+                            <!-- 해시태그 -->
+                            <input name='tags' class='tags' placeholder='해시태그를 입력해보세요. 10개 까지 입력가능합니다.'/>
                             <div id="editor"></div>
                             <div style="padding-top: 15px;">
                                 <a th:href="@{/board/list}" class="btn btn-secondary">뒤로 가기</a>
@@ -91,12 +100,13 @@
         </form>
     </div>
 </main>
-<!-- jQuery, Bootstrap JS -->
+<!-- jQuery, Bootstrap JS, Script -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
 <script src="/js/write.js"></script>
 </body>
 </html>

@@ -8,21 +8,31 @@ body {
     background-color: #f8f9fa;
     font-family: "Century Gothic", sans-serif;
     position: relative;
-    overflow-y: hidden;
+    overflow-x: hidden;
 }
 .container {
     padding-top: 5px;
 }
 .title {
     background-color: #f8f9fa;
-    padding-top: 30px;
-    padding-bottom: 10px;
+    margin-top: 10px;
     color: black;
     font-size: larger;
     font-family: 'GmarketSansMedium', sans-serif;
     border: none;
     width: 100%;
     text-align: center;
+    resize: none;
+    border: none;
+    height: 50px;
+    line-height: 1.5;
+    text-align: left;
+}
+.title-line {
+    margin-bottom: 0.66rem;
+    background: rgb(73, 80, 87);
+    height: 6px;
+    width: 4rem;
 }
 input:focus {
     border-color: #121212;
@@ -58,6 +68,37 @@ input:focus {
     align-items: center;
 }
 
+.tags {
+    text-align: left;
+    width: 100%;
+    font-size: 0.65em;
+}
+.tags-look .tagify__dropdown__item{
+    display: inline-block;
+    border-radius: 3px;
+    padding: .3em .5em;
+    border: 1px solid #CCC;
+    background: #F3F3F3;
+    margin: .2em;
+    font-size: .65em;
+    color: black;
+    transition: 0s;
+}
+
+.tags-look .tagify__dropdown__item--active{
+    color: black;
+}
+
+.tags-look .tagify__dropdown__item:hover{
+    background: lightyellow;
+    border-color: gold;
+}
+
+
+#editor {
+    text-align: left;
+}
+
 .outer {
     width: 1px;
     height: 100%;
@@ -87,13 +128,6 @@ input:focus {
     font-size: 0.875rem;
     line-height: 1.5;
     padding: 0.75rem 1rem;
-}
-#title {
-    resize: none;
-    border: none;
-    height: 80px;
-    line-height: 1.5;
-    color: rgba(0, 0, 0, 0.76);
 }
 textarea:hover {
     outline: none;
