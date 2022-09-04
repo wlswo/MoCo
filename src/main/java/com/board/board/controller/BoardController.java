@@ -8,8 +8,14 @@ import com.board.board.dto.CommentDto;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
+import com.fasterxml.jackson.core.io.JsonEOFException;
 import io.github.furstenheim.CopyDown;
 import lombok.AllArgsConstructor;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +23,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
+
 /* 게시판 */
 @AllArgsConstructor
 @Controller
@@ -62,7 +71,19 @@ public class BoardController {
 
     /* CREATE */
     @PostMapping("/post")
-    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model) {
+    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam("tags") String tags) {
+        log.info(tags);
+        try{
+            JSONParser parser = new JSONParser();
+            JSONArray json = (JSONArray) parser.parse(tags);
+            json.forEach(item -> {
+                JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
+                log.info(jsonObject.get("value").toString());
+            });
+        }catch (ParseException e) {
+           e.printStackTrace();
+        }
+
         /* 글작성 유효성 검사 */
         if(errors.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
