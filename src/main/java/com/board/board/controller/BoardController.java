@@ -3,11 +3,14 @@ package com.board.board.controller;
 
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
+import com.board.board.domain.HashTag;
 import com.board.board.dto.BoardDto;
 import com.board.board.dto.CommentDto;
+import com.board.board.dto.HashTagDto;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
+import com.board.board.service.hashTag.HashTagService;
 import com.fasterxml.jackson.core.io.JsonEOFException;
 import io.github.furstenheim.CopyDown;
 import lombok.AllArgsConstructor;
@@ -28,6 +31,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +43,7 @@ public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
     private final LikeService likeService;
+    private final HashTagService hashTagService;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----Board---- */
@@ -72,18 +77,6 @@ public class BoardController {
     /* CREATE */
     @PostMapping("/post")
     public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam("tags") String tags) {
-        log.info(tags);
-        try{
-            JSONParser parser = new JSONParser();
-            JSONArray json = (JSONArray) parser.parse(tags);
-            json.forEach(item -> {
-                JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
-                log.info(jsonObject.get("value").toString());
-            });
-        }catch (ParseException e) {
-           e.printStackTrace();
-        }
-
         /* 글작성 유효성 검사 */
         if(errors.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
@@ -93,12 +86,31 @@ public class BoardController {
             return "board/write";
         }
 
-
+        /* 썸네일 부재시 디폴트값 설정 */
         if (boardDto.getThumbnail().equals("") || boardDto.getThumbnail().equals(null)){
             boardDto.setThumbnail("/img/panda.png");
         }
         boardDto.setWriter(sessionUser.getName());
-        boardService.savePost(sessionUser.getName(),boardDto);
+        Long board_Id = boardService.savePost(sessionUser.getName(),boardDto);
+
+        /* 해시태그 저장 */
+        if(!tags.isEmpty()) {
+            List<HashTagDto.Request> hashTagDtoList = new ArrayList<>();
+            try{
+                JSONParser parser = new JSONParser();
+                JSONArray json = (JSONArray) parser.parse(tags);
+                json.forEach(item -> {
+                    JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
+                    HashTagDto.Request hashTagDto = new HashTagDto.Request();
+                    hashTagDto.setTagcontent(jsonObject.get("value").toString());
+                    hashTagDtoList.add(hashTagDto);
+                });
+                hashTagService.SaveAll(board_Id,hashTagDtoList);
+            }catch (ParseException e) {
+                log.info(e.getMessage());
+            }
+        }
+
         return "redirect:/board/list";
     }
 

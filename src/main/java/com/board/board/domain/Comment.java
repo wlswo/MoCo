@@ -10,8 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 @Getter
 @Table(name = "comments")
 @Entity

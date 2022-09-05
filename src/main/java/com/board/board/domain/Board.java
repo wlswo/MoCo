@@ -67,6 +67,10 @@ public class Board extends Time {
     @JsonIgnoreProperties({"board"})
     @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Like> likes;
+
+    /* 해시태그 */
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<HashTag> hashTags;
 }
 
 

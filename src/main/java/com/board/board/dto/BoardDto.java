@@ -54,6 +54,7 @@ public class BoardDto {
         private String userImg;
         private List<CommentDto.Response> comments;
         private Set<LikeDto.Response> likes;
+        private Set<HashTagDto.Response> hashtags;
 
         /* Entity -> Dto */
         public Response(Board board) {
@@ -70,6 +71,7 @@ public class BoardDto {
             this.userImg = board.getUser().getPicture();
             this.comments = board.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
             this.likes = board.getLikes().stream().map(LikeDto.Response::new).collect(Collectors.toSet());
+            this.hashtags = board.getHashTags().stream().map(HashTagDto.Response::new).collect(Collectors.toSet());
         }
     }
 
