@@ -76,7 +76,10 @@
     </div>
     <!-- 몸통 -->
     <div class="card-body">
-      <span class="tag tag-pink">AnyTag</span>
+      <!-- 태그 -->
+      <div class="tag-container">
+        <div class="tag" th:each="tag : ${board.getHashtags()}">#[[${tag.tagcontent}]]</div>
+      </div>
       <!-- 제목 -->
       <a th:href="@{'/board/post/read/'+${board.id}}"><h4 th:text="${board.title}"> Title </h4></a>
       <!-- 글소개 -->
