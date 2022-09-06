@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link th:href="@{/css/list.css}" rel="stylesheet">
+    <!-- Web3.js -->
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 </head>
 <body>
 <div>
@@ -107,7 +109,8 @@
 </div>
 <input type="hidden" id="totalPage" th:value="${totalPage}" style="display: none"></input>
 <!-- script -->
-<script src="/js/list.js"></script>
+<script src="/js/board/list.js"></script>
+<script src="/js/web3js/web3js.js"></script>
 </body>
 </html>
 

@@ -19,6 +19,7 @@
       </li>
     </ul>
     <div class="collapse navbar-collapse justify-content-end">
+      <a class="nav-link justify-content-end" href="#">지갑 연동</a>
       <a class="nav-link justify-content-end" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
       <span class="navbar-text justify-content-end" sec:authorize="isAuthenticated()" th:text="${session.user['name']}">님, 안녕하세요.</span>
       <a class="nav-link justify-content-end" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>

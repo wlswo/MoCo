@@ -434,7 +434,7 @@ path.two {
 
 .tag {
     color: #98d2b0;
-    font: bold;
+    font-weight: bold;
     background-color: rgba(252, 252, 253, 0.89);
     font-size: 10px;
     margin-right: 5px;
