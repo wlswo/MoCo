@@ -11,6 +11,7 @@ import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
 import com.board.board.service.hashTag.HashTagService;
+import com.board.board.service.web3j.TransferTokenService;
 import com.fasterxml.jackson.core.io.JsonEOFException;
 import io.github.furstenheim.CopyDown;
 import lombok.AllArgsConstructor;
@@ -44,6 +45,7 @@ public class BoardController {
     private final CommentService commentService;
     private final LikeService likeService;
     private final HashTagService hashTagService;
+    private final TransferTokenService transferTokenService;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----Board---- */
@@ -76,7 +78,7 @@ public class BoardController {
 
     /* CREATE */
     @PostMapping("/post")
-    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam("tags") String tags) {
+    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam("tags") String tags, @RequestParam(value = "walletAddress", required = false) String walletAddress) {
         /* 글작성 유효성 검사 */
         if(errors.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
@@ -109,6 +111,11 @@ public class BoardController {
             }catch (ParseException e) {
                 log.info(e.getMessage());
             }
+        }
+
+        /* 토큰 지급 */
+        if(!walletAddress.isBlank() || walletAddress == null) {
+            transferTokenService.transfer(walletAddress);
         }
 
         return "redirect:/board/list";
