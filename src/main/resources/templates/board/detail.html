@@ -100,11 +100,11 @@
     </div>
     <div class="starter-template">
         <!-- 댓글 -->
-        <div class="card" th:if="${comments != null}">
-            <div class="card-header bi bi-chat-dots"> [[${#lists.size(comments)}]] Comments</div>
+        <div class="card" th:if="${boardDto.comments != null}">
+            <div class="card-header bi bi-chat-dots"> [[${#lists.size(boardDto.comments)}]] Comments</div>
             <!-- 내용 -->
             <ul class="list-group-flush">
-                <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${comments}">
+                <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${boardDto.comments}">
                     <span>
                         <span style="font-size: small" th:text="${comment.getName()}"></span>
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
