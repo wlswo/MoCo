@@ -55,27 +55,27 @@ public class Board extends Time {
     /* 댓글 */
     @OrderBy("id asc") //댓글 정렬
     @JsonIgnoreProperties({"board"})
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Comment> comments;
-    /*
-     *   DB 에는 하나의 Raw 데이터 값만 들어갈수 있다. ( 원자성 조건 )
-     *   근데 List<T> 형태로 들어갈수 없기 때문에 comments는 DB에 FK로 생성되면 안된다.
-     *   mappedBy를 사용하여 연관관계의 주인이 아니라는 것을 명시해줘야함. (DB의 FK가 아니다)
-     *   [무한참조 발생] board 조회 -> comment 조회 -> board조회 ...
-     *   @JsonIgnoreProerties({"board"}) 추가로 해결
-     */
+
     /* 좋아요 */
     @JsonIgnoreProperties({"board"})
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Like> likes;
 
     /* 해시태그 */
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<HashTag> hashTags;
 }
 
 
-
+/*
+ *   DB 에는 하나의 Raw 데이터 값만 들어갈수 있다. ( 원자성 조건 )
+ *   근데 List<T> 형태로 들어갈수 없기 때문에 comments는 DB에 FK로 생성되면 안된다.
+ *   mappedBy를 사용하여 연관관계의 주인이 아니라는 것을 명시해줘야함. (DB의 FK가 아니다)
+ *   [무한참조 발생] board 조회 -> comment 조회 -> board조회 ...
+ *   @JsonIgnoreProerties({"board"}) 추가로 해결
+ */
 
 
 
