@@ -38,7 +38,7 @@ const editor = new Editor({
         }}
 });
 
-/* submit 전에 content 값 hidden에 주입 및 제목 유효성 검사 */
+/* submit 전에 content,walletAddress 값 hidden에 주입 및 제목 유효성 검사 */
 function mdGet() { /* md = MarkDown */
     const title = document.getElementById("title").value;
     if (title == null || title.trim() === '') {
@@ -61,7 +61,8 @@ function mdGet() { /* md = MarkDown */
         return false;
     }
     document.getElementById('content').value = editor.getHTML();
-    var a = document.getElementById('content').value;
+    //var a = document.getElementById('content').value;
+    document.getElementById('walletAddress').value = document.getElementById('wallet').textContent;
 }
 
 
@@ -205,3 +206,11 @@ var tagify = new Tagify(input, {
         closeOnSelect: false
     }
 })
+
+
+/* gradation text */
+$('.txt').html(function(i, html) {
+    var chars = $.trim(html).split("");
+
+    return '<span>' + chars.join('</span><span>') + '</span>';
+});
