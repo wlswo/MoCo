@@ -322,10 +322,8 @@ body {
     margin-right: 25px;
 }
 
-
-
-span:nth-child(2) {
-    width: 20px;
+.cta span:nth-child(2) {
+    width: 5px;
     margin-left: 30px;
     position: relative;
     top: 12%;
