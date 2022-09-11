@@ -5,7 +5,7 @@
 <body style="font-size: large;">
 <nav class="navbar navbar-expand-md navbar-light bg-white" th:fragment="menu(menu)" style="margin-right: 40px; margin-left: 40px; justify-content: space-between;">
   <!-- title -->
-  <a class="header-home" th:href="@{/}" style="text-decoration: none; color: black;"> JJ.Blog </a>
+  <a class="header-home" th:href="@{/}" style="text-decoration: none; color: black; margin-right: 15px;"> JJ.Blog </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -19,7 +19,6 @@
       </li>
     </ul>
     <div class="collapse navbar-collapse justify-content-end">
-      <a class="nav-link justify-content-end" href="#" id="smartContract"> 스마트 컨트랙트 </a>
       <a class="nav-link justify-content-end" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
       <a class="nav-link justify-content-end" sec:authorize="isAuthenticated()" href="#" id="ConnectMetaMask">메타마스크 연결</a>
       <span class="navbar-text justify-content-end" sec:authorize="isAuthenticated()" th:text="${session.user['name']}">님, 안녕하세요.</span>
