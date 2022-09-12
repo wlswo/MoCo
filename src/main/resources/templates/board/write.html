@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
     <!-- CSS / alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
     <!-- markDown -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css">
@@ -17,6 +16,9 @@
     <script src="https://unpkg.com/@yaireo/tagify"></script>
     <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <!-- Web3.js -->
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
 
     <title>글작성</title>
 </head>
@@ -27,6 +29,7 @@
         <form class="form-horizontal" th:action="@{/board/post}" method="post" th:onsubmit="return mdGet();" modelAttribute="boardDto">
             <input type="hidden" id="content" name="content" th:value="${boardDto} ? ${boardDto.content}">
             <input type="hidden" id="thumbnail" name="thumbnail">
+            <input type="hidden" id="walletAddress" name="walletAddress">
             <!-- Slider main container -->
             <div class="swiper-container">
                 <!-- Additional required wrapper -->
@@ -89,6 +92,13 @@
                                     </div>
                                 </section>
                             </div>
+                            <div>
+                                <iconify-icon icon="logos:metamask-icon" width="50" height="50"></iconify-icon>
+                                <div class="gradation-text">
+                                    <span class="txt anim-text-flow">토큰을 받을 주소를 확인하세요.</span>
+                                </div>
+                                <span id="wallet"></span>
+                            </div>
                             <div class="uploadSection" style="justify-content: space-between">
                                 <span class="btn btn-primary" id="prev">취소</span>
                                 <button type="submit" class="btn btn-primary">작성완료</button>
@@ -108,5 +118,6 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 <script src="/js/board/write.js"></script>
+<script src="/js/web3js/web3js.js"></script>
 </body>
 </html>
