@@ -7,6 +7,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommentDto {
 
@@ -21,10 +23,11 @@ public class CommentDto {
         private LocalDateTime modifiedDate;
         private User user;
         private Board board;
+        private Comment parent;
 
         /* DTO -> Entity */
         public Comment toEntity() {
-            Comment comments = Comment.builder().id(id).comment(comment).user(user).board(board).build();
+            Comment comments = Comment.builder().id(id).comment(comment).user(user).board(board).parent(parent).build();
             return comments;
         }
     }
@@ -38,6 +41,8 @@ public class CommentDto {
         private String name;
         private Long userId;
         private Long boardId;
+        private Comment parent;
+        private List<CommentDto.Response> childList;
 
         /* Entity -> DTO */
         public Response(Comment comment) {
@@ -48,6 +53,8 @@ public class CommentDto {
             this.name = comment.getUser().getName();
             this.userId = comment.getUser().getId();
             this.boardId = comment.getBoard().getId();
+            this.parent = comment.getParent();
+            this.childList = comment.getChildList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
         }
     }
 

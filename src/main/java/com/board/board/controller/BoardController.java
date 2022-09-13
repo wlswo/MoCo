@@ -125,8 +125,8 @@ public class BoardController {
     @GetMapping("/post/read/{boardId}")
     public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
         BoardDto.Response boardDTO = boardService.findById(boardId);
-        List<CommentDto.Response> comments = boardDTO.getComments();
-
+        List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
+        //List<CommentDto.Response> comments = boardDTO.getComments();
         /* 쿠키 관련 */
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
@@ -242,6 +242,11 @@ public class BoardController {
     @PostMapping("/comment/{id}")
     public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
         return ResponseEntity.ok(commentService.commentSave(sessionUser.getName(), id, commentDto));
+    }
+    /* CREATE */
+    @PostMapping("/recomment/{id}/{parendId}")
+    public ResponseEntity recommentSave(@PathVariable Long id,@PathVariable Long parendId ,@RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
+        return ResponseEntity.ok(commentService.recommentSave(sessionUser.getName(), id, parendId,commentDto));
     }
 
     /* UPDATE */
