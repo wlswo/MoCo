@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 </head>
 <body>
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
+  <nav th:replace="fragments/header"></nav>
 <!-- img Container -->
 <div class="board-header">
   <div class="board-header-container">
@@ -106,9 +106,11 @@
   </div>
 </div>
 <input type="hidden" id="totalPage" th:value="${totalPage}" style="display: none"></input>
-<!-- script -->
+<!-- script / jQuery-->
 <script src="/js/board/list.js"></script>
 <script src="/js/web3js/web3js.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.slim.js" integrity="sha256-tXm+sa1uzsbFnbXt8GJqsgi2Tw+m4BLGDof6eUPjbtk=" crossorigin="anonymous"></script>
 </body>
 </html>
 

@@ -3,28 +3,32 @@
 <head>
 </head>
 <body style="font-size: large;">
-<nav class="navbar navbar-expand-md navbar-light bg-white" th:fragment="menu(menu)" style="margin-right: 40px; margin-left: 40px; justify-content: space-between;">
+<nav class="navbar navbar-expand-md navbar-light bg-white" style="margin-right: 40px; margin-left: 40px; justify-content: space-between;">
   <!-- title -->
-  <a class="header-home" th:href="@{/}" style="text-decoration: none; color: black; margin-right: 15px;"> JJ.Blog </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="header-home" th:href="@{/}" style="text-decoration: none; color: black; margin-right: 15px;"> ZzBlog </a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars" aria-controls="navbars" aria-expanded="false">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" th:classappend="${menu} == 'home'? 'active'">
+  <div class="collapse navbar-collapse" id="navbars" style="justify-content: space-between;">
+    <ul class="navbar-nav">
+      <li class="nav-item">
         <a class="nav-link" th:href="@{/}"> HOME </a>
       </li>
-      <li class="nav-item" th:classappend="${menu} == 'board'? 'active'">
+      <li class="nav-item">
         <a class="nav-link" href="#" th:href="@{/board/list}"> 게시판 </a>
       </li>
     </ul>
-    <div class="collapse navbar-collapse justify-content-end">
-      <a class="nav-link justify-content-end" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
-      <a class="nav-link justify-content-end" sec:authorize="isAuthenticated()" href="#" id="ConnectMetaMask">메타마스크 연결</a>
-      <span class="navbar-text justify-content-end" sec:authorize="isAuthenticated()" th:text="${session.user['name']}">님, 안녕하세요.</span>
-      <a class="nav-link justify-content-end" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a>
+    <div class="dropdown" style="float: right;">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a></li>
+        <li><a class="dropdown-item" sec:authorize="isAuthenticated()" href="#" id="ConnectMetaMask">메타마스크 연결</a></li>
+        <li><span class="dropdown-item" sec:authorize="isAuthenticated()" th:text="${session.user['name']}" style="color: lightblue"></span></li>
+        <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a></li>
+      </ul>
     </div>
   </div>
 </nav>
 </body>
 </html>
+

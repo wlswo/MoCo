@@ -20,7 +20,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header :: menu('home')"></nav>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header"></nav>
 
 <main role="main" class="container" modelAttribute="boardDto">
     <!-- 제목 -->
@@ -104,7 +104,7 @@
             <div class="card-header bi bi-chat-dots"> [[${#lists.size(boardDto.comments)}]] Comments</div>
             <!-- 내용 -->
             <ul class="list-group-flush">
-                <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${boardDto.comments}">
+                <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${comments}">
                     <span>
                         <span style="font-size: small" th:text="${comment.getName()}"></span>
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
@@ -113,9 +113,25 @@
                             <a type="button" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${comment.getId()}" class="bi bi-pencil-square"></a>
                             <!-- 댓글 삭제 버튼 -->
                             <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="bi bi-x-square"></a>
+                            <!-- 댓글 답글 버튼 -->
+                            <a type="button" data-bs-toggle="collapse" th:href="'#recomment-' + ${comment.getId()}" class="bi bi-plus-square"></a>
                         </span>
                     </span>
                     <p class="collapse show" th:id="'multi-collapse-' + ${comment.getId()}" th:text="${comment.getComment()}"></p>
+                    <!-- 답글 -->
+                    <div style="padding: 15px;" th:each="recomment : ${comment.getChildList()}">
+                        <span>
+                        <span style="font-size: small" th:text="${recomment.getName()}"></span>
+                        <span style="font-size: xx-small">[[${#temporals.format(recomment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
+                        <span sec:authorize="isAuthenticated()" th:if="${recomment.getUserId()} == ${session.user['id']}">
+                            <!-- 댓글 수정 버튼 -->
+                            <a type="button" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${recomment.getId()}" class="bi bi-pencil-square"></a>
+                            <!-- 댓글 삭제 버튼 -->
+                            <a type="button" th:onclick="|commentDelete('${boardDto.id}','${recomment.getId()}')|" class="bi bi-x-square"></a>
+                        </span>
+                        <p class="collapse show" th:id="'multi-collapse-' + ${recomment.getId()}" th:text="${recomment.getComment()}"></p>
+                    </span>
+                    </div>
                     <!-- 댓글 수정 폼 -->
                     <form class="collapse" th:id="'multi-collapse-' + ${comment.getId()}">
                         <input type="hidden" id="commentId" th:value="${comment.getId()}">
@@ -124,6 +140,13 @@
                             <textarea class="form-control" id="comment-content" rows="3" th:text="${comment.getComment()}"></textarea>
                         </div>
                         <button type="button" id="btn-comment-update" class="btn btn-outline-primary bi bi-pencil-square"> 수정</button>
+                    </form>
+                    <!-- 답글 달기 폼 -->
+                    <form class="collapse" th:id="'recomment-' + ${comment.getId()}">
+                        <div class="form-group">
+                            <textarea class="form-control" th:id="'recomment-content-' + ${comment.getId()}" rows="3" placeholder="답글을 입력하세요."></textarea>
+                        </div>
+                        <button type="button" class="btn btn-outline-primary bi bi-pencil-square" th:onclick="|saveComment('${comment.getId()}')|"> 등록</button>
                     </form>
                 </li>
             </ul>
