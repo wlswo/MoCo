@@ -7,6 +7,10 @@
     <!-- CSS -->
     <link rel="stylesheet" th:href="@{/css/write.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <!-- 해시 태그/폴리필(구버전 브라우저 지원) -->
+    <script src="https://unpkg.com/@yaireo/tagify"></script>
+    <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     <!-- markDown -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css">
@@ -27,7 +31,14 @@
                     <!-- Slides -->
                     <div class="swiper-slide">
                         <div style="display: block; height: 100%; width: 100%; object-fit: cover;">
+                            <!-- 제목 -->
                             <textarea class="title" id="title" name="title" th:text="${boardDto.title}" placeholder="제목을 입력하세요."></textarea>
+                                <span id="login-error" th:if="${error}">
+                                    <p class="alert alert-danger" th:text="${error}" style="font-size: small;"></p>
+                                </span>
+                            <div class="title-line"></div>
+                            <!-- 해시태그 -->
+                            <input name='tags' class='tags' placeholder='해시태그를 입력해보세요. 10개 까지 입력가능합니다.' th:value="${hashTags}"/>
                             <div id="editor"></div>
                             <div style="padding-top: 15px;">
                                 <a th:href="@{/board/list}" class="btn btn-secondary">뒤로 가기</a>

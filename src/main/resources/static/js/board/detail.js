@@ -99,11 +99,23 @@ function likeCheck(boardId) {
 /* 댓글 */
 
 /* CREATE */
-function saveComment(){
+function saveComment(parentId){
     /* 게시글 번호 */
     const boardId = document.getElementById("boardId").value;
-    /* 댓글 내용 */
-    const comment = document.getElementById("comment").value;
+    let comment;
+    let isRecomment;
+    /* 대댓글인지 체크 */
+    if(typeof parentId == "undefined" || parentId == null || parentId == ""){
+        /* 댓글일 경우 */
+        comment = document.getElementById("comment").value;
+        isRecomment = 'false';
+    }else{
+        /* 답글일 경우 */
+        comment = document.getElementById('recomment-content-' + parentId).value;
+        console.log(comment);
+        console.log(boardId);
+        isRecomment = 'true';
+    }
 
     /* 공백 및 빈 문자열 체크 */
     if(!comment || comment.trim() === "") {
@@ -121,7 +133,11 @@ function saveComment(){
         reqJson.boardId = boardId;
 
         /* POST 방식으로 요청 */
-        httpRequest.open('POST', baseUrl+"/board/comment/"+boardId);
+        if (isRecomment === 'true') {
+            httpRequest.open('POST', baseUrl+"/board/recomment/"+boardId+"/"+parentId);
+        }else {
+            httpRequest.open('POST', baseUrl+"/board/comment/"+boardId);
+        }
         /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
         httpRequest.setRequestHeader('Content-Type', 'application/json');
         /* ResponseType Json */

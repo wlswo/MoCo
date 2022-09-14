@@ -193,7 +193,7 @@ function textAreaCheck() {
     }
 }
 
-/* 해스태그 입력창 */
+/* 해쉬태그 입력창 */
 var input = document.querySelector('input[name="tags"]');
 var whitelist = ["C","C++","C#","JAVA","FrontEnd","BackEnd"];
 var tagify = new Tagify(input, {
