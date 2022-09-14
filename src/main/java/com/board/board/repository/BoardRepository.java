@@ -19,5 +19,4 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query("update Board b set b.view = b.view + 1 where b.id = :id")
     int updateView(@Param("id") Long id);
 
-    Board findByUser(User user);
 }

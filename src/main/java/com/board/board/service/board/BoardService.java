@@ -4,6 +4,7 @@ import com.board.board.domain.Board;
 import com.board.board.domain.User;
 import com.board.board.dto.BoardDto;
 import com.board.board.repository.BoardRepository;
+import com.board.board.repository.HashTagRepository;
 import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 
 import java.util.*;
 
@@ -26,6 +25,7 @@ public class BoardService {
     private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
     private static final int PAGE_POST_COUNT = 9; // 한 페이지에 존재하는 게시글 수
 
+    /* PAGEABLE */
     @Transactional
     public List<BoardDto.Response> getBoardlist(Integer pageNum) {
         Page<Board> page = boardRepository.findAll(PageRequest.of(
@@ -41,19 +41,22 @@ public class BoardService {
         return boardDtoList;
     }
 
-    @Transactional
+    /* READ */
+    @Transactional(readOnly = true)
     public BoardDto.Response getPost(Long id) {
         Optional<Board> boardWrapper = boardRepository.findById(id);
         Board board = boardWrapper.get();
         return new BoardDto.Response(board);
     }
-    @Transactional
+    /* READ */
+    @Transactional(readOnly = true)
     public BoardDto.Response findById(Long id) {
         Optional<Board> boardWrapper = boardRepository.findById(id);
         Board board = boardWrapper.get();
         return new BoardDto.Response(board);
     }
 
+    /* CREATE */
     @Transactional
     public Long savePost(String name, BoardDto.Request boardDto) {
         User user = userRepository.findByName(name);
@@ -61,12 +64,22 @@ public class BoardService {
         return boardRepository.save(boardDto.toEntity()).getId();
     }
 
+    /* UPDATE */
+    @Transactional
+    public Long updatePost(Long board_id, BoardDto.Request boardDto) {
+        Optional<Board> boardWrapper = boardRepository.findById(board_id);
+        Board board = boardWrapper.get();
+        board.update(boardDto.getTitle(), boardDto.getContent(), boardDto.getSubcontent(), boardDto.getThumbnail());
+        return board.getId();
+    }
+
+    /* DELETE */
     @Transactional
     public void deletePost(Long id) {
         boardRepository.deleteById(id);
     }
 
-    // 검색 API
+    /* READ */
     @Transactional
     public List<BoardDto.Response> searchPosts(String keyword) {
         List<Board> boardEntities = boardRepository.findByTitleContaining(keyword);

@@ -54,10 +54,6 @@ public class Comment extends Time{
         this.isRemoved = true;
     }
 
-    public void addChild(Comment child){
-        childList.add(child);
-    }
-
     /* 비즈니스 로직 */
     public List<Comment> findRemovableList() {
         List<Comment> result = new ArrayList<>();

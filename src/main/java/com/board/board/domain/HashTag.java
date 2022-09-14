@@ -20,7 +20,7 @@ public class HashTag {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String tagcontent;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 }

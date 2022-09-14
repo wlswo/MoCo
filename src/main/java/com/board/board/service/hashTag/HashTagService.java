@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +30,20 @@ public class HashTagService {
             hashTags.add(hashTagDto.get(i).toEntity());
         }
         hashTagRepository.saveAll(hashTags);
+    }
+
+    /* UPDATE */
+    @Transactional
+    public void UpdateAll(Long board_id, Set<HashTag> hashTagDto) {
+        Board board = boardRepository.findById(board_id).orElseThrow(() ->
+                new IllegalArgumentException("해시태그 저장 실패 : 해당 게시글이 존재하지 않습니다."));
+        board.updateTags(hashTagDto);
+    }
+
+    /* READ */
+    @Transactional(readOnly = true)
+    public Set<HashTag> getTags(Long board_id) {
+        return hashTagRepository.findAllByBoardId(board_id);
     }
 
 }

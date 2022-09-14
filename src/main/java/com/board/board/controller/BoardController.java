@@ -32,9 +32,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /* 게시판 */
 @AllArgsConstructor
@@ -78,7 +76,7 @@ public class BoardController {
 
     /* CREATE */
     @PostMapping("/post")
-    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam("tags") String tags, @RequestParam(value = "walletAddress", required = false) String walletAddress) {
+    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "walletAddress", required = false) String walletAddress) {
         /* 글작성 유효성 검사 */
         if(errors.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
@@ -197,21 +195,50 @@ public class BoardController {
     @GetMapping("post/edit/{no}")
     public String edit(@PathVariable("no") Long no, Model model) {
         BoardDto.Response boardDTO = boardService.getPost(no);
+
+        /* 해시태그 내용만 Filter */
+        Set<HashTag> hashTags = hashTagService.getTags(no);
+        Iterator<HashTag> hashTagContents = hashTags.iterator();
+        StringBuilder sb = new StringBuilder();
+
+        while (hashTagContents.hasNext()) {
+           sb.append(hashTagContents.next().getTagcontent()).append(",");
+        }
+
         /* Html -> MarkDown */
         CopyDown converter = new CopyDown();
         String myHtml = boardDTO.getContent();
         boardDTO.setContent(converter.convert(myHtml));
 
         model.addAttribute("boardDto",boardDTO);
+        model.addAttribute("hashTags", sb);
         model.addAttribute("no", no);
         return "board/update";
     }
 
     /* UPDATE */
     @PutMapping("/post/edit/{no}")
-    public String update(BoardDto.Request boardDto, @LoginUser SessionUser sessionUser) {
+    public String update(@PathVariable("no") Long no,BoardDto.Request boardDto, @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
         boardDto.setWriter(sessionUser.getName());
-        boardService.savePost(sessionUser.getName(),boardDto);
+        boardService.updatePost(no,boardDto);
+
+        /* 해시태그 저장 */
+        if(!tags.isEmpty()) {
+            Set<HashTag> hashTagDtoList = new HashSet<>();
+            try{
+                JSONParser parser = new JSONParser();
+                JSONArray json = (JSONArray) parser.parse(tags);
+                json.forEach(item -> {
+                    JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
+                    HashTagDto.Request hashTagDto = new HashTagDto.Request();
+                    hashTagDto.setTagcontent(jsonObject.get("value").toString());
+                    hashTagDtoList.add(hashTagDto.toEntity());
+                });
+                hashTagService.UpdateAll(no,hashTagDtoList);
+            }catch (ParseException e) {
+                log.info(e.getMessage());
+            }
+        }
 
         return "redirect:/board/list";
     }
