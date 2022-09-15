@@ -32,7 +32,7 @@ public class HashTagService {
         hashTagRepository.saveAll(hashTags);
     }
 
-    /* UPDATE */
+    /* UPDATE 수정필요 */
     @Transactional
     public void UpdateAll(Long board_id, Set<HashTag> hashTagDto) {
         Board board = boardRepository.findById(board_id).orElseThrow(() ->
