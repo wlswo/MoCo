@@ -74,10 +74,6 @@ public class Board extends Time {
         this.thumbnail = thumbnail;
     }
 
-    public void updateTags(Set<HashTag> hashTags) {
-        this.hashTags = hashTags;
-    }
-
 }
 
 

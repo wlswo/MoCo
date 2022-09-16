@@ -222,22 +222,52 @@ public class BoardController {
         boardDto.setWriter(sessionUser.getName());
         boardService.updatePost(no,boardDto);
 
-        /* 해시태그 저장 */
+        /* 해시태그 수정 */
         if(!tags.isEmpty()) {
-            Set<HashTag> hashTagDtoList = new HashSet<>();
+            HashSet<String> hashTagList = new HashSet<>();
             try{
                 JSONParser parser = new JSONParser();
                 JSONArray json = (JSONArray) parser.parse(tags);
                 json.forEach(item -> {
                     JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
-                    HashTagDto.Request hashTagDto = new HashTagDto.Request();
-                    hashTagDto.setTagcontent(jsonObject.get("value").toString());
-                    hashTagDtoList.add(hashTagDto.toEntity());
+                    hashTagList.add(jsonObject.get("value").toString());
                 });
-                hashTagService.UpdateAll(no,hashTagDtoList);
+
+                /* 기존 해시태그와 비교 */
+                HashSet<HashTag> OriginHashTags =  hashTagService.getTags(no);
+                HashSet<String> OriginHashTagsContent = new HashSet<>();
+                OriginHashTags.forEach(item -> {
+                    OriginHashTagsContent.add(item.getTagcontent());
+                });
+
+                /* 추가된 해시태그 */
+                HashSet<String> AddTags = new HashSet<>(hashTagList);  // s1으로 substract 생성
+                AddTags.removeAll(OriginHashTagsContent);              // 차집합 수행
+                if(!AddTags.isEmpty()) {
+                    List<HashTagDto.Request> hashTagDtoList = new ArrayList<>();
+                    AddTags.forEach(item -> {
+                        HashTagDto.Request hashTagDto = new HashTagDto.Request();
+                        hashTagDto.setTagcontent(item);
+                        hashTagDtoList.add(hashTagDto);
+                    });
+                    hashTagService.SaveAll(no,hashTagDtoList);
+                }
+
+                /* 삭제된 해시태그 */
+                HashSet<String> SubTags = new HashSet<>(OriginHashTagsContent);  // s1으로 substract 생성
+                SubTags.removeAll(hashTagList);                                  // 차집합 수행
+                List<String> setTolist = new ArrayList<>(SubTags);
+
+                if(!SubTags.isEmpty()) {
+                    hashTagService.DeleteAll(no,setTolist);
+                }
+
+
             }catch (ParseException e) {
                 log.info(e.getMessage());
             }
+        }else{
+
         }
 
         return "redirect:/board/list";

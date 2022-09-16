@@ -4,7 +4,6 @@ import com.board.board.domain.Board;
 import com.board.board.domain.User;
 import com.board.board.dto.BoardDto;
 import com.board.board.repository.BoardRepository;
-import com.board.board.repository.HashTagRepository;
 import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +21,7 @@ public class BoardService {
     private UserRepository  userRepository;
     private BoardRepository boardRepository;
 
-    private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
+    //private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
     private static final int PAGE_POST_COUNT = 9; // 한 페이지에 존재하는 게시글 수
 
     /* PAGEABLE */
@@ -102,7 +101,7 @@ public class BoardService {
     }
 
     public Integer getPageList(Integer curPageNum) {
-        Integer[] pageList = new Integer[BLOCK_PAGE_NUM_COUNT];
+        //Integer[] pageList = new Integer[BLOCK_PAGE_NUM_COUNT];
 
         // 총 게시글 갯수
         Double postsTotalCount = Double.valueOf(this.getBoardCount());

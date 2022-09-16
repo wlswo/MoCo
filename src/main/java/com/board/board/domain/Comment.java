@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -39,6 +40,7 @@ public class Comment extends Time{
     private Comment parent;     //부모댓글 id 참조 (Self Join)
 
     /* 부모 댓글을 삭제해도 자식 댓글은 남아있음 */
+    @BatchSize(size = 9)
     @OneToMany(fetch = FetchType.LAZY , mappedBy = "parent")
     private List<Comment> childList = new ArrayList<>();
 
