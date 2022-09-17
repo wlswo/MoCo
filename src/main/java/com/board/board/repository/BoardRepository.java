@@ -2,15 +2,23 @@ package com.board.board.repository;
 
 import com.board.board.domain.Board;
 import com.board.board.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 // JpaRepository<Entity 클래스, PK 타입>
 public interface BoardRepository extends JpaRepository<Board, Long> {
+
+
+    @Query("select b from Board b left join Comment c on b.id = c.id left join HashTag h on b.id = h.id")
+    Page<Board> findBoard(Pageable pageable);
+
     /* 게시글 Search */
     List<Board> findByTitleContaining(String keyword);
 
