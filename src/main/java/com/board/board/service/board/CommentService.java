@@ -86,10 +86,12 @@ public class CommentService {
 
         comments.stream().forEach(comment -> {
             map.put(comment.getId(), comment);
-            /* 자식만 필터링 */
+
+            /* 부모 댓글 존재 */
             if(comment.getParent() != null) {
-                //map.get(comment.getParent().getId()).getChildList().add(comment);
+                map.get(comment.getParent().getId()).getChildList().add(comment);
             }
+
             else result.add(comment);
         });
         return result;

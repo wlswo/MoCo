@@ -123,6 +123,7 @@ public class BoardController {
     /* READ */
     @GetMapping("/post/read/{boardId}")
     public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
+        log.info("---FindById 게시글---");
         BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
 
@@ -137,8 +138,6 @@ public class BoardController {
             }
         }
         if (oldCookie != null) {
-            log.info("oldCookie Name : " + oldCookie.getName());
-            log.info("oldCookie Value : " + oldCookie.getValue());
             if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
                 boardService.updateView(boardId); /* 조회수++ */
                 oldCookie.setValue(oldCookie.getValue() + "[" + boardId + "]");
@@ -155,10 +154,12 @@ public class BoardController {
         }
 
         /* 좋아요 관련 */
+        log.info("---FindLikeCunt 좋아요 개수 쿼리---");
         Long like_count = likeService.findLikeCount(boardId);
         model.addAttribute("likeCount", like_count);
 
         if(sessionUser != null){
+            log.info("---FindLike 좋아요 클릭 여부---");
             if(likeService.findLike(sessionUser.getName(), boardId)){
                 model.addAttribute("isLiked",true);
             }else {
@@ -177,7 +178,6 @@ public class BoardController {
         if(sessionUser != null){
             /* 게시글 작성자 본인인지 확인 */
             if(boardDTO.getUserId().equals(sessionUser.getId())) {
-                log.info("check");
                 model.addAttribute("iswriter",true);
             }
 

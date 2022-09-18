@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,7 +55,7 @@ public class CommentDto {
             this.userId = comment.getUser().getId();
             this.boardId = comment.getBoard().getId();
             this.parent = comment.getParent();
-            this.childList = comment.getChildList().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+            this.childList = new ArrayList<>();
         }
     }
 

@@ -3,7 +3,9 @@ package com.board.board.service.board;
 import com.board.board.domain.Board;
 import com.board.board.domain.User;
 import com.board.board.dto.BoardDto;
+import com.board.board.dto.BoardListVo;
 import com.board.board.repository.BoardRepository;
+import com.board.board.repository.LikeRepository;
 import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,24 +22,27 @@ public class BoardService {
 
     private UserRepository  userRepository;
     private BoardRepository boardRepository;
+    private LikeRepository  likeRepository;
 
     //private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
-    private static final int PAGE_POST_COUNT = 9; // 한 페이지에 존재하는 게시글 수
+    private static final int PAGE_POST_COUNT = 2; // 한 페이지에 존재하는 게시글 수
 
     /* PAGEABLE */
     @Transactional
-    public List<BoardDto.Response> getBoardlist(Integer pageNum) {
-        Page<Board> page = boardRepository.findAll(PageRequest.of(
-                pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "createdDate")));
-
+    public List<BoardListVo> getBoardlist(Integer pageNum) {
+        PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
+        List<BoardListVo> boardList = boardRepository.findBoardList(pageRequest);
+        /*
         List<Board> boardEntities = page.getContent();
-        List<BoardDto.Response> boardDtoList = new ArrayList<>();
+        List<BoardDto.ListResponse> boardDtoList = new ArrayList<>();
 
-        for (Board board : boardEntities) {
-            boardDtoList.add(new BoardDto.Response(board));
+        for (Board board : page) {
+            board.get
+            boardDtoList.add(new BoardDto.ListResponse(board));
         }
+        */
 
-        return boardDtoList;
+        return boardList;
     }
 
     /* READ */
@@ -50,8 +55,7 @@ public class BoardService {
     /* READ */
     @Transactional(readOnly = true)
     public BoardDto.Response findById(Long id) {
-        Optional<Board> boardWrapper = boardRepository.findById(id);
-        Board board = boardWrapper.get();
+        Board board = boardRepository.findByIdWithFetchJoin(id);
         return new BoardDto.Response(board);
     }
 

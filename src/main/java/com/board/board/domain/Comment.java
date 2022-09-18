@@ -1,5 +1,6 @@
 package com.board.board.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,16 +34,15 @@ public class Comment extends Time{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;    //작성자
+    private User user;     //작성자
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private Comment parent;     //부모댓글 id 참조 (Self Join)
+    private Comment parent; //부모댓글 id 참조 (Self Join)
 
     /* 부모 댓글을 삭제해도 자식 댓글은 남아있음 */
-    @BatchSize(size = 9)
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "parent")
-    private List<Comment> childList = new ArrayList<>();
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    private List<Comment> childList;
 
     private boolean isRemoved = false;
 
