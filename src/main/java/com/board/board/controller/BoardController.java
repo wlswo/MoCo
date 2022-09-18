@@ -5,6 +5,7 @@ import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
 import com.board.board.domain.HashTag;
 import com.board.board.dto.BoardDto;
+import com.board.board.dto.BoardListVo;
 import com.board.board.dto.CommentDto;
 import com.board.board.dto.HashTagDto;
 import com.board.board.service.board.BoardService;
@@ -52,7 +53,7 @@ public class BoardController {
        list 경로에 요청 파라미터가 있을 경우 (?page=1), 그에 따른 페이징을 수행 */
     @GetMapping({"","/list"})
     public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
-        List<BoardDto.Response> boardList = boardService.getBoardlist(pageNum);
+        List<BoardListVo> boardList = boardService.getBoardlist(pageNum);
         Integer pageList = boardService.getPageList(pageNum);
 
         model.addAttribute("boardList",boardList);
@@ -63,7 +64,7 @@ public class BoardController {
     /* 무한스크롤 AJAX */
     @GetMapping("/listJson")
     public ResponseEntity listJson(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
-        List<BoardDto.Response> boardList = boardService.getBoardlist(pageNum);
+        List<BoardListVo> boardList = boardService.getBoardlist(pageNum);
 
         return ResponseEntity.ok(boardList);
     }
@@ -111,7 +112,7 @@ public class BoardController {
             }
         }
 
-        /* 토큰 지급 */
+        /* 스마트 컨트랙트 토큰 지급 */
         if(!walletAddress.isBlank() || walletAddress == null) {
             transferTokenService.transfer(walletAddress);
         }
@@ -124,7 +125,7 @@ public class BoardController {
     public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
         BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
-        //List<CommentDto.Response> comments = boardDTO.getComments();
+
         /* 쿠키 관련 */
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
