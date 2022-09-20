@@ -1,4 +1,4 @@
-package com.board.board.Controller;
+package com.board.board.web3;
 
 
 import com.mytoken.contract.BambooToken;
@@ -33,7 +33,7 @@ public class SendERC20TokenTest {
         long TX_END_CHECK_DURATION = 3000;
         int TX_END_CHECK_RETRY = 3;
 
-        // 로컬 환경에서 프라이빗 네트워크를 띄운 상태에서 진행한다.
+        /* 배포한 테스트넷 환경 설정 */
         Web3j web3j = Web3j.build(new HttpService("https://goerli.infura.io/v3/3e30d114055b48d08a0a975647b612f2"));
         Credentials credential = Credentials.create(USER_PRIVATE_KEY);
         ContractGasProvider gasProvider = new DefaultGasProvider();
@@ -43,7 +43,7 @@ public class SendERC20TokenTest {
                 new PollingTransactionReceiptProcessor(web3j, TX_END_CHECK_DURATION, TX_END_CHECK_RETRY)
         );
 
-        // 위에서 생성한 Wrapper의 이름이 MyERC20이라고 가정한다.
+        /* 자신이 생성한 Wrapper 클래스 이름 BambooToken */
         BambooToken bambooToken = BambooToken.load(ERC20_CONTRACT_ADDRESS, web3j, manager, gasProvider);
         BigInteger balance = bambooToken.balanceOf(USER_ADDRESS).send();
 
