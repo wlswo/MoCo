@@ -22,6 +22,7 @@
       <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
         <li><a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a></li>
+        <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/profile/}" id="MyPage">내 정보</a></li>
         <li><a class="dropdown-item" sec:authorize="isAuthenticated()" href="#" id="ConnectMetaMask">메타마스크 연결</a></li>
         <li><span class="dropdown-item" sec:authorize="isAuthenticated()" th:text="${session.user['name']}" style="color: lightblue"></span></li>
         <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a></li>
