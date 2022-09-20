@@ -286,9 +286,8 @@ public class BoardController {
     keyword를 view로 부터 전달 받고
     Service로 부터 받은 boardDtoList를 model의 attribute로 전달해준다. */
     @GetMapping("/search")
-    public String search(@RequestParam(value = "keyword") String keyword, Model model) {
-        List<BoardDto.Response> boardDtoList = boardService.searchPosts(keyword);
-        System.out.println(keyword);
+    public String search(@RequestParam(value = "page", defaultValue = "1") Integer pageNum ,@RequestParam(value = "keyword") String keyword, Model model) {
+        List<BoardListVo> boardDtoList = boardService.searchPosts(pageNum, keyword);
         model.addAttribute("boardList", boardDtoList);
         return "/board/list";
     }

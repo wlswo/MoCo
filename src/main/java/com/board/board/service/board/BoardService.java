@@ -25,22 +25,22 @@ public class BoardService {
     private LikeRepository  likeRepository;
 
     //private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
-    private static final int PAGE_POST_COUNT = 2; // 한 페이지에 존재하는 게시글 수
+    private static final int PAGE_POST_COUNT = 9; // 한 페이지에 존재하는 게시글 수
 
     /* PAGEABLE */
     @Transactional
     public List<BoardListVo> getBoardlist(Integer pageNum) {
         PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
         List<BoardListVo> boardList = boardRepository.findBoardList(pageRequest);
-        /*
-        List<Board> boardEntities = page.getContent();
-        List<BoardDto.ListResponse> boardDtoList = new ArrayList<>();
 
-        for (Board board : page) {
-            board.get
-            boardDtoList.add(new BoardDto.ListResponse(board));
-        }
-        */
+        return boardList;
+    }
+
+    /* READ */
+    @Transactional
+    public List<BoardListVo> searchPosts(Integer pageNum,String keyword) {
+        PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
+        List<BoardListVo> boardList = boardRepository.findByTitleContaining(pageRequest,keyword);
 
         return boardList;
     }
@@ -82,20 +82,6 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
-    /* READ */
-    @Transactional
-    public List<BoardDto.Response> searchPosts(String keyword) {
-        List<Board> boardEntities = boardRepository.findByTitleContaining(keyword);
-        List<BoardDto.Response> boardDtoList = new ArrayList<>();
-
-        if (boardEntities.isEmpty()) return boardDtoList;
-
-        for (Board board : boardEntities) {
-            boardDtoList.add(new BoardDto.Response(board));
-        }
-
-        return boardDtoList;
-    }
 
 
     // 페이징

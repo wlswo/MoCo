@@ -35,13 +35,27 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<BoardListVo> findBoardList(Pageable pageable);
 
 
+    /* 게시글 Search */
+    @Query(value = "select * from board a " +
+            "LEFT JOIN " +
+            "(select board_id , count(*) as like_count from likes group by board_id) b" +
+            " on (a.id = b.board_id)" +
+            " LEFT JOIN " +
+            " (select board_id as comment_b_id , count(*) as comment_count from comments group by board_id) c" +
+            " on (a.id = c.comment_b_id) LEFT JOIN " +
+            " (select id as u_id, u.picture  from user u ) d" +
+            " on (a.user_id = d.u_id) " +
+            " LEFT JOIN" +
+            " (SELECT board_id as tag_board_id, GROUP_CONCAT(tagcontent SEPARATOR ' #') AS hashTag" +
+            " FROM hashtags group by board_id ) e" +
+            " on (a.id = e.tag_board_id) WHERE a.title LIKE %:keyword% ", nativeQuery = true)
+    List<BoardListVo> findByTitleContaining(Pageable pageable, @Param("keyword") String keyword);
+
     /* 게시글 상세보기 [댓글로 인한 FetchJoin] */
     @Query("select b from Board b left join fetch b.comments c where b.id = :boardId")
     Board findByIdWithFetchJoin(@Param("boardId") Long boardId);
 
 
-    /* 게시글 Search */
-    List<Board> findByTitleContaining(String keyword);
 
     /* 조회수 */
     @Modifying
