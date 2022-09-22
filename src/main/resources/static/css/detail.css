@@ -180,3 +180,15 @@ body {
 textarea {
     resize: none;
 }
+
+.a-tag-button{
+    text-decoration: none;
+    color: #545d7a;
+    float: right;
+    margin-right: 7px;
+}
+
+.a-tag-button:hover{
+    text-decoration: underline;
+    color: #545d7a;
+}

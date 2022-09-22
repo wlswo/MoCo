@@ -163,23 +163,45 @@ function saveComment(parentId){
         }
     }
 }
-/* 이벤트 부여 */
+/* 댓글에 클릭 이벤트 부여 */
 document.querySelectorAll("#btn-comment-update").forEach(function (item){
     item.addEventListener("click",function (){
         const form = this.closest('form'); /* btn의 가장 가까운 조상의 Element(form)을 반환(closet) */
-        console.log(form);
-        commentUpdate(form);
+        commentUpdate('comment',form);
+    });
+});
+
+/* 대댓글에 클릭 이벤트 부여 */
+document.querySelectorAll("#btn-recomment-update").forEach(function (item){
+    item.addEventListener("click",function (){
+        const form = this.closest('form'); /* btn의 가장 가까운 조상의 Element(form)을 반환(closet) */
+        commentUpdate('recomment',form);
     });
 });
 
 /* UPDATE */
-function commentUpdate(form) {
-    /* json data */
-    const data = {
-        commentId : form.querySelector("#commentId").value,
-        boardId : form.querySelector("#comment_boardId").value,
-        comment : form.querySelector("#comment-content").value,
+function commentUpdate(is_recomment,form) {
+    var data;
+    /* 댓글일 경우 */
+    if(is_recomment === 'comment') {
+        /* json data */
+        data = {
+            commentId : form.querySelector("#commentId").value,
+            boardId : form.querySelector("#comment_boardId").value,
+            comment : form.querySelector("#comment-content").value,
+        }
+    /* 대댓글일 경우 */
+    }else {
+        /* json data */
+        data = {
+            commentId : form.querySelector("#recommentId").value,
+            boardId : form.querySelector("#recomment_boardId").value,
+            comment : form.querySelector("#recomment-content").value,
+        }
     }
+
+
+
 
     if(!data.comment || data.comment.trim() === ""){
         alert("댓글을 입력해주세요.");
