@@ -44,6 +44,7 @@ public class CommentDto {
         private Long boardId;
         private Comment parent;
         private List<CommentDto.Response> childList;
+        private boolean isRemoved;
 
         /* Entity -> DTO */
         public Response(Comment comment) {
@@ -56,6 +57,7 @@ public class CommentDto {
             this.boardId = comment.getBoard().getId();
             this.parent = comment.getParent();
             this.childList = new ArrayList<>();
+            this.isRemoved = comment.isRemoved();
         }
     }
 

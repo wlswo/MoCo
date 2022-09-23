@@ -106,9 +106,9 @@
             <ul class="list-group-flush">
                 <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${comments}">
                     <span>
-                        <span style="font-size: small" th:text="${comment.getName()}"></span>
+                        <span style="font-size: small" th:text="${!comment.isRemoved} ? ${comment.getName()} : '알수없는사용자' "></span>
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
-                        <span sec:authorize="isAuthenticated()" th:if="${comment.getUserId()} == ${session.user['id']}" class="update-delete-button">
+                        <span sec:authorize="isAuthenticated()" th:if="${comment.getUserId()} == ${session.user['id']} and ${!comment.isRemoved}" class="update-delete-button">
                             <!-- 댓글 삭제 버튼 -->
                             <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="a-tag-button">삭제</a>
                             <!-- 댓글 수정 버튼 -->
@@ -126,7 +126,8 @@
                             <button type="button" id="btn-comment-update" class="btn btn-outline-primary bi bi-pencil-square"> 수정</button>
                         </div>
                     </form>
-                    <p class="collapse show" th:id="'multi-collapse-' + ${comment.getId()}" th:text="${comment.getComment()}"></p>
+                    <!-- 댓글 내용 -->
+                    <p class="collapse show" th:id="'multi-collapse-' + ${comment.getId()}" th:text="${!comment.isRemoved} ? ${comment.getComment()} : '삭제된 댓글입니다.'"></p>
                     <!-- 대댓글 -->
                     <div class="collapse" th:id="'reply-collapse-' + ${comment.getId()}">
                         <ul class="list-group-flush">

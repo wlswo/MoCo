@@ -67,18 +67,23 @@ public class CommentService {
     }
 
     /* DELETE */
+    @Transactional
     public void commentDelete(Long id) {
         Comment comment = commentRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 댓글이 존재하지 않습니다." + id));
-        commentRepository.delete(comment);
+
+        if(!comment.getChildList().isEmpty()) {
+            comment.remove();
+        }else {
+            /* 대댓글 삭제 */
+            commentRepository.delete(comment);
+            /* 마지막 댓글 이면서 부모 댓글이 삭제되었는지 체크 -> 부모 댓글 까지 삭제 */
+            if(comment.getParent().getChildList().size() == 1 && comment.getParent().isRemoved()) {
+                commentRepository.delete(comment.getParent());
+            }
+        }
     }
 
-    public void remove(Long id) throws Exception {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new Exception("댓글이 없습니다."));
-        comment.remove();
-        List<Comment> removableCommentList = comment.findRemovableList();
-        removableCommentList.forEach(removableComment -> commentRepository.delete(removableComment));
-    }
     /* 댓글 계층 정렬 */
     public List<CommentDto.Response> convertNestedStructure(List<CommentDto.Response> comments) {
         List<CommentDto.Response> result = new ArrayList<>();
@@ -96,5 +101,4 @@ public class CommentService {
         });
         return result;
     }
-
 }
