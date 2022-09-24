@@ -41,8 +41,6 @@ function checkemailDuplication(){
     httpRequest.onreadystatechange = () => {
         /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
         if(httpRequest.readyState === XMLHttpRequest.DONE) {
-
-
             if(httpRequest.status === 200) {
                 let result = httpRequest.response;
                 console.log(result)

@@ -208,7 +208,7 @@ var tagify = new Tagify(input, {
 })
 
 
-/* gradation text */
+/* 메타마스크 지갑 그라데이션 텍스트 효과 */
 $('.txt').html(function(i, html) {
     var chars = $.trim(html).split("");
 

@@ -303,7 +303,7 @@ public class BoardController {
     /* CREATE */
     @PostMapping("/recomment/{id}/{parendId}")
     public ResponseEntity recommentSave(@PathVariable Long id,@PathVariable Long parendId ,@RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-        return ResponseEntity.ok(commentService.recommentSave(sessionUser.getName(), id, parendId,commentDto));
+        return ResponseEntity.ok( commentService.recommentSave(sessionUser.getName(), id, parendId,commentDto));
     }
 
     /* UPDATE */
