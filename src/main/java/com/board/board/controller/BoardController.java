@@ -3,6 +3,7 @@ package com.board.board.controller;
 
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
+import com.board.board.domain.Comment;
 import com.board.board.domain.HashTag;
 import com.board.board.dto.BoardDto;
 import com.board.board.dto.BoardListVo;
@@ -13,7 +14,10 @@ import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
 import com.board.board.service.hashTag.HashTagService;
 import com.board.board.service.web3j.TransferTokenService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.io.JsonEOFException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.github.furstenheim.CopyDown;
 import lombok.AllArgsConstructor;
 import org.json.simple.JSONArray;
@@ -303,7 +307,8 @@ public class BoardController {
     /* CREATE */
     @PostMapping("/recomment/{id}/{parendId}")
     public ResponseEntity recommentSave(@PathVariable Long id,@PathVariable Long parendId ,@RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-        return ResponseEntity.ok( commentService.recommentSave(sessionUser.getName(), id, parendId,commentDto));
+
+        return ResponseEntity.ok(commentService.recommentSave(sessionUser.getName(), id, parendId, commentDto));
     }
 
     /* UPDATE */

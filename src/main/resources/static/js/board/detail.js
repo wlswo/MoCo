@@ -110,7 +110,7 @@ function saveComment(parentId){
         comment = document.getElementById("comment").value;
         isRecomment = false;
     }else{
-        /* 답글일 경우 */
+        /* 대댓글일 경우 */
         comment = document.getElementById('recomment-content-' + parentId).value;
         isRecomment = true;
     }
@@ -139,7 +139,7 @@ function saveComment(parentId){
         /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
         httpRequest.setRequestHeader('Content-Type', 'application/json');
         /* ResponseType Json */
-        httpRequest.responseType = "text";
+        httpRequest.responseType = "json";
 
         /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
         httpRequest.send(JSON.stringify(reqJson));
@@ -149,15 +149,17 @@ function saveComment(parentId){
             /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
             if(httpRequest.readyState === XMLHttpRequest.DONE) {
                 if(httpRequest.status === 200) {
+                    /* 대댓글의 경우 */
                     if(isRecomment) {
-                        $('#comment'+parentId).load(location.href+ ' #comment'+parentId);
-                        console.log(parentId);
+                        $('#ul-'+parentId).load(location.href + ' #ul-'+parentId + ' li');
+                        $('#recomment-content-'+parentId).val('');
+                    /* 답글의 경우 */
                     }else{
-                        window.location.reload();
+                        $('#commentList').load(location.href + ' #commentList');
+                        $('#comment').val('');
                     }
                 }else{
-                    let error = httpRequest.response;
-                    console.log(error.message);
+                    console.log(httpRequest.response);
                 }
             }
         }
@@ -200,9 +202,6 @@ function commentUpdate(is_recomment,form) {
         }
     }
 
-
-
-
     if(!data.comment || data.comment.trim() === ""){
         alert("댓글을 입력해주세요.");
         return false;
@@ -231,7 +230,8 @@ function commentUpdate(is_recomment,form) {
             /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
             if(httpRequest.readyState === XMLHttpRequest.DONE) {
                 if(httpRequest.status === 200) {
-                    window.location.reload();
+                    $('#multi-collapse-'+data.commentId).collapse("show");
+                    $('#multi-collapse-'+data.commentId).val(data.comment);
                 }else{
                     let error = httpRequest.response;
                     console.log(error.message);

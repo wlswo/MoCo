@@ -100,7 +100,7 @@
     </div>
     <div class="starter-template">
         <!-- 댓글 -->
-        <div class="card" th:if="${boardDto.comments != null}">
+        <div id="commentList" class="card" th:if="${boardDto.comments != null}">
             <div class="card-header bi bi-chat-dots"> [[${#lists.size(boardDto.comments)}]] Comments</div>
             <!-- 내용 -->
             <ul class="list-group-flush">
@@ -112,7 +112,7 @@
                             <!-- 댓글 삭제 버튼 -->
                             <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="a-tag-button">삭제</a>
                             <!-- 댓글 수정 버튼 -->
-                            <a type="button" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${comment.getId()}" class="a-tag-button">수정</a>&nbsp;
+                            <a type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" th:aria-controls="'multi-collapse-'+${comment.getId()} + ' comment-collapse-'+${comment.getId()}" class="a-tag-button">수정</a>&nbsp;
                         </span>
                     </span>
                     <!-- 댓글 수정 폼 -->
@@ -127,10 +127,10 @@
                         </div>
                     </form>
                     <!-- 댓글 내용 -->
-                    <p class="collapse show" th:id="'multi-collapse-' + ${comment.getId()}" th:text="${!comment.isRemoved} ? ${comment.getComment()} : '삭제된 댓글입니다.'"></p>
+                    <p class="collapse show" th:id="'comment-collapse-' + ${comment.getId()}" th:text="${!comment.isRemoved} ? ${comment.getComment()} : '삭제된 댓글입니다.'"></p>
                     <!-- 대댓글 -->
                     <div class="collapse" th:id="'reply-collapse-' + ${comment.getId()}">
-                        <ul class="list-group-flush">
+                        <ul  th:id="'ul-' + ${comment.getId()}" class="list-group-flush">
                             <li style="padding: 15px;" class="list-group-item" th:each="recomment : ${comment.getChildList()}">
                                 <span>
                                     <span style="font-size: small" th:text="${recomment.getName()}"></span>
@@ -144,7 +144,7 @@
                                     <p class="collapse show" th:id="'multi-collapse-' + ${recomment.getId()}" th:text="${recomment.getComment()}"></p>
                                 </span>
                                 <!-- 대댓글 수정 폼 -->
-                                <form class="collapse" th:id="'multi-collapse-' + ${recomment.getId()}">
+                                <form class="collapse" th:id="'recomment-collapse-' + ${recomment.getId()}">
                                     <input type="hidden" id="recommentId" th:value="${recomment.getId()}">
                                     <input type="hidden" id="recomment_boardId" th:value="${boardDto.id}">
                                     <div class="form-group">
@@ -156,7 +156,7 @@
                                 </form>
                             </li>
                         </ul>
-                        <!-- 답글 달기 폼 -->
+                        <!-- 대댓글 달기 폼 -->
                         <form sec:authorize="isAuthenticated()">
                             <div class="form-group">
                                 <textarea class="form-control" th:id="'recomment-content-' + ${comment.getId()}" rows="3" placeholder="답글을 입력하세요."></textarea>

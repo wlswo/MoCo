@@ -47,15 +47,14 @@ public class CommentService {
         User user = userRepository.findByName(name);
         Board board = boardRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + id));
-        Comment parent = commentRepository.findById(parentId).orElse(null);
+        commentRepository.findById(parentId).ifPresentOrElse(parent -> commentDto.setParent(parent), ()-> commentDto.setParent(null));
 
         commentDto.setUser(user);
         commentDto.setBoard(board);
-        commentDto.setParent(parent);
 
         commentRepository.save(commentDto.toEntity());
-
         return commentDto.getId();
+
     }
 
     /* UPDATE */
@@ -72,13 +71,14 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException("해당 댓글이 존재하지 않습니다." + id));
 
+        /* (부모댓글)답글이 존재하는 상태면 */
         if(!comment.getChildList().isEmpty()) {
             comment.remove();
         }else {
             /* 대댓글 삭제 */
             commentRepository.delete(comment);
             /* 마지막 댓글 이면서 부모 댓글이 삭제되었는지 체크 -> 부모 댓글 까지 삭제 */
-            if(comment.getParent().getChildList().size() == 1 && comment.getParent().isRemoved()) {
+            if(comment.getParent() != null && comment.getParent().getChildList().size() == 1 && comment.getParent().isRemoved()) {
                 commentRepository.delete(comment.getParent());
             }
         }
