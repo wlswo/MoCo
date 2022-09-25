@@ -110,9 +110,9 @@
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
                         <span sec:authorize="isAuthenticated()" th:if="${comment.getUserId()} == ${session.user['id']} and ${!comment.isRemoved}" class="update-delete-button">
                             <!-- 댓글 삭제 버튼 -->
-                            <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}')|" class="a-tag-button">삭제</a>
+                            <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}','comment')|" class="a-tag-button">삭제</a>
                             <!-- 댓글 수정 버튼 -->
-                            <a type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" th:aria-controls="'multi-collapse-'+${comment.getId()} + ' comment-collapse-'+${comment.getId()}" class="a-tag-button">수정</a>&nbsp;
+                            <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${comment.getId()} + ', #comment-collapse-' + ${comment.getId()}"  class="a-tag-button">수정</a>&nbsp;
                         </span>
                     </span>
                     <!-- 댓글 수정 폼 -->
@@ -123,7 +123,7 @@
                             <textarea class="form-control" id="comment-content" rows="3" th:text="${comment.getComment()}"></textarea>
                         </div>
                         <div style="margin-top: 8px;">
-                            <button type="button" id="btn-comment-update" class="btn btn-outline-primary bi bi-pencil-square"> 수정</button>
+                            <button type="button" class="btn btn-outline-primary bi bi-pencil-square" onclick="commentUpdate('comment',form)"> 수정</button>
                         </div>
                     </form>
                     <!-- 댓글 내용 -->
@@ -137,9 +137,9 @@
                                     <span style="font-size: xx-small">[[${#temporals.format(recomment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
                                     <span sec:authorize="isAuthenticated()" th:if="${recomment.getUserId()} == ${session.user['id']}">
                                         <!-- 대댓글 삭제 버튼 -->
-                                        <a type="button" th:onclick="|commentDelete('${boardDto.id}','${recomment.getId()}')|" class="a-tag-button">삭제</a>
+                                        <a type="button" th:onclick="|commentDelete('${boardDto.id}','${recomment.getId()}','recomment')|" class="a-tag-button">삭제</a>
                                         <!-- 대댓글 수정 버튼 -->
-                                        <a type="button" data-bs-toggle="collapse" th:href="'#multi-collapse-' + ${recomment.getId()}" class="a-tag-button">수정</a>
+                                        <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${recomment.getId()} + ', #recomment-collapse-' + ${recomment.getId()}"  class="a-tag-button">수정</a>&nbsp;
                                     </span>
                                     <p class="collapse show" th:id="'multi-collapse-' + ${recomment.getId()}" th:text="${recomment.getComment()}"></p>
                                 </span>
@@ -147,11 +147,12 @@
                                 <form class="collapse" th:id="'recomment-collapse-' + ${recomment.getId()}">
                                     <input type="hidden" id="recommentId" th:value="${recomment.getId()}">
                                     <input type="hidden" id="recomment_boardId" th:value="${boardDto.id}">
+                                    <input type="hidden" id="parentId" th:value="${comment.getId()}">
                                     <div class="form-group">
                                         <textarea class="form-control" id="recomment-content" rows="3" th:text="${recomment.getComment()}"></textarea>
                                     </div>
                                     <div style="margin-top: 8px;">
-                                        <button type="button" id="btn-recomment-update" class="btn btn-outline-primary bi bi-pencil-square"> 수정</button>
+                                        <button type="button" class="btn btn-outline-primary bi bi-pencil-square" onclick="commentUpdate('recomment',form)"> 수정</button>
                                     </div>
                                 </form>
                             </li>

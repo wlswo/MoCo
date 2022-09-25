@@ -165,21 +165,6 @@ function saveComment(parentId){
         }
     }
 }
-/* 댓글에 클릭 이벤트 부여 */
-document.querySelectorAll("#btn-comment-update").forEach(function (item){
-    item.addEventListener("click",function (){
-        const form = this.closest('form'); /* btn의 가장 가까운 조상의 Element(form)을 반환(closet) */
-        commentUpdate('comment',form);
-    });
-});
-
-/* 대댓글에 클릭 이벤트 부여 */
-document.querySelectorAll("#btn-recomment-update").forEach(function (item){
-    item.addEventListener("click",function (){
-        const form = this.closest('form'); /* btn의 가장 가까운 조상의 Element(form)을 반환(closet) */
-        commentUpdate('recomment',form);
-    });
-});
 
 /* UPDATE */
 function commentUpdate(is_recomment,form) {
@@ -207,42 +192,45 @@ function commentUpdate(is_recomment,form) {
         return false;
     }
 
-    const comment_confirm = confirm("수정하시겠습니까?");
 
-    if (comment_confirm) {
-        /* ajax */
-        const baseUrl = "http://localhost:8080";
-        /* XMLHttpRequest 객체 정의 */
-        httpRequest = new XMLHttpRequest();
+    /* ajax */
+    const baseUrl = "http://localhost:8080";
+    /* XMLHttpRequest 객체 정의 */
+    httpRequest = new XMLHttpRequest();
 
-        /* POST 방식으로 요청 */
-        httpRequest.open('PUT', baseUrl+"/board/post/"+ data.boardId +"/comment/" + data.commentId);
-        /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
-        httpRequest.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-        /* ResponseType Json */
-        httpRequest.responseType = "json";
+    /* POST 방식으로 요청 */
+    httpRequest.open('PUT', baseUrl+"/board/post/"+ data.boardId +"/comment/" + data.commentId);
+    /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
+    httpRequest.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+    /* ResponseType Json */
+    httpRequest.responseType = "json";
 
-        /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
-        httpRequest.send(JSON.stringify(data));
+    /* 정의된 서버에 Json 형식의 요청 Data를 포함하여 요청을 전송 */
+    httpRequest.send(JSON.stringify(data));
 
-        /* httpRequest 상태 감지 */
-        httpRequest.onreadystatechange = () => {
-            /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
-            if(httpRequest.readyState === XMLHttpRequest.DONE) {
-                if(httpRequest.status === 200) {
-                    $('#multi-collapse-'+data.commentId).collapse("show");
-                    $('#multi-collapse-'+data.commentId).val(data.comment);
-                }else{
-                    let error = httpRequest.response;
-                    console.log(error.message);
+    /* httpRequest 상태 감지 */
+    httpRequest.onreadystatechange = () => {
+        /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
+        if(httpRequest.readyState === XMLHttpRequest.DONE) {
+            if(httpRequest.status === 200) {
+                if(is_recomment === 'comment') {
+                    $('#multi-collapse-'+data.commentId).collapse("hide");
+                    $('#comment-collapse-'+data.commentId).collapse("show");
+                    $('#comment-collapse-'+data.commentId).text(data.comment);
+                }else {
+                    const parentId = form.querySelector('#parentId').value;
+                    $('#ul-'+parentId).load(location.href + ' #ul-'+parentId + ' li');
                 }
+            }else{
+                let error = httpRequest.response;
+                console.log(error.message);
             }
         }
     }
 }
 
 /* DELETE */
-function commentDelete(boardId, commentId) {
+function commentDelete(boardId, commentId, is_recooment) {
     const comment_confirm = confirm("정말 삭제하시겠습니까?");
 
     if(comment_confirm) {
@@ -266,7 +254,12 @@ function commentDelete(boardId, commentId) {
             /* readyState가 Done이고 응답 값이 200(ok) 일때 받아온 boolean으로 분기 */
             if (httpRequest.readyState === XMLHttpRequest.DONE) {
                 if (httpRequest.status === 200) {
-                    window.location.reload();
+                    if(is_recooment === 'comment') {
+                        $('#commentList').load(location.href + ' #commentList');
+                    }else{
+                        const parentId = $('#multi-collapse-'+commentId).closest("ul").attr("id");
+                        $('#'+parentId).load(location.href + ' #'+parentId + ' li');
+                    }
                 } else {
                     let error = httpRequest.response;
                     console.log(error.message);
