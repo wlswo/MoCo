@@ -192,3 +192,6 @@ textarea {
     text-decoration: underline;
     color: #545d7a;
 }
+.register-button {
+    align-items: center;
+}

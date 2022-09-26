@@ -98,6 +98,12 @@
             <p th:utext="${boardDto.content}"></p>
         </div>
     </div>
+    <!-- 참가 신청 / 참가 취소 -->
+    <div class="register-button">
+        <button class="btn btn-primary">참가신청</button>
+        <button class="btn btn-primary">참가취소</button>
+    </div>
+
     <div class="starter-template">
         <!-- 댓글 -->
         <div id="commentList" class="card" th:if="${boardDto.comments != null}">
