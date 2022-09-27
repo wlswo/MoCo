@@ -1,5 +1,6 @@
-/* 좋아요 */
-function plzLogin() {
+
+/* 경고 알림창 */
+function notification(message) {
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
@@ -14,12 +15,14 @@ function plzLogin() {
     Toast.fire({
         icon: 'warning',
         background:'#e76876',
-        title: '<h4 style="color: white;">로그인후 이용해주세요.</h4>'
+        title: '<h4 style="color: white;">' + message + '</h4>'
     })
     return false;
 }
 
-/* CREATE */
+
+
+/* 좋아요 CREATE */
 function likeCheck(boardId) {
     /* isLiked == 0 좋아요를 누르지않은상태
      * isLiked == 1 좋아요를 누른상태
@@ -94,10 +97,48 @@ function likeCheck(boardId) {
     }
 }
 
+/* 참가 신청 */
+function recruit(userid,iswriter) {
+    if(iswriter) {
+        notification('작성자는 참가할수 없습니다.');
+        return false;
+    }
+    const boardId= document.getElementById("boardId").value;
+    $.ajax({
+        url: 'http://localhost:8080/board/recruit/' + boardId + '/' + userid,
+        type: 'POST',
+        success: function (data) {
+            notification('참가신청완료!');
+        },
+        error: function (error) {
+            notification('이미 참가 되어있는 모집입니다.');
+        }
+    });
+}
+/* 참가 취소 */
+function recruitCancel(userid, iswriter) {
+    if(iswriter) {
+        notification('작성자는 취소할수 없습니다.');
+        return false;
+    }
+    const boardId= document.getElementById("boardId").value;
+    $.ajax({
+        url: 'http://localhost:8080/board/recruitCancel/' + boardId + '/' + userid,
+        type: 'DELETE',
+        success: function (data) {
+            notification('참가취소완료!');
+        },
+        error: function (error) {
+            notification('참가상태가 아닙니다.');
+        }
+    });
+}
+
+
+
 
 
 /* 댓글 */
-
 /* CREATE */
 function saveComment(parentId){
     /* 게시글 번호 */

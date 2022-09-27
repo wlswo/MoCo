@@ -16,10 +16,11 @@ public class Recruit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String name;
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "user_id", nullable = false)
+   private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 }

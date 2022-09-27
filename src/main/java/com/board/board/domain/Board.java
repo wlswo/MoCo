@@ -73,6 +73,10 @@ public class Board extends Time {
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<HashTag> hashTags;
 
+    /* 모집된 인원 */
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<Recruit> recruits;
+
     public void update(String title, String content, String subcontent, String thumbnail) {
         this.title = title;
         this.content = content;

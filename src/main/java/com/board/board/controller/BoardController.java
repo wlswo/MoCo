@@ -5,13 +5,11 @@ import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
 import com.board.board.domain.Comment;
 import com.board.board.domain.HashTag;
-import com.board.board.dto.BoardDto;
-import com.board.board.dto.BoardListVo;
-import com.board.board.dto.CommentDto;
-import com.board.board.dto.HashTagDto;
+import com.board.board.dto.*;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
+import com.board.board.service.board.RecruitService;
 import com.board.board.service.hashTag.HashTagService;
 import com.board.board.service.web3j.TransferTokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,6 +25,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,9 +48,10 @@ public class BoardController {
     private final LikeService likeService;
     private final HashTagService hashTagService;
     private final TransferTokenService transferTokenService;
+    private final RecruitService recruitService;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-    /* ----Board---- */
+    /* ----- Board 📋 ----- */
     /* 게시글 목록
        list 경로로 GET메서드 요청이 들어올 경우 list 메서드와 매핑
        list 경로에 요청 파라미터가 있을 경우 (?page=1), 그에 따른 페이징을 수행 */
@@ -118,7 +118,7 @@ public class BoardController {
 
         /* 스마트 컨트랙트 토큰 지급 */
         if(!walletAddress.isBlank() || walletAddress == null) {
-            transferTokenService.transfer(walletAddress);
+            //transferTokenService.transfer(walletAddress);
         }
 
         return "redirect:/board/list";
@@ -192,6 +192,10 @@ public class BoardController {
                 model.addAttribute("iswriterComment", iswriterComment);
             }
         }
+        /* 현재 참가 인원 */
+        Long joinUsers = recruitService.countToJoinUsers(boardId);
+        log.info(joinUsers.toString());
+        model.addAttribute("joinUsers",joinUsers);
         model.addAttribute("boardDto",boardDTO);
         return "board/detail";
     }
@@ -296,14 +300,35 @@ public class BoardController {
         return "/board/list";
     }
 
+    /* CREATE */
+    @PostMapping("/recruit/{boardId}/{userId}")
+    public ResponseEntity recruitSave(@PathVariable Long boardId, @PathVariable Long userId) {
+        RecruitDto.Request dto = new RecruitDto.Request();
 
-    /* ----Comment---- */
+        boolean isDuplicate = recruitService.isDuplicate(boardId,userId);
+        if(isDuplicate) {
+            return ResponseEntity.badRequest().body("이미 신청하였습니다.");
+        }
+        return ResponseEntity.ok(recruitService.Join(boardId,userId,dto));
+    }
+
+    /* DELETE */
+    @DeleteMapping("/recruitCancel/{boardId}/{userId}")
+    public ResponseEntity recruitDelete(@PathVariable Long boardId, @PathVariable Long userId) {
+        int rows = recruitService.joinCancel(boardId,userId);
+        int status = rows == 1 ? 200 : 400;
+        return ResponseEntity.status(status).build();
+    }
+
+
+    /* ------ Comment 💬 ------- */
 
     /* CREATE */
     @PostMapping("/comment/{id}")
     public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
         return ResponseEntity.ok(commentService.commentSave(sessionUser.getName(), id, commentDto));
     }
+
     /* CREATE */
     @PostMapping("/recomment/{id}/{parendId}")
     public ResponseEntity recommentSave(@PathVariable Long id,@PathVariable Long parendId ,@RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
@@ -325,7 +350,7 @@ public class BoardController {
         return ResponseEntity.ok(commentId);
     }
 
-    /* ----Likes---- */
+    /* ----- Likes 🌠 ----- */
 
     /* CREATE */
     @PostMapping("/post/{boardId}/like")

@@ -21,9 +21,6 @@ import java.util.Map;
 public class LoginController {
 
     private static final String authorizationRequestBaseUri = "oauth2/authorization";
-    Map<String, String> oauth2AuthenticationUrls = new HashMap<>();
-
-    private final ClientRegistrationRepository clientRegistrationRepository;
 
     @SuppressWarnings("unchecked") //loginPage 경로 설정
     @GetMapping("/login")
