@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'GangwonEduPowerExtraBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEduPowerExtraBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+nav {
+    font-family: "GangwonEduPowerExtraBoldA", sans-serif;
+    font-size: 20px;
+}
 body {
     box-sizing: inherit;
 }
@@ -194,4 +204,15 @@ textarea {
 }
 .register-button {
     align-items: center;
+}
+
+@font-face {
+    font-family: 'HBIOS-SYS';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2207-01@1.0/HBIOS-SYS.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.currentJoin {
+    font-family: 'HBIOS-SYS',sans-serif;
 }
