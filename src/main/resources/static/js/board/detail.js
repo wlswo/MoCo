@@ -54,7 +54,6 @@ function likeCheck(boardId) {
                     document.getElementsByName('isClick').item(0).value = 'clicked'
                     document.getElementsByClassName("new").item(0).textContent++;
                     document.getElementsByClassName("current").item(0).textContent++;
-                    /* window.location.reload(); */
                 } else {
                     let error = httpRequest.response;
                     console.log(error.message);
@@ -109,6 +108,7 @@ function recruit(userid,iswriter) {
         type: 'POST',
         success: function (data) {
             notification('참가신청완료!');
+            document.getElementById("currentJoin").textContent++;
         },
         error: function (error) {
             notification('이미 참가 되어있는 모집입니다.');
@@ -127,6 +127,7 @@ function recruitCancel(userid, iswriter) {
         type: 'DELETE',
         success: function (data) {
             notification('참가취소완료!');
+            document.getElementById("currentJoin").textContent--;
         },
         error: function (error) {
             notification('참가상태가 아닙니다.');

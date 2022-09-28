@@ -99,7 +99,7 @@
         </div>
     </div>
     <div style="margin: 30px; text-align: center;">
-        <p>[[${joinUsers}]] 명 참가중</p>
+        <p class="currentJoin"><span id="currentJoin">[[${joinUsers}]]</span> 명 참가중..</p>
     </div>
     <!-- 참가 신청 / 참가 취소 -->
     <div sec:authorize="isAuthenticated()" class="register-button" style="text-align: center; margin-bottom: 30px;">
@@ -107,8 +107,8 @@
         <button class="btn btn-secondary" th:onclick="|recruitCancel(${session.user['id']},${iswriter})|">참가취소</button>
     </div>
     <div sec:authorize="isAnonymous()" class="register-button" style="text-align: center; margin-bottom: 30px;">
-        <button class="btn btn-success" onclick="plzLogin('로그인후 이용해주세요.')">참가신청</button>
-        <button class="btn btn-secondary" onclick="plzLogin('로그인후 이용해주세요.')">참가취소</button>
+        <button class="btn btn-success" onclick="notification('로그인후 이용해주세요.')">참가신청</button>
+        <button class="btn btn-secondary" onclick="notification('로그인후 이용해주세요.')">참가취소</button>
     </div>
 
     <div class="starter-template">

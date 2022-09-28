@@ -22,7 +22,7 @@
                     <img class="rounded-circle" th:src="${session.user['picture']}" style="width: 30px; height: 30px;">SNS로그인
                 <div class="form-group">
                     <label for="name"><i class="zmdi zmdi-account material-icons-name"></i>별명</label>
-                    <input type="text" class="form-control" name="name" id="name" th:value="${nickname} ? ${nickname} : ${session.user['name']}" placeholder="별명을 입력해주세요."/><br>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="별명을 입력해주세요."/><br>
                     <div th:if="${valid_name}" th:text="${valid_name}"></div>
                     <div id="nameAvailable" class="valid-feedback" style="display : none;"></div>
                     <div id="nameNotAvailable" class="invalid-feedback" style="display : none;"></div>
