@@ -188,8 +188,8 @@ function textAreaCheck() {
         textcount.style.color = 'red';
         totaltext.style.color = 'red';
     }else{
-        textcount.style.color = '#ACACAC';
-        totaltext.style.color = '#ACACAC';
+        textcount.style.color = '#070809';
+        totaltext.style.color = '#070809';
     }
 }
 

@@ -67,8 +67,9 @@
 </div>
 <!-- 게시글 -->
 <div class="post-container" id="container">
-  <div class="card" th:each="board : ${boardList}">
+  <div class="card" th:classappend="${board.getIsfull()} ? isFullPost" th:each="board : ${boardList}">
     <div class="card-header">
+      <div class="isFull" th:if="${board.getIsfull()}">모집 마감</div>
       <!-- 썸네일 -->
       <a th:href="@{'/board/post/read/'+${board.getId()}}">
          <img th:src="${board.getThumbnail()}" alt="" />

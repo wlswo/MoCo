@@ -30,8 +30,9 @@ function nextPage(){
             if (httpRequest.status === 200) {
                 let success = httpRequest.response;
                 success.forEach((item,index) => {
+                    console.log(item);
                     /* 구조분해할당 */
-                    let {id,title,writer,thumbnail,subcontent,view,created_date,user_id,picture,comment_count,like_count,hashTag} = item;
+                    let {id,title,writer,thumbnail,subcontent,view,created_date,user_id,picture,comment_count,like_count,hashTag,isfull} = item;
                     /* 날짜 포맷 변경 */
                     CustomDate = created_date.split('T')[0].split(/-/);
                     createdDate = CustomDate[0]+"년 "+CustomDate[1]+"월 "+CustomDate[2]+"일";
@@ -50,12 +51,29 @@ function nextPage(){
                     }else {
                         hashTag += "#";
                     }
+                    /* 댓글 개수 null 체크 */
+                    if(comment_count == null) {
+                        comment_count = 0;
+                    }
+                    /* 좋아요 null 체크 */
+                    if (like_count == null) {
+                        like_count = 0;
+                    }
+
+
+                    let full = ``;
+                    /* 모집 마감 여부 */
+                    if(isfull) {
+                        isfull = "isFullPost";
+                        full = `<div class="isFull">모집 마감</div>`;
+                    }
 
                     const card = document.createElement('span');
                     /* 데이터 삽입 */
-                    postHtml = `<div class="card">
-                                  <div class="card-header">
-                                    <!-- 썸네일 -->
+                    postHtml = `<div class="card + ${isfull}" >
+                                  <div class="card-header">`
+                                    + full +
+                                    `<!-- 썸네일 -->
                                     <a href="/board/post/read/${id}">
                                     <span>
                                        <img src="${thumbnail}" alt="썸네일" />
