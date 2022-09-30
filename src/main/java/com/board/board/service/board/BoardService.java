@@ -22,7 +22,6 @@ public class BoardService {
 
     private UserRepository  userRepository;
     private BoardRepository boardRepository;
-    private LikeRepository  likeRepository;
 
     //private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
     private static final int PAGE_POST_COUNT = 9; // 한 페이지에 존재하는 게시글 수
@@ -70,10 +69,15 @@ public class BoardService {
     /* UPDATE */
     @Transactional
     public Long updatePost(Long board_id, BoardDto.Request boardDto) {
-        Optional<Board> boardWrapper = boardRepository.findById(board_id);
-        Board board = boardWrapper.get();
+        Board board = boardRepository.findById(board_id).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         board.update(boardDto.getTitle(), boardDto.getContent(), boardDto.getSubcontent(), boardDto.getThumbnail());
         return board.getId();
+    }
+
+    @Transactional
+    public boolean updateFull(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        return board.close();
     }
 
     /* DELETE */

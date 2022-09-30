@@ -319,6 +319,11 @@ public class BoardController {
         int status = rows == 1 ? 200 : 400;
         return ResponseEntity.status(status).build();
     }
+    /* UPDATE */
+    @PatchMapping("/recruitClose/{boardId}")
+    public ResponseEntity recruitClose(@PathVariable Long boardId) {
+        return ResponseEntity.ok(boardService.updateFull(boardId));
+    }
 
 
     /* ------ Comment 💬 ------- */

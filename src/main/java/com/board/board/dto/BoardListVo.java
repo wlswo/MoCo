@@ -17,4 +17,5 @@ public interface BoardListVo {
     Integer getComment_count();
     String  getPicture();
     String  getHashTag();
+    Boolean getIsfull();
 }
