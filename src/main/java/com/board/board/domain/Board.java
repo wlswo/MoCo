@@ -84,6 +84,10 @@ public class Board extends Time {
         this.thumbnail = thumbnail;
     }
 
+    public boolean close(){
+        this.isfull = !this.isfull;
+        return this.isfull;
+    }
 }
 
 
