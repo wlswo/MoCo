@@ -1,0 +1,58 @@
+.setting-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    padding-bottom: 5rem;
+}
+
+.setting-title {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+section{
+    margin-top: 30px;
+    text-align: center;
+}
+h2 {
+    font-size: large;
+}
+.sectionBox {
+    border-radius: 10px;
+    border-width: 1px;
+    --tw-border-opacity: 1;
+    border-color: rgba(230, 230, 230, var(--tw-border-opacity));
+    padding: 0.25rem;
+}
+
+.sectionBox-inline {
+    text-align: -webkit-center;
+    justify-content: space-between;
+    border-radius: 10px;
+    --tw-bg-opacity: 1;
+    background-color: rgba(245, 245, 245, var(--tw-bg-opacity));
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+.btn {
+    font-weight: 700;
+    color: #fff;
+    border-radius: 4px;
+    width: 100px;
+    margin-right: 10px;
+    height: 2.4rem;
+    font-size: 1rem;
+}
