@@ -18,14 +18,14 @@
         <a class="nav-link" href="#" th:href="@{/board/list}"> 게시판 </a>
       </li>
     </ul>
-    <div class="dropdown" style="float: right;">
-      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a></li>
-        <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/profile/}" id="MyPage">내 정보</a></li>
-        <li><a class="dropdown-item" sec:authorize="isAuthenticated()" href="#" id="ConnectMetaMask">메타마스크 연결</a></li>
-        <li><span class="dropdown-item" sec:authorize="isAuthenticated()" th:text="${session.user['name']}" style="color: lightblue"></span></li>
-        <li><a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a></li>
+    <a type="button" class="btn btn-info" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+    <div class="dropdown" sec:authorize="isAuthenticated()" style="float: right;">
+      <i class="xi-profile" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: xx-large; cursor: pointer;"></i>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+        <li><span class="dropdown-item"  th:text="${session.user['name']}" style="color: lightblue"></span></li>
+        <li><a class="dropdown-item"  th:href="@{/profile/}" id="MyPage">설정</a></li>
+        <li><a class="dropdown-item"  href="#" id="ConnectMetaMask">메타마스크 연결</a></li>
+        <li><a class="dropdown-item"  th:href="@{/logout}">로그아웃</a></li>
       </ul>
     </div>
   </div>
