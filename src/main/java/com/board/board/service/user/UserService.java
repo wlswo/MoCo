@@ -72,6 +72,13 @@ public class UserService {
         return user;
     }
 
+    /* 설정에서 별명 바꾸기 */
+    @Transactional
+    public void nameUpdateInSetting(Long userid, String name) {
+        User user = userRepository.findById(userid).orElseThrow(() -> new IllegalArgumentException("유저를 찾을수 없습니다."));
+        user.updateNameInSetting(name);
+    }
+
     /* 이메일 인증시 가입처리 */
     @Transactional
     public void confirmEmail(String token){

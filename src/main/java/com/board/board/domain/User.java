@@ -4,8 +4,11 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Setter
 @Getter
@@ -23,6 +26,8 @@ public class User extends Time {
     @Column(nullable = true)
     private String password;
 
+    @NotBlank @Length(min = 2, max = 10)
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-]{2,10}$")
     @Column(nullable = false)
     private String name;
 
@@ -60,6 +65,11 @@ public class User extends Time {
         this.name = name;
         this.picture = picture;
         return this;
+    }
+
+    /* 설정 에서 별명 바꾸기 */
+    public void updateNameInSetting(String name) {
+        this.name = name;
     }
 
     /* 별명 체크 업데이트 */
