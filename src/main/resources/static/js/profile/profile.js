@@ -94,6 +94,25 @@ function settingConfirm() {
         }
     });
 }
+/* 회원탈퇴 */
+async function deleteUser() {
+    const userid = document.getElementById("userid").value;
+    var isConfirm = await confirm('','정말로 탈퇴 하시겠습니까?');
+    if(isConfirm.isConfirmed) {
+        $.ajax({
+            url: 'http://localhost:8080/profile/delete',
+            type: 'DELETE',
+            success: function (data) {
+                window.location.href = "/logout";
+            },
+            error: function (error) {
+                notification('이미 존재하는 별명입니다.');
+            }
+        });
+    }
+}
+
+
 /* 경고창 */
 function notification(message) {
     const Toast = Swal.mixin({
@@ -113,4 +132,21 @@ function notification(message) {
         title: '<h4 style="color: white;">' + message + '</h4>'
     })
     return false;
+}
+/* 확인창 */
+function confirm(text, title) {
+    return new Promise(function(resolve, reject) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            resolve(result);
+        })
+    })
 }

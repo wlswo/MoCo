@@ -45,7 +45,7 @@
             <div style="margin-top: 5px;">
                 <input type="hidden" id="userid" th:value="${session.user.getId()}">
                 <button type="button" class="btn btn-dark" onclick="settingConfirm()">확인</button>
-                <button type="button" class="btn btn-warning">회원탈퇴</button>
+                <button type="button" class="btn btn-warning" onclick="deleteUser()">회원탈퇴</button>
             </div>
         </section>
     </div>

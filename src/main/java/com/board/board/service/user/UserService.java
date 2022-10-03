@@ -3,15 +3,22 @@ package com.board.board.service.user;
 import com.board.board.domain.ConfirmationToken;
 import com.board.board.domain.User;
 import com.board.board.dto.UserDto;
+import com.board.board.repository.BoardRepository;
 import com.board.board.repository.UserRepository;
 import com.board.board.service.mail.ConfirmationTokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +29,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final ConfirmationTokenService confirmationTokenService;
+    private final HttpSession httpSession;
+    private final BoardRepository boardRepository;
 
     /* 회원가입 */
     @Transactional
@@ -74,11 +83,14 @@ public class UserService {
 
     /* 설정에서 별명 바꾸기 */
     @Transactional
-    public User nameUpdateInSetting(Long userid, String name) {
+    public void nameUpdateInSetting(Long userid, String name) {
         User user = userRepository.findById(userid).orElseThrow(() ->
                 new IllegalArgumentException("유저를 찾을수 없습니다."));
         user.updateNameInSetting(name);
-        return user;
+        /* 해당 유저가 작성한 게시글 작성자도 변경 */
+        boardRepository.updateWriter(name,user.getId());
+
+        httpSession.setAttribute("user",user);
     }
 
     /* 이메일 인증시 가입처리 */
@@ -89,5 +101,10 @@ public class UserService {
                 new IllegalArgumentException("유저 불러오기 실패 : 해당 유저가 존재하지 않습니다."));
         findConfirmationToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true로 변경
         user.emailVerifiedSuccess();	    // 유저의 이메일 인증 값 변경 emailcheck 컬럼 true
+    }
+    /* 회원탈퇴 */
+    @Transactional
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
     }
 }

@@ -183,6 +183,8 @@ public class BoardController {
             /* 게시글 작성자 본인인지 확인 */
             if(boardDTO.getUserId().equals(sessionUser.getId())) {
                 model.addAttribute("iswriter",true);
+            }else {
+                model.addAttribute("iswriter",false);
             }
 
             /* 댓글 작성자 본인인지 확인 */

@@ -56,6 +56,11 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Board findByIdWithFetchJoin(@Param("boardId") Long boardId);
 
 
+    /* 게시글 작성자 변경 */
+    @Modifying
+    @Query("UPDATE Board set writer = :writer  WHERE user.id = :userId")
+    void updateWriter(@Param("writer") String name, @Param("userId") Long userId);
+
 
     /* 조회수 */
     @Modifying

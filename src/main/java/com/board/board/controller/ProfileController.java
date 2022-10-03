@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.security.Security;
 
 
@@ -23,8 +24,7 @@ import java.security.Security;
 public class ProfileController {
 
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
-
+    private final HttpSession httpSession;
     @GetMapping("/")
     public String ProfilePage() { return "profile/profile"; }
 
@@ -34,10 +34,14 @@ public class ProfileController {
             return ResponseEntity.status(400).build();
         }
 
-        User user =  userService.nameUpdateInSetting(userid, nickname);
-        /* 수정된 정보로 세션 재할당 */
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        userService.nameUpdateInSetting(userid, nickname);
+
         return ResponseEntity.ok("ok");
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity deleteUser(@LoginUser SessionUser sessionUser) {
+        userService.deleteUser(sessionUser.getId());
+        return ResponseEntity.ok("탈퇴완료");
     }
 }
