@@ -53,7 +53,7 @@ public class BoardDto {
         private Long userId;
         private String userImg;
         private List<CommentDto.Response> comments;
-
+        private boolean isfull;
 
         /* Entity -> Dto */
         public Response(Board board) {
@@ -69,6 +69,7 @@ public class BoardDto {
             this.userId = board.getUser().getId();
             this.userImg = board.getUser().getPicture();
             this.comments = board.getComments().stream().map(CommentDto.Response::new).collect(Collectors.toList());
+            this.isfull = board.isIsfull();
         }
     }
 }

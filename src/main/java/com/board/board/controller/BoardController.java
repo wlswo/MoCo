@@ -52,12 +52,10 @@ public class BoardController {
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----- Board 📋 ----- */
-    /* 게시글 목록
-       list 경로로 GET메서드 요청이 들어올 경우 list 메서드와 매핑
-       list 경로에 요청 파라미터가 있을 경우 (?page=1), 그에 따른 페이징을 수행 */
+    /* 게시글 목록 Default(모집중) */
     @GetMapping({"","/list"})
     public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
-        List<BoardListVo> boardList = boardService.getBoardlist(pageNum);
+        List<BoardListVo> boardList = boardService.getBoardListOnRecruit(pageNum);
         Integer pageList = boardService.getPageList(pageNum);
 
         model.addAttribute("boardList",boardList);
@@ -65,6 +63,15 @@ public class BoardController {
 
         return "board/list";
     }
+
+    /* READ - 전체 게시글 */
+    @GetMapping("/recruitOn")
+    public String recruitOn(@RequestParam(value = "page", defaultValue = "1") Integer pageNum , Model model) {
+        List<BoardListVo> boardDtoList = boardService.getBoardlist(pageNum);
+        model.addAttribute("boardList",boardDtoList);
+        return "/board/list";
+    }
+
     /* 무한스크롤 AJAX */
     @GetMapping("/listJson")
     public ResponseEntity listJson(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
@@ -291,10 +298,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    /*
-    검색
-    keyword를 view로 부터 전달 받고
-    Service로 부터 받은 boardDtoList를 model의 attribute로 전달해준다. */
+    /* READ - 검색 */
     @GetMapping("/search")
     public String search(@RequestParam(value = "page", defaultValue = "1") Integer pageNum ,@RequestParam(value = "keyword") String keyword, Model model) {
         List<BoardListVo> boardDtoList = boardService.searchPosts(pageNum, keyword);

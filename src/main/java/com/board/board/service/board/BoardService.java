@@ -35,6 +35,15 @@ public class BoardService {
         return boardList;
     }
 
+    /* 모집중인 게시글 */
+    @Transactional
+    public List<BoardListVo> getBoardListOnRecruit(Integer pageNum) {
+        PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
+        List<BoardListVo> boardList = boardRepository.findBoardListOnRecruit(pageRequest);
+
+        return boardList;
+    }
+
     /* READ */
     @Transactional
     public List<BoardListVo> searchPosts(Integer pageNum,String keyword) {
