@@ -67,6 +67,13 @@
     </div>
   </div>
 </div>
+  <div>
+
+      <div class="form-check form-switch" style="font-size: x-large; display: flex;">
+        <p style="width: 200px;">모집 중만 보기</p>
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+      </div>
+  </div>
 <!-- 게시글 -->
 <div class="post-container" id="container">
   <div class="card" th:classappend="${board.getIsfull()} ? isFullPost" th:each="board : ${boardList}">
