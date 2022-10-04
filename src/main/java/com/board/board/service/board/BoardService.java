@@ -31,7 +31,6 @@ public class BoardService {
     public List<BoardListVo> getBoardlist(Integer pageNum) {
         PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
         List<BoardListVo> boardList = boardRepository.findBoardList(pageRequest);
-
         return boardList;
     }
 
@@ -40,7 +39,6 @@ public class BoardService {
     public List<BoardListVo> getBoardListOnRecruit(Integer pageNum) {
         PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
         List<BoardListVo> boardList = boardRepository.findBoardListOnRecruit(pageRequest);
-
         return boardList;
     }
 

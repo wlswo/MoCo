@@ -64,7 +64,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             " LEFT JOIN" +
             " (SELECT board_id as tag_board_id, GROUP_CONCAT(tagcontent SEPARATOR ' #') AS hashTag" +
             " FROM hashtags group by board_id ) e" +
-            " on (a.id = e.tag_board_id) WHERE a.title LIKE %:keyword% ", nativeQuery = true)
+            " on (a.id = e.tag_board_id) WHERE a.title LIKE %:keyword% and a.isfull =0", nativeQuery = true)
     List<BoardListVo> findByTitleContaining(Pageable pageable, @Param("keyword") String keyword);
 
     /* 게시글 상세보기 [댓글로 인한 FetchJoin] */

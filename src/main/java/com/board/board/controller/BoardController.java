@@ -73,10 +73,14 @@ public class BoardController {
     }
 
     /* 무한스크롤 AJAX */
-    @GetMapping("/listJson")
-    public ResponseEntity listJson(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
-        List<BoardListVo> boardList = boardService.getBoardlist(pageNum);
-
+    @GetMapping("/listJson/{page}/{isRecruitOn}")
+    public ResponseEntity listJson(@PathVariable("page") Integer pageNum,@PathVariable("isRecruitOn") Boolean isRecruitOn) {
+        List<BoardListVo> boardList = new ArrayList<>();
+        if(isRecruitOn) { /* 모집중만 */
+            boardList = boardService.getBoardListOnRecruit(pageNum);
+        }else {           /* 전체 게시글 */
+            boardList = boardService.getBoardlist(pageNum);
+        }
         return ResponseEntity.ok(boardList);
     }
 

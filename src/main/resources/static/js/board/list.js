@@ -3,6 +3,15 @@ var loading = false; //중복실행 체크
 var page = 2;        //불러올 페이지
 const totalPage = document.getElementById("totalPage").value;
 const container = document.querySelector('#container');
+let toggleActive = true;
+/* 모집중인 게시글만 보기 토글 버튼 이벤트 부여 */
+const toggle = document.getElementById("recruitOntoggle");
+toggle.addEventListener("change" ,()=>{
+    toggleActive = toggle.checked;
+    loading = false;
+    page = 2;
+    $('#container').load(location.href+' #container');
+});
 /* 게시글 호출 Function */
 function nextPage(){
     if(loading) {
@@ -15,7 +24,7 @@ function nextPage(){
     httpRequest = new XMLHttpRequest();
 
     /* POST 방식으로 요청 */
-    httpRequest.open('GET', baseUrl + "/board/listJson/?page="+page);
+    httpRequest.open('GET', baseUrl + "/board/listJson/"+page+"/"+toggleActive);
 
     /* ResponseType Json */
     httpRequest.responseType = "json";
@@ -30,7 +39,6 @@ function nextPage(){
             if (httpRequest.status === 200) {
                 let success = httpRequest.response;
                 success.forEach((item,index) => {
-                    console.log(item);
                     /* 구조분해할당 */
                     let {id,title,writer,thumbnail,subcontent,view,created_date,user_id,picture,comment_count,like_count,hashTag,isfull} = item;
                     /* 날짜 포맷 변경 */
