@@ -18,7 +18,7 @@
         <a class="nav-link" href="#" th:href="@{/board/list}"> 게시판 </a>
       </li>
     </ul>
-    <a type="button" class="btn btn-info" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
+    <a type="button" class="btn btn-dark" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>
     <div class="dropdown" sec:authorize="isAuthenticated()" style="float: right;">
       <i class="xi-profile" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: xx-large; cursor: pointer;"></i>
       <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">

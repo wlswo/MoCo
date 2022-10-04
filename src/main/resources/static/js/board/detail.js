@@ -1,4 +1,3 @@
-
 /* 경고 알림창 */
 function notification(message) {
     const Toast = Swal.mixin({
@@ -176,9 +175,11 @@ async function recruitClose(boardId) {
                 if (data) {
                     SuccessAlert('모집마감되었습니다.');
                     document.getElementById("recruitCloseButton").innerText = "마감취소";
+                    document.getElementById("recruitCloseButton").style.backgroundColor = "#94324b";
                 } else {
                     notification('모집마감취소.');
                     document.getElementById("recruitCloseButton").innerText = "마감하기";
+                    document.getElementById("recruitCloseButton").style.backgroundColor = "#74d65c";
                 }
             },
             error: function (error) {
