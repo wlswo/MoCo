@@ -1,16 +1,16 @@
 /* 무한 스크롤 */
-var loading = false; //중복실행 체크
-var page = 2;        //불러올 페이지
+let loading = false; //중복실행 체크
+let page = 2;        //불러올 페이지
 const totalPage = document.getElementById("totalPage").value;
-const container = document.querySelector('#container');
+let container = $("#container");
 let toggleActive = true;
 /* 모집중인 게시글만 보기 토글 버튼 이벤트 부여 */
 const toggle = document.getElementById("recruitOntoggle");
 toggle.addEventListener("change" ,()=>{
     toggleActive = toggle.checked;
+    $('#top-container').load(location.href+' #container');
     loading = false;
     page = 2;
-    $('#container').load(location.href+' #container');
 });
 /* 게시글 호출 Function */
 function nextPage(){
@@ -78,7 +78,7 @@ function nextPage(){
 
                     const card = document.createElement('span');
                     /* 데이터 삽입 */
-                    postHtml = `<div class="card + ${isfull}" >
+                    let postHtml = `<div class="card ${isfull}" >
                                   <div class="card-header">`
                                     + full +
                                     `<!-- 썸네일 -->
@@ -118,11 +118,11 @@ function nextPage(){
                                     </div>
                                   </div>
                                 </div>`;
-
-                    page++;
                     card.innerHTML = postHtml;
                     container.appendChild(card);
+                    console.log(container.length());
                 });
+                page++;
             } else {
                 let error = httpRequest.response;
                 console.log(error.message);

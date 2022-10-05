@@ -89,7 +89,7 @@ public class UserService {
         user.updateNameInSetting(name);
         /* 해당 유저가 작성한 게시글 작성자도 변경 */
         boardRepository.updateWriter(name,user.getId());
-
+        /* 세션 변경 */
         httpSession.setAttribute("user",user);
     }
 
