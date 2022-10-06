@@ -15,7 +15,10 @@
         <a class="nav-link" th:href="@{/}"> HOME </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" th:href="@{/board/list}"> 게시판 </a>
+        <a class="nav-link" href="#" th:href="@{/board/list}"> 스터디모집 </a>
+      </li>
+      <li>
+        <a class="nav-link" href="#" th:href="@{/earth}"> 지구본 </a>
       </li>
     </ul>
     <a type="button" class="btn btn-dark" sec:authorize="isAnonymous()" th:href="@{/login}">로그인</a>

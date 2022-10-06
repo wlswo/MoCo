@@ -2,15 +2,17 @@
 let loading = false; //중복실행 체크
 let page = 2;        //불러올 페이지
 const totalPage = document.getElementById("totalPage").value;
-let container = $("#container");
+let container = document.getElementById('container');
 let toggleActive = true;
 /* 모집중인 게시글만 보기 토글 버튼 이벤트 부여 */
 const toggle = document.getElementById("recruitOntoggle");
 toggle.addEventListener("change" ,()=>{
     toggleActive = toggle.checked;
-    $('#top-container').load(location.href+' #container');
-    loading = false;
-    page = 2;
+    $('#top-container').load(location.href+' #container',() => {
+        container = document.getElementById('container');
+        loading = false;
+        page = 2;
+    });
 });
 /* 게시글 호출 Function */
 function nextPage(){
@@ -119,8 +121,7 @@ function nextPage(){
                                   </div>
                                 </div>`;
                     card.innerHTML = postHtml;
-                    container.appendChild(card);
-                    console.log(container.length());
+                    console.log(container.appendChild(card));
                 });
                 page++;
             } else {
