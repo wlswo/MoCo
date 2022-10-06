@@ -189,3 +189,19 @@ window.onbeforeunload = function (ev) {
     /* AJAX 호출을 막기위한 PAGE */
     setCookie('page',page,1);
 };
+
+/* 슬라이드 */
+$('.slider-nav').slick({
+    autoplay: true,
+    autoplaySpeed: 2500,
+    slidesToScroll: 1,
+    dots: true,
+    arrows:false,
+    focusOnSelect: true
+});
+
+$('a[data-slide]').click(function(e) {
+    e.preventDefault();
+    var slideno = $(this).data('slide');
+    $('.slider-nav').slick('slickGoTo', slideno - 1);
+});
