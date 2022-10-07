@@ -27,7 +27,6 @@ body {
     width: 100%;
     min-height: 200px;
     max-height: 400px;
-    background-color: bisque;
 }
 .board-header-img {
     display: -ms-flexbox;
@@ -56,6 +55,46 @@ body {
     line-height: 260px;
     position: relative;
     text-align: center;
+}
+
+.banner-container {
+    display: flex;
+    height: 260px;
+    padding: 0 90px;
+    align-items: center;
+}
+.banner-button {
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 30px;
+    color: #fff;
+    background: darkseagreen;
+    border-radius: 50px;
+    margin-top: 16px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+}
+.banner-in-left {
+    font-size: 22px;
+    flex : 1 1;
+    margin: 0 auto;
+    padding: 37px;
+    margin-left: 25px;
+}
+.banner-in-right {
+    flex : 1 1;
+    margin: 0 auto;
+}
+.banner-title{
+    display: inline-block;
+    font-size: 32px;
+    font-weight: 700;
+    padding: 0;
+    margin: 12px 0;
+}
+.banner-text {
+    font-size: 25px;
 }
 .slick-dots{
     bottom: -45px;
