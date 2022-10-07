@@ -80,9 +80,11 @@
             <input id="wallet" class="form-control" type="text" value="메타마스크와 연동이 되지 않았습니다." aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
             <a href="#" id="GetTokenInfo" style="text-decoration: underline; color: #0d6efd; font-size: 15px; padding: 0.5rem;">메타마스크에 모각코인 정보 추가하기</a>
           </span>
+          <div id="contract-err" style="margin-top: 10px; display: none;"><span id="contract-error" style="padding: 0.5rem;"></span></div>
+          <div id="contract-suc" style="margin-top: 10px; display: none;"><span id="contract-success" style="padding: 0.5rem;"></span></div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">토큰 받기</button>
+          <button id="getTokenButton" type="button" class="btn btn-primary">토큰 받기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
         </div>
       </div>

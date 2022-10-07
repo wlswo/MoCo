@@ -193,7 +193,7 @@ window.onbeforeunload = function (ev) {
 /* 슬라이드 */
 $('.slider-nav').slick({
     autoplay: true,
-    autoplaySpeed: 2500,
+    autoplaySpeed: 13500,
     slidesToScroll: 1,
     dots: true,
     arrows:false,
@@ -205,3 +205,4 @@ $('a[data-slide]').click(function(e) {
     var slideno = $(this).data('slide');
     $('.slider-nav').slick('slickGoTo', slideno - 1);
 });
+
