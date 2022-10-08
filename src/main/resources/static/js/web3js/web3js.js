@@ -11,7 +11,7 @@ window.addEventListener('load', async () => {
     } else if (typeof window.web3 !== 'undefined') {
         web3 = new Web3(window.web3.currentProvider);
     } else {
-        reject(new Error('No web3 instance injected, using local web3.'))
+        reject(new Error('web3 인스턴스가 주입되지 않았습니다.'));
     }
     if (web3) {
         currentAccount = await web3.eth.requestAccounts();
@@ -54,22 +54,26 @@ document.getElementById("GetTokenInfo").addEventListener("click", async function
 });
 
 
-/* 보상받기 모달창 생성시 이벤트 감지 */
-$("#exampleModal").on('show.bs.modal', function (e) {
+/* 모달창 생성시 이벤트 감지 */
+$("#exampleModal").on('show.bs.modal', async function (e) {
         try {
             currentAccount = web3.eth.requestAccounts().then(function (accounts) {
                 document.getElementById("wallet").value = accounts[0];
+            });
+            /* 네트워크 goerli 로 세팅 */
+            await window.ethereum.request({
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: '0x5', }],
             });
             /* 계정 변경 감지 */
             window.ethereum.on("accountsChanged", async function () {
                 // Time to reload your interface with accounts[0]!
                 accounts = await web3.eth.getAccounts();
                 currentAccount = accounts[0];
-                // accounts = await web3.eth.getAccounts();
                 document.getElementById("wallet").value = currentAccount;
             });
         } catch (e) {
-            document.getElementById("wallet").value = "MetaMask 연동을 하지 않으면 토큰을 받을수 없습니다.";
+            document.getElementById("wallet").value = "MetaMask 연동 되지 않았습니다.";
         }
 });
 /* 스마트 컨트랙트 abi 정보 */
@@ -459,21 +463,27 @@ const abi = [
     }
 ];
 
-/* 출석체크 보상받기 */
-document.getElementById("getTokenButton").addEventListener('click',async ()=>{
-    const account = await web3.eth.requestAccounts();
-    const SmartContract = new web3.eth.Contract(abi,"0xeCDE103BDd3Ffb291b5f24330018A3E65413B076");
-    await SmartContract.methods.getTokenOneDay().send({from:account.toString()},function (res,err) {
-        if (err) {
-            document.getElementById("contract-err").style.display = "block";
-            const error = document.getElementById("contract-error");
-            error.textContent = '하루에 한번 받을수 있습니다.';
-            error.style.color = "firebrick";
-            return
-        }
-        console.log("Hash of the transaction: " + res)
+/* 출석체크 보상받기 - List Page */
+if(document.getElementById("getTokenButton")){
+    document.getElementById("getTokenButton").addEventListener('click',async ()=>{
+        const account = await web3.eth.requestAccounts();
+        const SmartContract = new web3.eth.Contract(abi,"0xeCDE103BDd3Ffb291b5f24330018A3E65413B076");
+        await SmartContract.methods.getTokenOneDay().send({from:account.toString()},function (res,err) {
+            if (err) {
+                document.getElementById("contract-err").style.display = "block";
+                const error = document.getElementById("contract-error");
+                error.textContent = '하루에 한번 받을수 있습니다.';
+                error.style.color = "firebrick";
+                return
+            }
+            console.log("Hash of the transaction: " + res)
+        });
     });
-});
+}
+/* 땅사기 */
+if(document.getElementById("buyLand")) {
+
+}
 
 
 

@@ -21,7 +21,6 @@ rect:hover {
     border-radius: 10px;
     font-weight: 700;
 }
-.tooltip-arrow[data-placement*='bottom']::after {
-    border-color: transparent transparent red transparent !important;
-    color: white;
+.tippy-box[data-placement^="top"] > .tippy-arrow:before {
+    border-top-color: #8d5ab9 !important; /* set your color here and use the !important property */
 }

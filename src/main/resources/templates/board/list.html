@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -84,7 +84,7 @@
           <div id="contract-suc" style="margin-top: 10px; display: none;"><span id="contract-success" style="padding: 0.5rem;"></span></div>
         </div>
         <div class="modal-footer">
-          <button id="getTokenButton" type="button" class="btn btn-primary">토큰 받기</button>
+          <button sec:authorize="isAuthenticated()" id="getTokenButton" type="button" class="btn btn-primary">토큰 받기</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
         </div>
       </div>
@@ -157,7 +157,7 @@
 <input type="hidden" id="totalPage" th:value="${totalPage}" style="display: none"></input>
   <!-- script / jQuery-->
   <script src="/js/board/list.js"></script>
-  <script src="/js/web3js/web3js.js"></script>
+  <script sec:authorize="isAuthenticated()" th:src="@{/js/web3js/web3js.js}"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
