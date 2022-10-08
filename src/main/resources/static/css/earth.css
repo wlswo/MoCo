@@ -5,3 +5,23 @@
     margin-top: 100px;
     margin-left: 200px;
 }
+rect{
+    fill: darkslategrey;
+    pointer-events: all;
+    transition: all 1s;
+}
+rect:hover {
+    fill: white;
+    cursor: pointer;
+}
+.tippy-box[data-theme~="custom"] {
+    background-color: #4158d0;
+    background-image: linear-gradient(43deg, #4158d0 0%, #c850c0 100%);
+    color: white;
+    border-radius: 10px;
+    font-weight: 700;
+}
+.tooltip-arrow[data-placement*='bottom']::after {
+    border-color: transparent transparent red transparent !important;
+    color: white;
+}
