@@ -157,11 +157,6 @@ function getCookie(name) {
     return value? value[2] : null;
 }
 
-/*  구글 SAME SITE 이슈 */
-document.cookie = "safeCookie1=foo; SameSite=Lax";
-document.cookie = "safeCookie2=foo";
-document.cookie = "crossCookie=bar; SameSite=None; Secure"
-
 
 /* 뒤로가기로 왔을 경우 스크롤 위치 유지 */
 window.onpageshow = async function (e) {

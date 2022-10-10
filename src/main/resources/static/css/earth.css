@@ -14,13 +14,22 @@ rect:hover {
     fill: white;
     cursor: pointer;
 }
-.tippy-box[data-theme~="custom"] {
+.tippy-box[data-theme~="purchased"] {
     background-color: #4158d0;
     background-image: linear-gradient(43deg, #4158d0 0%, #c850c0 100%);
     color: white;
     border-radius: 10px;
     font-weight: 700;
 }
+
+.tippy-box[data-theme~="notPurchase"] {
+    background-color: #4158d0;
+    background-image: linear-gradient(43deg, #5b915b 0%, #33b972 100%);
+    color: white;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
 .tippy-box[data-placement^="top"] > .tippy-arrow:before {
     border-top-color: #8d5ab9 !important; /* set your color here and use the !important property */
 }

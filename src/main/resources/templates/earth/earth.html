@@ -2648,9 +2648,9 @@
         </svg>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<!-- 땅구매 Modal -->
+<div class="modal fade" id="buyDotModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">도트맵에 자신의 흔적을 남겨보세요! <iconify-icon icon="emojione-v1:shooting-star" width="30" height="30"></iconify-icon></h5>
@@ -2665,17 +2665,36 @@
                       <iconify-icon icon="logos:metamask-icon" width="30" height="30"></iconify-icon>
                       스마트 컨트랙트를 실행시킬 주소를 확인하세요.
                     </p>
-                    <input id="wallet" class="form-control" type="text" value="메타마스크와 연동이 되지 않았습니다." aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
+                    <input id="buydot-wallet" class="form-control" type="text" value="메타마스크와 연동이 되지 않았습니다." aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
                     <a href="#" id="GetTokenInfo" style="text-decoration: underline; color: #0d6efd; font-size: 15px; padding: 0.5rem;">메타마스크에 모각코인 정보 추가하기</a>
                     <div>
-                        <p id="price"></p>
+                        <p id="price" style="padding: 8px;"></p>
                     </div>
                 </span>
-                <div id="contract-err" style="margin-top: 10px; display: none;"><span id="contract-error" style="padding: 0.5rem;"></span></div>
-                <div id="contract-suc" style="margin-top: 10px; display: none;"><span id="contract-success" style="padding: 0.5rem;"></span></div>
+                <!-- 도트 구매 정보 -->
+                <form>
+                    <input type="hidden" name="dotId">
+                    <input type="hidden" name="userId">
+                    <input type="hidden" name="txHash">
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">구매자</label>
+                        <input type="text" class="form-control" name="userId" id="recipient-name" th:value="${session.user['name']}" readonly/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">메세지</label>
+                        <input type="text" class="form-control" name="description" id="message-text" maxlength="200"  placeholder="구매한 땅에 메시지를 적어보세요."/>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dot-color" class="col-form-label">색상</label>
+                        <input type='color' id='dot-color' value='#0000ff' style="padding: 6px;">
+                    </div>
+                </form>
+                <p id="buyDot-loadingIcon" style="font-size: 15px; display: none;"><iconify-icon icon="eos-icons:loading" width="35" height="35"></iconify-icon>트랜잭션 실행중입니다. 네트워크 상태에 따라 소요되는 시간이다릅니다.</p>
+                <div id="dotmap-contract-err" style="margin-top: 10px; display: none;"><span id="dotmap-contract-error" style="padding: 0.5rem;"></span></div>
+                <div id="dotmap-contract-suc" style="margin-top: 10px; display: none;"><span id="dotmap-contract-success" style="padding: 0.5rem;"></span></div>
             </div>
             <div class="modal-footer">
-                <button sec:authorize="isAuthenticated()" id="buyLand" type="button" class="btn btn-primary">구매</button>
+                <button sec:authorize="isAuthenticated()" id="buyLandButton" type="button" class="btn btn-primary">구매</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
             </div>
         </div>
