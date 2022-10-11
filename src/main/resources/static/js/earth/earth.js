@@ -1,8 +1,8 @@
 window.onload=function(){
-    console.log(dotList)
+    console.log(dotList[0]);
     const rect_Collection = document.querySelectorAll('rect');
     /* 도트 */
-    for(let i=0; i<rect_Collection.length; i++) {
+    outerFor : for(let i=0; i<rect_Collection.length; i++) {
         /* 아이디 부여 */
         rect_Collection[i].setAttribute('id','dot'+i.toString());
 
@@ -14,9 +14,6 @@ window.onload=function(){
             rect_Collection[i].setAttribute('price','1500');
         }
         else if(667 <= i && i <= 1660) {
-            if(i == 859) {
-                continue;
-            }
             rect_Collection[i].setAttribute('price','2000');
         }
         else if(1661 <= i && i <= 2370) {
@@ -24,6 +21,31 @@ window.onload=function(){
         }
         else {
             rect_Collection[i].setAttribute('price','500');
+        }
+
+        /* 구매된 도트 처리 */
+        for (let j = 0; j < dotList.length; j++) {
+            if('dot'+i.toString()  === dotList[j].dotId.toString()) {
+                let {dotId,userName,description,color,txHash,createdDate} = dotList[j];
+                const dot = document.getElementById(dotId);
+                dot.style.fill = color;
+                createdDate = createdDate.replace('T',' ');
+                dot.addEventListener('click',()=>{
+                    $('#purchasedCardModal').modal('show');
+                    document.getElementById('buyer').textContent = userName;
+                    document.getElementById('dotDescription').textContent = description;
+                    document.getElementById('dotcolor').textContent = color;
+                    document.getElementById('createDate').textContent = createdDate;
+                    document.getElementById('dotTxHash').href = 'https://goerli.etherscan.io/tx/' + txHash;
+                })
+                tippy('#'+dotId, {
+                    content: userName + '님이 구매했습니다.',
+                    theme: 'purchased',
+                    arrow: true,
+                });
+                dotList.splice(j,1);
+                continue outerFor;
+            }
         }
 
         /* 구매가능 지역 툴팁 표시 */
@@ -37,15 +59,9 @@ window.onload=function(){
         rect_Collection[i].addEventListener('click', () => {
             $('#buyDotModal').modal('show');
             if(document.getElementById('buydot-wallet')){
+                document.getElementById('dotId').value = rect_Collection[i].getAttribute('id');
                 document.getElementById('price').textContent = '가격 : ' + rect_Collection[i].getAttribute('price') + '토큰입니다.';
             }
         });
     }
-
-    tippy("#dot859", {
-        content: "AAA님이 구매했습니다.",
-        theme: 'purchased',
-        arrow: true,
-    });
 }
-

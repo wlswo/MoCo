@@ -566,55 +566,60 @@ if(document.getElementById("buyLandButton")) {
         const account = await web3.eth.requestAccounts();
         const SmartContract = new web3.eth.Contract(abi,"0xeCDE103BDd3Ffb291b5f24330018A3E65413B076");
         console.log(SmartContract.methods.balanceOf(account.toString()).call());
-        await SmartContract.methods.buyLand(amount).send({from:account.toString(),gas: 800000},function (err,res) {
+        await SmartContract.methods.buyLand(amount).send({from:account.toString(),gasprice: 20000000000},async function (err,res) {
             loadingIcon.style.display = "block";
             if (err) {
                 console.log(err);
                 loadingIcon.style.display = "none";
                 document.getElementById("dotmap-contract-err").style.display = "block";
-                const error = document.getElementById("dotmap-contract-error");
-                error.textContent = '토큰이 모자릅니다.';
+                const error = document.getElementById("dotmap-contract-err");
+                error.textContent = '트랜잭션이 취소됐습니다.';
                 error.style.color = "firebrick";
                 return
             }else {
-                loadingIcon.style.display = "none";
-                const success = document.getElementById("dotmap-contract-success");
+                const success = document.getElementById("dotmap-contract-suc");
                 success.style.display = "block";
-                success.textContent = '트랜잭션 요청성공';
-                success.style.color = "green";
-                let receipt =  web3.eth.getTransactionReceipt(res).then((err,res)=>{
-                    if(err) {
-                        console.log(err);
-                    }else {
-                        waitBlock(res);
-                        console.log(res);
-                    }
-                });
-                /* 성공시 도트 구매 AJAX */
+                success.textContent = '트랜잭션 성공후 땅이 구매됩니다.';
+                success.style.color = "gray";
+                console.log(res);
+                const interval = setInterval(()=>{
+                    console.log("트랜잭션 영수증을 기다리고있습니다...");
+                    web3.eth.getTransactionReceipt(res, function(err, rec){
+                        if (rec) {
+                            console.log("See transaciton in https://goerli.etherscan.io/tx/"+rec.transactionHash);
+                            loadingIcon.style.display = "none";
+                            success.textContent = '트랜잭션이 성공했습니다.';
+                            success.style.color = "green";
+                            clearInterval(interval);
+                            /* 성공시 도트 구매 AJAX */
+                            var params = {
+                                dotId       : $("#dotId").val(),
+                                description : $("#description").val(),
+                                color       : $("#dot-color").val(),
+                                txHash      : rec.transactionHash.toString(),
+                            }
+
+                            $.ajax({
+                                type : "POST",
+                                url : "/earth/buy/" + $("#userId").val(),
+                                data : JSON.stringify(params),
+                                contentType : 'application/json',
+                                dataType : 'json',
+                                success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                                    // 응답코드 > 0000
+                                    alert(res.code);
+                                },
+                                error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                                    alert("통신 실패.")
+                                }
+                            });
+                        } else {
+                            console.log(err);
+                            console.log(res);
+                        }
+                    });
+                }, 1000);
             }
         });
     });
-}
-
-
-
-// await sleep trick
-// http://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// We need to wait until any miner has included the transaction
-// in a block to get the address of the contract
-async function waitBlock(contract_TransactionHash) {
-    while (true) {
-        let receipt = web3.eth.getTransactionReceipt(contract_TransactionHash);
-        if (receipt && receipt.contractAddress) {
-            console.log("Your contract has been deployed at http://testnet.etherscan.io/address/" + receipt.contractAddress);
-            console.log("Note that it might take 30 - 90 sceonds for the block to propagate befor it's visible in etherscan.io");
-            break;
-        }
-        console.log("Waiting a mined block to include your contract... currently in block " + web3.eth.blockNumber);
-        await sleep(4000);
-    }
 }

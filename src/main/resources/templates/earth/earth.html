@@ -2672,24 +2672,24 @@
                     </div>
                 </span>
                 <!-- 도트 구매 정보 -->
-                <form>
-                    <input type="hidden" name="dotId">
-                    <input type="hidden" name="userId">
+                <form sec:authorize="isAuthenticated()">
+                    <input type="hidden" id="dotId">
+                    <input type="hidden" id="userId" th:value="${session.user['id']}">
                     <input type="hidden" name="txHash">
                     <div class="mb-3">
                         <label for="recipient-name" class="col-form-label">구매자</label>
                         <input type="text" class="form-control" name="userId" id="recipient-name" th:value="${session.user['name']}" readonly/>
                     </div>
                     <div class="mb-3">
-                        <label for="message-text" class="col-form-label">메세지</label>
-                        <input type="text" class="form-control" name="description" id="message-text" maxlength="200"  placeholder="구매한 땅에 메시지를 적어보세요."/>
+                        <label for="description" class="col-form-label">메세지</label>
+                        <input type="text" class="form-control" id="description" maxlength="200"  placeholder="구매한 땅에 메시지를 적어보세요."/>
                     </div>
                     <div class="mb-3">
                         <label for="dot-color" class="col-form-label">색상</label>
                         <input type='color' id='dot-color' value='#0000ff' style="padding: 6px;">
                     </div>
                 </form>
-                <p id="buyDot-loadingIcon" style="font-size: 15px; display: none;"><iconify-icon icon="eos-icons:loading" width="35" height="35"></iconify-icon>트랜잭션 실행중입니다. 네트워크 상태에 따라 소요되는 시간이다릅니다.</p>
+                <p id="buyDot-loadingIcon" style="font-size: 15px; display: none;"><iconify-icon icon="eos-icons:loading" width="35" height="35"></iconify-icon>트랜잭션 영수증을 기다리는 중입니다. 네트워크 상태에 따라 소요되는 시간이다릅니다.</p>
                 <div id="dotmap-contract-err" style="margin-top: 10px; display: none;"><span id="dotmap-contract-error" style="padding: 0.5rem;"></span></div>
                 <div id="dotmap-contract-suc" style="margin-top: 10px; display: none;"><span id="dotmap-contract-success" style="padding: 0.5rem;"></span></div>
             </div>
@@ -2700,6 +2700,59 @@
         </div>
     </div>
 </div>
+
+<!-- 구매된 땅 정보 -->
+<div class="modal fade" id="purchasedDotModal" tabindex="-1" aria-labelledby="purchasedModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="purchasedModalLabel">구매된 땅의 정보입니다. <iconify-icon icon="emojione-v1:shooting-star" width="30" height="30"></iconify-icon></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <p>구매자</p>
+                    <input class="form-control" type="text" aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
+                    <p><iconify-icon icon="logos:metamask-icon" width="30" height="30"></iconify-icon>트랜잭션 정보</p>
+                    <input class="form-control" type="text" aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
+                    <p>메시지</p>
+                    <input  class="form-control" type="text" aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
+                    <p>땅 색상</p>
+                    <input type="color" id="dotcolor" value="white" readonly>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-center fade" id="purchasedCardModal" tabindex="-1" aria-labelledby="purchasedCardModal" aria-hidden="true">
+    <div class="modal-dialog modal-center">
+        <div class="modal-content" style="margin-left: 80px; width: 380px;">
+            <!-- BEGIN: card -->
+            <div class="card" data-effect="zoom">
+                <figure  class="card__image">
+                    <img src="https://c1.staticflickr.com/4/3935/32253842574_d3d449ab86_c.jpg" alt="Short description">
+                </figure>
+                <div class="card__header">
+                    <figure class="card__profile">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Neil_Armstrong.jpg" alt="Short description">
+                    </figure>
+                </div>
+                <div class="card__body">
+                    <h3 class="card__name" id="buyer"></h3>
+                    <p class="card__job">Seize the day</p>
+                    <p class="card__bio" id="dotDescription"></p>
+                </div>
+                <div class="card__footer">
+                    <p class="card__date" id="createDate"></p>
+                    <a href="#" id="dotTxHash" class="card__tx">트랜잭션 정보보기</a>
+                </div>
+            </div>
+            <!-- END: card -->
+        </div>
+    </div>
+</div>
 <!-- jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
@@ -2707,10 +2760,8 @@
 <script type="text/javascript" th:src="@{/js/earth/earth.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script type="text/javascript" sec:authorize="isAuthenticated()" th:src="@{/js/web3js/web3js.js}"></script>
-<script>
-    /*<![CDATA[*/
-    var dotList = "[[${dotList}]]";
-    /*]]>*/
+<script th:inline="javascript">
+    var dotList = [[${dotList}]];
 </script>
 </body>
 </html>
