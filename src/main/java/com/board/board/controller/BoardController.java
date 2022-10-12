@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -52,7 +53,7 @@ public class BoardController {
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----- Board 📋 ----- */
-    /* 게시글 목록 Default(모집중) */
+    /* READ - 게시글 목록 Default(모집중) */
     @GetMapping({"","/list"})
     public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
         List<BoardListVo> boardList = boardService.getBoardListOnRecruit(pageNum);
@@ -65,14 +66,14 @@ public class BoardController {
     }
 
     /* READ - 전체 게시글 */
-    @GetMapping("/recruitOn")
+    @GetMapping("/AllBoard")
     public String recruitOn(@RequestParam(value = "page", defaultValue = "1") Integer pageNum , Model model) {
         List<BoardListVo> boardDtoList = boardService.getBoardlist(pageNum);
         model.addAttribute("boardList",boardDtoList);
         return "/board/list";
     }
 
-    /* 무한스크롤 AJAX */
+    /* READ - 무한스크롤 AJAX */
     @GetMapping("/listJson/{page}/{isRecruitOn}")
     public ResponseEntity listJson(@PathVariable("page") Integer pageNum,@PathVariable("isRecruitOn") Boolean isRecruitOn) {
         List<BoardListVo> boardList = new ArrayList<>();
@@ -90,7 +91,7 @@ public class BoardController {
         return "board/write";
     }
 
-    /* CREATE */
+    /* CREATE - 글작성 */
     @PostMapping("/post")
     public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "walletAddress", required = false) String walletAddress) {
         /* 글작성 유효성 검사 */
@@ -135,7 +136,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
-    /* READ */
+    /* READ - 글읽기 */
     @GetMapping("/post/read/{boardId}")
     public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
         log.info("---FindById 게시글---");
@@ -213,10 +214,14 @@ public class BoardController {
         return "board/detail";
     }
 
-    /* RETURN PAGE */
+    /* RETURN PAGE - 게시글 수정 페이지 */
     @GetMapping("post/edit/{no}")
-    public String edit(@PathVariable("no") Long no, Model model) {
+    public String edit(@PathVariable("no") Long no, Model model, @LoginUser SessionUser sessionUser) {
         BoardDto.Response boardDTO = boardService.getPost(no);
+
+        if( !boardDTO.getUserId().equals(sessionUser.getId()) ) {
+            return "error/errorpage";
+        }
 
         /* 해시태그 내용만 Filter */
         Set<HashTag> hashTags = hashTagService.getTags(no);
@@ -238,9 +243,13 @@ public class BoardController {
         return "board/update";
     }
 
-    /* UPDATE */
+    /* UPDATE - 게시글 수정 */
     @PutMapping("/post/edit/{no}")
     public String update(@PathVariable("no") Long no,BoardDto.Request boardDto, @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
+        if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())) {
+            return "error/errorpage";
+        }
+
         boardDto.setWriter(sessionUser.getName());
         boardService.updatePost(no,boardDto);
 
@@ -288,16 +297,18 @@ public class BoardController {
             }catch (ParseException e) {
                 log.info(e.getMessage());
             }
-        }else{
-
         }
 
         return "redirect:/board/list";
     }
 
-    /* DELETE */
+    /* DELETE - 게시글 삭제 */
     @DeleteMapping("/post/{no}")
-    public String delete(@PathVariable("no") Long no) {
+    public String delete(@PathVariable("no") Long no, @LoginUser SessionUser sessionUser) {
+        if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())){
+            return "error/errorpage";
+        }
+
         boardService.deletePost(no);
         return "redirect:/board/list";
     }
@@ -310,9 +321,13 @@ public class BoardController {
         return "/board/list";
     }
 
-    /* CREATE */
+    /* CREATE - 스터디 참가 */
     @PostMapping("/recruit/{boardId}/{userId}")
-    public ResponseEntity recruitSave(@PathVariable Long boardId, @PathVariable Long userId) {
+    public ResponseEntity recruitSave(@PathVariable Long boardId, @PathVariable Long userId, @LoginUser SessionUser sessionUser) {
+        if (!sessionUser.getId().equals(userId)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         RecruitDto.Request dto = new RecruitDto.Request();
 
         boolean isDuplicate = recruitService.isDuplicate(boardId,userId);
@@ -322,43 +337,54 @@ public class BoardController {
         return ResponseEntity.ok(recruitService.Join(boardId,userId,dto));
     }
 
-    /* DELETE */
+    /* DELETE - 모집 마감 취소 */
     @DeleteMapping("/recruitCancel/{boardId}/{userId}")
-    public ResponseEntity recruitDelete(@PathVariable Long boardId, @PathVariable Long userId) {
+    public ResponseEntity recruitDelete(@PathVariable Long boardId, @PathVariable Long userId, @LoginUser SessionUser sessionUser) {
+        if(!sessionUser.getId().equals(userId)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         int rows = recruitService.joinCancel(boardId,userId);
         int status = rows == 1 ? 200 : 400;
         return ResponseEntity.status(status).build();
     }
-    /* UPDATE */
+
+    /* UPDATE - 모집 마감 */
     @PatchMapping("/recruitClose/{boardId}")
-    public ResponseEntity recruitClose(@PathVariable Long boardId) {
+    public ResponseEntity recruitClose(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
+        if(!sessionUser.getId().equals(boardService.getPost(boardId))) {
+            ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(boardService.updateFull(boardId));
     }
 
 
     /* ------ Comment 💬 ------- */
 
-    /* CREATE */
+    /* CREATE - 댓글 달기 */
     @PostMapping("/comment/{id}")
     public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-        return ResponseEntity.ok(commentService.commentSave(sessionUser.getName(), id, commentDto));
+        return ResponseEntity.ok(commentService.commentSave(sessionUser.getId(), id, commentDto));
     }
 
-    /* CREATE */
-    @PostMapping("/recomment/{id}/{parendId}")
-    public ResponseEntity recommentSave(@PathVariable Long id,@PathVariable Long parendId ,@RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-
-        return ResponseEntity.ok(commentService.recommentSave(sessionUser.getName(), id, parendId, commentDto));
+    /* CREATE - 답글 달기 */
+    @PostMapping("/recomment/{boardId}/{parendId}")
+    public ResponseEntity recommentSave(@PathVariable Long boardId,@PathVariable Long parendId ,@RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
+        return ResponseEntity.ok(commentService.recommentSave(sessionUser.getId(), boardId, parendId, commentDto));
     }
 
-    /* UPDATE */
-    @PutMapping("/post/{boardId}/comment/{commentId}")
-    public ResponseEntity commentUpdate(@PathVariable Long commentId, @RequestBody CommentDto.Request commentDto) {
+    /* UPDATE - 댓글/답글 수정 */
+    @PutMapping("/post/comment/{commentId}/{userId}")
+    public ResponseEntity commentUpdate(@PathVariable Long commentId, @PathVariable Long userId, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
+        if(!sessionUser.getId().equals(userId)) {
+            return ResponseEntity.badRequest().build();
+        }
+
         commentService.commentUpdate(commentId, commentDto);
         return ResponseEntity.ok(commentId);
     }
 
-    /* DELETE */
+    /* DELETE - 댓글 삭제 */
     @DeleteMapping("/post/{boardId}/comment/{commentId}")
     public ResponseEntity commentDelete(@PathVariable Long commentId) {
         commentService.commentDelete(commentId);
@@ -367,13 +393,13 @@ public class BoardController {
 
     /* ----- Likes 🌠 ----- */
 
-    /* CREATE */
+    /* CREATE - 좋아요 */
     @PostMapping("/post/{boardId}/like")
     public ResponseEntity likeSave(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
         return ResponseEntity.ok(likeService.likeSave(sessionUser.getName(),boardId));
     }
 
-    /* DELETE */
+    /* DELETE - 좋아요 취소 */
     @DeleteMapping("/post/{boardId}/like")
     public ResponseEntity deleteLike(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
         return ResponseEntity.ok(likeService.deleteLike(sessionUser.getName(), boardId));

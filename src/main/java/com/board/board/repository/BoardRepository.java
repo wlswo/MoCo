@@ -18,7 +18,7 @@ import java.util.List;
 /* JpaRepository<Entity 클래스, PK 타입> */
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    /* 게시글 리스트 가져오기 */
+    /* 전체 게시글 리스트 가져오기 */
     @Query(value = "select * from board a " +
             "LEFT JOIN " +
             "(select board_id , count(*) as like_count from likes group by board_id) b" +
@@ -34,7 +34,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             " on (a.id = e.tag_board_id)", nativeQuery = true)
     List<BoardListVo> findBoardList(Pageable pageable);
 
-    /* 게시글 리스트 가져오기 */
+    /* 모집중인 게시글 리스트 가져오기 */
     @Query(value = "select * from board a " +
             "LEFT JOIN " +
             "(select board_id , count(*) as like_count from likes group by board_id) b" +
@@ -51,7 +51,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<BoardListVo> findBoardListOnRecruit(Pageable pageable);
 
 
-    /* 게시글 Search */
+    /* 게시글 Search (모집중인)  */
     @Query(value = "select * from board a " +
             "LEFT JOIN " +
             "(select board_id , count(*) as like_count from likes group by board_id) b" +
@@ -66,6 +66,22 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
             " FROM hashtags group by board_id ) e" +
             " on (a.id = e.tag_board_id) WHERE a.title LIKE %:keyword% and a.isfull =0", nativeQuery = true)
     List<BoardListVo> findByTitleContaining(Pageable pageable, @Param("keyword") String keyword);
+
+    /* 전체 게시글 리스트 가져오기 */
+    @Query(value = "select * from board a " +
+            "LEFT JOIN " +
+            "(select board_id , count(*) as like_count from likes group by board_id) b" +
+            " on (a.id = b.board_id)" +
+            " LEFT JOIN " +
+            " (select board_id as comment_b_id , count(*) as comment_count from comments group by board_id) c" +
+            " on (a.id = c.comment_b_id) LEFT JOIN " +
+            " (select id as u_id, u.picture  from user u ) d" +
+            " on (a.user_id = d.u_id) " +
+            " LEFT JOIN" +
+            " (SELECT board_id as tag_board_id, GROUP_CONCAT(tagcontent SEPARATOR ' #') AS hashTag" +
+            " FROM hashtags group by board_id ) e" +
+            " on (a.id = e.tag_board_id) WHERE a.user_id = :userId", nativeQuery = true)
+    List<BoardListVo> findMyBoardList(Pageable pageable, @Param("userId") Long userId);
 
     /* 게시글 상세보기 [댓글로 인한 FetchJoin] */
     @Query("select b from Board b left join fetch b.comments c where b.id = :boardId")

@@ -30,7 +30,8 @@ public class earthController {
 
     @PostMapping("/earth/buy/{userid}")
     public ResponseEntity buyDot(@PathVariable Long userid ,@RequestBody DotMapDto.Request dotDto,@LoginUser SessionUser sessionUser) {
-        if(userid != sessionUser.getId()) {
+
+        if(!userid.equals(sessionUser.getId())) {
             return ResponseEntity.status(400).build();
         }
         return ResponseEntity.ok(dotMapService.saveDot(dotDto,userid));

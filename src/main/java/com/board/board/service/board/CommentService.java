@@ -29,10 +29,10 @@ public class CommentService {
 
     /* CREATE */
     @Transactional
-    public Long commentSave(String name, Long id, CommentDto.Request commentDto) {
-        User user = userRepository.findByName(name);
-        Board board = boardRepository.findById(id).orElseThrow(() ->
-            new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + id));
+    public Long commentSave(Long userId, Long boardId, CommentDto.Request commentDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저를 찾을수 없습니다."));
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+            new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + boardId));
 
         commentDto.setUser(user);
         commentDto.setBoard(board);
@@ -43,10 +43,10 @@ public class CommentService {
 
     /* CREATE */
     @Transactional
-    public Long recommentSave(String name, Long id, Long parentId ,CommentDto.Request commentDto) {
-        User user = userRepository.findByName(name);
-        Board board = boardRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + id));
+    public Long recommentSave(Long userId, Long boardId, Long parentId ,CommentDto.Request commentDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저를 찾을수 없습니다."));
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                new IllegalArgumentException("댓글 작성 실패 : 해당 게시글이 존재하지 않습니다." + boardId));
         commentRepository.findById(parentId).ifPresentOrElse(parent -> commentDto.setParent(parent), ()-> commentDto.setParent(null));
 
         commentDto.setUser(user);

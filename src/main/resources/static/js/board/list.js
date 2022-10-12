@@ -8,11 +8,19 @@ let toggleActive = true;
 const toggle = document.getElementById("recruitOntoggle");
 toggle.addEventListener("change" ,()=>{
     toggleActive = toggle.checked;
-    $('#top-container').load(location.href+' #container',() => {
-        container = document.getElementById('container');
-        loading = false;
-        page = 2;
-    });
+    if (toggleActive) {
+        $('#top-container').load(location.href+' #container',() => {
+            container = document.getElementById('container');
+            loading = false;
+            page = 2;
+        });
+    }else {
+        $('#top-container').load("http://localhost:8080/board/AllBoard"+' #container',() => {
+            container = document.getElementById('container');
+            loading = false;
+            page = 2;
+        });
+    }
 });
 /* 게시글 호출 Function */
 function nextPage(){
@@ -121,7 +129,7 @@ function nextPage(){
                                   </div>
                                 </div>`;
                     card.innerHTML = postHtml;
-                    console.log(container.appendChild(card));
+                    container.appendChild(card)
                 });
                 page++;
             } else {

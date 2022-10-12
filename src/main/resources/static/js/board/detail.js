@@ -1,3 +1,5 @@
+console.log(sessionStorage.getItem('user'));
+
 /* 경고 알림창 */
 function notification(message) {
     const Toast = Swal.mixin({
@@ -293,9 +295,9 @@ function commentUpdate(is_recomment,form) {
     const baseUrl = "http://localhost:8080";
     /* XMLHttpRequest 객체 정의 */
     httpRequest = new XMLHttpRequest();
-
+    const userId= document.getElementById('userId').value;
     /* POST 방식으로 요청 */
-    httpRequest.open('PUT', baseUrl+"/board/post/"+ data.boardId +"/comment/" + data.commentId);
+    httpRequest.open('PUT', baseUrl+"/board/post/comment/" + data.commentId +"/" + userId);
     /* 요청 Header에 컨텐츠 타입은 Json으로 사전 정의 */
     httpRequest.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
     /* ResponseType Json */
@@ -326,10 +328,10 @@ function commentUpdate(is_recomment,form) {
 }
 
 /* DELETE */
-function commentDelete(boardId, commentId, is_recooment) {
-    const comment_confirm = isconfirm("정말 삭제하시겠습니까?");
-
-    if(comment_confirm) {
+async function commentDelete(boardId, commentId, is_recooment) {
+    const comment_confirm = await confirm('','정말로 삭제 하시겠습니까?');
+    console.log(comment_confirm.isConfirmed);
+    if(comment_confirm.isConfirmed) {
         /* ajax */
         const baseUrl = "http://localhost:8080";
         /* XMLHttpRequest 객체 정의 */

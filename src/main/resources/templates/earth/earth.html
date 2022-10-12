@@ -883,7 +883,7 @@
                 <rect x="544.6" y="90.1" width="4" height="4"></rect>
                 <rect x="544.6" y="96.9" width="4" height="4"></rect>
                 <rect x="544.6" y="103.7" width="4" height="4"></rect>
-                <rect id="aaa" x="544.6" y="110.4" width="4" height="4" style="fill: white;"></rect>
+                <rect x="544.6" y="110.4" width="4" height="4"></rect>
                 <rect x="544.6" y="117.2" width="4" height="4"></rect>
                 <rect x="544.6" y="124" width="4" height="4"></rect>
                 <rect x="544.6" y="130.8" width="4" height="4"></rect>
@@ -2682,7 +2682,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="description" class="col-form-label">메세지</label>
-                        <input type="text" class="form-control" id="description" maxlength="200"  placeholder="구매한 땅에 메시지를 적어보세요."/>
+                        <input type="text" class="form-control" id="description" maxlength="200"  placeholder="구매할 땅에 메시지를 적어보세요."/>
                     </div>
                     <div class="mb-3">
                         <label for="dot-color" class="col-form-label">색상</label>
@@ -2700,32 +2700,6 @@
         </div>
     </div>
 </div>
-
-<!-- 구매된 땅 정보 -->
-<div class="modal fade" id="purchasedDotModal" tabindex="-1" aria-labelledby="purchasedModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="purchasedModalLabel">구매된 땅의 정보입니다. <iconify-icon icon="emojione-v1:shooting-star" width="30" height="30"></iconify-icon></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                    <p>구매자</p>
-                    <input class="form-control" type="text" aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
-                    <p><iconify-icon icon="logos:metamask-icon" width="30" height="30"></iconify-icon>트랜잭션 정보</p>
-                    <input class="form-control" type="text" aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
-                    <p>메시지</p>
-                    <input  class="form-control" type="text" aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
-                    <p>땅 색상</p>
-                    <input type="color" id="dotcolor" value="white" readonly>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal modal-center fade" id="purchasedCardModal" tabindex="-1" aria-labelledby="purchasedCardModal" aria-hidden="true">
     <div class="modal-dialog modal-center">
         <div class="modal-content" style="margin-left: 80px; width: 380px;">
@@ -2736,7 +2710,7 @@
                 </figure>
                 <div class="card__header">
                     <figure class="card__profile">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Neil_Armstrong.jpg" alt="Short description">
+                        <img id="dotPicture" src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Neil_Armstrong.jpg" alt="Short description">
                     </figure>
                 </div>
                 <div class="card__body">

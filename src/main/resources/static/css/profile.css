@@ -56,3 +56,46 @@ h2 {
     height: 2.4rem;
     font-size: 1rem;
 }
+
+.userImg{
+    display: block;
+    height: 5rem;
+    width: 5rem;
+    box-shadow: 0 0 8px rgb(0 0 0 / 9%);
+    border-radius: 50%;
+    object-fit: cover;
+    transition: all .125s ease-in 0s;
+    margin: 40px 0;
+}
+
+.imgButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin-left: 10px;
+}
+.userImgUploadButton{
+    background-color: #262626;
+    color: #fff;
+    border-radius: 4px;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    padding-top: 4px;
+    width: 7.5rem;
+    height: 2rem;
+    font-weight: 500;
+    margin: 5px;
+}
+.userImgDeleteButton {
+    width: 7.5rem;
+    height: 2rem;
+    font-size: 1rem;
+    color: #fff;
+    border-radius: 4px;
+    background-color: #262626;
+    margin: 5px 0 5px 5px;
+    padding: 0;
+    font-weight: 600;
+}

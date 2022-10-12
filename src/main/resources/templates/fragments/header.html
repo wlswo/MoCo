@@ -28,6 +28,7 @@
         <i class="xi-profile" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: xx-large; cursor: pointer;"></i>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
           <li><span class="dropdown-item"  th:text="${session.user['name']}" style="color: lightblue"></span></li>
+          <li><a class="dropdown-item"  th:href="@{/profile/mypost}" id="MyPost">내가 쓴 글보기</a></li>
           <li><a class="dropdown-item"  th:href="@{/profile/}" id="MyPage">설정</a></li>
           <li><a class="dropdown-item"  href="#" id="ConnectMetaMask">메타마스크 연결</a></li>
           <li><a class="dropdown-item"  th:href="@{/logout}">로그아웃</a></li>

@@ -37,6 +37,7 @@ public class DotMapDto {
         private String description;
         private String color;
         private String txHash;
+        private String picture;
 
         /* Entity -> DTO */
         public Response(DotMap dotmap) {
@@ -47,6 +48,7 @@ public class DotMapDto {
             this.description  = dotmap.getDescription();
             this.color = dotmap.getColor();
             this.txHash = dotmap.getTxHash();
+            this.picture = dotmap.getUser().getPicture();
         }
     }
 }

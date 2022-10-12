@@ -24,48 +24,55 @@ public class BoardService {
     private BoardRepository boardRepository;
 
     //private static final int BLOCK_PAGE_NUM_COUNT = 5; // 블럭에 존재하는 페이지 번호 수
-    private static final int PAGE_POST_COUNT = 9; // 한 페이지에 존재하는 게시글 수
+    private static final int PAGE_POST_COUNT = 8; // 한 페이지에 존재하는 게시글 수
 
     /* PAGEABLE */
-    @Transactional
+    @Transactional(readOnly = true)
     public List<BoardListVo> getBoardlist(Integer pageNum) {
         PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
         List<BoardListVo> boardList = boardRepository.findBoardList(pageRequest);
+
         return boardList;
     }
 
-    /* 모집중인 게시글 */
-    @Transactional
+    /* 모집중인 게시글 가져오기 */
+    @Transactional(readOnly = true)
     public List<BoardListVo> getBoardListOnRecruit(Integer pageNum) {
         PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
         List<BoardListVo> boardList = boardRepository.findBoardListOnRecruit(pageRequest);
         return boardList;
     }
 
-    /* READ */
+    /* 내가 쓴글 가져오기 */
+    @Transactional(readOnly = true)
+    public List<BoardListVo> getMyBoardList(Integer pageNum, Long userId) {
+        PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
+        List<BoardListVo> boardList = boardRepository.findMyBoardList(pageRequest,userId);
+        return boardList;
+    }
+
+    /* 게시글 검색 */
     @Transactional
     public List<BoardListVo> searchPosts(Integer pageNum,String keyword) {
         PageRequest pageRequest = PageRequest.of(pageNum - 1, PAGE_POST_COUNT, Sort.by(Sort.Direction.DESC, "created_date"));
         List<BoardListVo> boardList = boardRepository.findByTitleContaining(pageRequest,keyword);
-
         return boardList;
     }
 
-    /* READ */
+    /* 게시글 수정페이지 */
     @Transactional(readOnly = true)
-    public BoardDto.Response getPost(Long id) {
-        Optional<Board> boardWrapper = boardRepository.findById(id);
-        Board board = boardWrapper.get();
+    public BoardDto.Response getPost(Long BoardId) {
+        Board board = boardRepository.findById(BoardId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         return new BoardDto.Response(board);
     }
-    /* READ */
+    /* 게시글 상세 */
     @Transactional(readOnly = true)
-    public BoardDto.Response findById(Long id) {
-        Board board = boardRepository.findByIdWithFetchJoin(id);
+    public BoardDto.Response findById(Long BoardId) {
+        Board board = boardRepository.findByIdWithFetchJoin(BoardId);
         return new BoardDto.Response(board);
     }
 
-    /* CREATE */
+    /* 게시글 저장 */
     @Transactional
     public Long savePost(String name, BoardDto.Request boardDto) {
         User user = userRepository.findByName(name);
@@ -73,7 +80,7 @@ public class BoardService {
         return boardRepository.save(boardDto.toEntity()).getId();
     }
 
-    /* UPDATE */
+    /* 게시글 수정 */
     @Transactional
     public Long updatePost(Long board_id, BoardDto.Request boardDto) {
         Board board = boardRepository.findById(board_id).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
@@ -81,19 +88,18 @@ public class BoardService {
         return board.getId();
     }
 
+    /* UPDATE -  모집 마감 */
     @Transactional
     public boolean updateFull(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(()-> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         return board.close();
     }
 
-    /* DELETE */
+    /* DELETE - 게시글 삭제 */
     @Transactional
     public void deletePost(Long id) {
         boardRepository.deleteById(id);
     }
-
-
 
     // 페이징
     @Transactional

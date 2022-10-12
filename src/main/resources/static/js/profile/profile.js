@@ -1,24 +1,3 @@
-/* 지갑주소 표시 */
-if(document.getElementById("wallet")){
-    try{
-        currentAccount = web3.eth.requestAccounts().then(function(accounts) {
-            document.getElementById("wallet").textContent = accounts[0];
-            document.getElementById("wallet").style.color = "#6f42c1c7";
-        });
-        /* 계정 변경 감지 */
-        window.ethereum.on("accountsChanged", async function() {
-            // Time to reload your interface with accounts[0]!
-            accounts = await web3.eth.getAccounts();
-            // accounts = await web3.eth.getAccounts();
-            document.getElementById("wallet").textContent = accounts[0]
-            document.getElementById("wallet").style.color = "#6f42c1c7";
-        });
-    }catch (e) {
-        document.getElementById("wallet").textContent = "MetaMask 연동되지 않은 상태입니다.";
-        document.getElementById("wallet").style.color = "#e76876";
-    }
-}
-
 /* 이름변경 ajax */
 function settingConfirm() {
     const nickname = document.getElementById("nickname").value;
@@ -122,7 +101,7 @@ window.addEventListener('load', async () => {
     } else if (typeof window.web3 !== 'undefined') {
         web3 = new Web3(window.web3.currentProvider);
     } else {
-        reject(new Error('No web3 instance injected, using local web3.'))
+        reject(new Error('web3 인스턴스가 주입되지 않았습니다.'))
     }
     if (web3) {
         currentAccount = await web3.eth.requestAccounts();
@@ -137,3 +116,26 @@ document.getElementById("ConnectMetaMask").addEventListener('click', async () =>
         params: [{ chainId: '0x5', }],
     });
 });
+
+/* 지갑주소 표시 */
+if(document.getElementById("wallet")){
+    try{
+        currentAccount =  web3.eth.requestAccounts().then(function(accounts) {
+            console.log(currentAccount);
+            console.log(accounts);
+            document.getElementById("wallet").textContent = accounts[0];
+            document.getElementById("wallet").style.color = "#6f42c1c7";
+        });
+        /* 계정 변경 감지 */
+        window.ethereum.on("accountsChanged", async function() {
+            // Time to reload your interface with accounts[0]!
+            accounts = await web3.eth.getAccounts();
+            // accounts = await web3.eth.getAccounts();
+            document.getElementById("wallet").textContent = accounts[0]
+            document.getElementById("wallet").style.color = "#6f42c1c7";
+        });
+    }catch (e) {
+        document.getElementById("wallet").textContent = "MetaMask 연동되지 않은 상태입니다.";
+        document.getElementById("wallet").style.color = "#e76876";
+    }
+}

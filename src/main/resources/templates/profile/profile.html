@@ -19,6 +19,16 @@
 <nav th:replace="fragments/header"></nav>
     <div class="setting-container">
         <h1 class="setting-title"> 정보 수정하기 </h1>
+        <div class="userImgUpload" style="display: flex">
+            <img class="userImg" th:src="${session.user['picture']}"/>
+            <div class="imgButton">
+                <label class="userImgUploadButton">
+                    이미지선택
+                    <input type="file" id="imgUpload" accept="image/*" style="display: none;">
+                </label>
+                <button class="userImgDeleteButton">이미지 제거</button>
+            </div>
+        </div>
         <section>
             <h2>현재 연동되어있는 메타마스크 계정</h2>
             <div class="sectionBox">

@@ -26,15 +26,15 @@ window.onload=function(){
         /* 구매된 도트 처리 */
         for (let j = 0; j < dotList.length; j++) {
             if('dot'+i.toString()  === dotList[j].dotId.toString()) {
-                let {dotId,userName,description,color,txHash,createdDate} = dotList[j];
+                let {dotId,userName,description,color,txHash,createdDate,picture} = dotList[j];
                 const dot = document.getElementById(dotId);
                 dot.style.fill = color;
                 createdDate = createdDate.replace('T',' ');
                 dot.addEventListener('click',()=>{
                     $('#purchasedCardModal').modal('show');
+                    document.getElementById('dotPicture').src = picture;
                     document.getElementById('buyer').textContent = userName;
                     document.getElementById('dotDescription').textContent = description;
-                    document.getElementById('dotcolor').textContent = color;
                     document.getElementById('createDate').textContent = createdDate;
                     document.getElementById('dotTxHash').href = 'https://goerli.etherscan.io/tx/' + txHash;
                 })
