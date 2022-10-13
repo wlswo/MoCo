@@ -15,16 +15,16 @@
     <!-- Web3.js -->
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
 </head>
-<body>
 <nav th:replace="fragments/header"></nav>
+<body>
     <div class="setting-container">
         <h1 class="setting-title"> 정보 수정하기 </h1>
         <div class="userImgUpload" style="display: flex">
-            <img class="userImg" th:src="${session.user['picture']}"/>
+            <img class="userImg" id="imgPreview" th:src="${session.user['picture']}"/>
             <div class="imgButton">
                 <label class="userImgUploadButton">
                     이미지선택
-                    <input type="file" id="imgUpload" accept="image/*" style="display: none;">
+                    <input type="file" id="imgUpload" accept="image/*" style="display: none;" onchange="readURL(this);"/>
                 </label>
                 <button class="userImgDeleteButton">이미지 제거</button>
             </div>
@@ -53,7 +53,6 @@
                 </div>
             </div>
             <div style="margin-top: 5px;">
-                <input type="hidden" id="userid" th:value="${session.user.getId()}">
                 <button type="button" class="btn btn-dark" onclick="settingConfirm()">확인</button>
                 <button type="button" class="btn btn-warning" onclick="deleteUser()">회원탈퇴</button>
             </div>

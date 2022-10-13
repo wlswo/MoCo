@@ -45,7 +45,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
-                .picture((String) attributes.get("picture"))
+                .picture("/img/userIcon.png")
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -55,7 +55,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("name")+"@github.com")
-                .picture((String) attributes.get("picture"))
+                .picture("/img/userIcon.png")
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -67,7 +67,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) response.get("name"))
                 .email((String) response.get("email"))
-                .picture((String) response.get("profile_image"))
+                .picture("/img/userIcon.png")
                 .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -81,7 +81,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) kakaoProfile.get("nickname"))
                 .email((String) kakaoAcount.get("email"))
-                .picture((String) kakaoProfile.get("profile_image_url"))
+                .picture("/img/userIcon.png")
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();

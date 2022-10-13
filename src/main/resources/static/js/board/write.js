@@ -12,24 +12,23 @@ const editor = new Editor({
         addImageBlobHook: async (blob, callback) => {
             /* blob : JS 파일 인스턴스 */
             console.log(blob);
-            var form = new FormData();
-            form.append("image", blob);
+            var formData = new FormData();
+            formData.append("image", blob);
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
-                url: 'https://api.imgbb.com/1/upload?key=720b3071d5d77a7147ad4b18ce241469',
-                data: form,
+                url: '/s3/image',
+                data: formData,
                 mimeType: "multipart/form-data",
                 processData: false,
                 contentType: false,
                 cache: false,
                 timeout: 600000,
-                success: function(data) {
+                success: function(GetImgUrl) {
                     // callback : 에디터(마크다운 편집기)에 표시할 텍스트, 뷰어에는 imageUrl 주소에 저장된 사진으로 나옴
                     // 형식 : ![대체 텍스트](주소)
-                    displayUrl = JSON.parse(data).data.display_url;
-                    console.log(displayUrl)
-                    callback(displayUrl, '이미지');
+                    console.log(GetImgUrl)
+                    callback(GetImgUrl, '이미지');
                 },
                 error: function(e) {
                     callback('image_load_fail', '이미지업로드 실패');
@@ -86,36 +85,26 @@ reUploadImg.addEventListener('click', ()=> thumbnail.click());
 
 /* 썸네일 이미지서버로 AJAX */
 function uploadThumbnail(e) {
-    const files = e.currentTarget.files;
-    console.log(typeof files, files);
-    if([...files] >= 2) {
-        return;
-    }
-    [...files].forEach(file => {
-        if(!file.type.match("image/.*")) {
-            alert("이미지만 업로드 할수있습니다.");
-            return;
-        }
-    })
-    var form = new FormData();
-    form.append("image", files[0]);
-    /* ajax */
+    const imgFile = e.currentTarget.files[0];
+    console.log(typeof imgFile, imgFile);
+
+    var formData = new FormData();
+    formData.append("image", imgFile);
     $.ajax({
         type: 'POST',
         enctype: 'multipart/form-data',
-        url: 'https://api.imgbb.com/1/upload?key=720b3071d5d77a7147ad4b18ce241469',
-        data: form,
+        url: '/s3/image',
+        data: formData,
         mimeType: "multipart/form-data",
         processData: false,
         contentType: false,
         cache: false,
         timeout: 600000,
-        success: function(data) {
-            displayUrl = JSON.parse(data).data.display_url;
-            console.log(displayUrl);
-            document.querySelector('.thumbnail-preview').setAttribute('src',displayUrl);
+        success: function(GetImgUrl) {
+            console.log(GetImgUrl)
+            document.querySelector('.thumbnail-preview').setAttribute('src',GetImgUrl);
             thumbnailChange();
-            document.getElementById('thumbnail').value = displayUrl;
+            document.getElementById('thumbnail').value = GetImgUrl;
         },
         error: function(e) {
             console.log(e);

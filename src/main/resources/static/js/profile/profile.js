@@ -1,8 +1,24 @@
+let imgFile;
+
+/* 프로필 사진 업로드 */
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imgPreview').src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+        imgFile = input.files[0];
+    } else {
+        document.getElementById('preview').src = "";
+    }
+}
+
+
 /* 이름변경 ajax */
 function settingConfirm() {
+
     const nickname = document.getElementById("nickname").value;
-    const userid = document.getElementById("userid").value;
-    console.log(nickname);
 
     //특수문자를 제외한 2~10 글자 사이
     const regExp = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
@@ -19,10 +35,23 @@ function settingConfirm() {
         notification('2~10글자 사이로 입력해주세요.');
         return false;
     }
+
+    let formData = new FormData;
+    if(typeof imgFile == 'undefined' || imgFile == null || imgFile == '') {
+        formData.append("image", null);
+    }else {
+        formData.append("image", imgFile);
+    }
     $.ajax({
-        url: 'http://localhost:8080/profile/change/' + nickname,
-        type: 'PATCH',
-        data: {"userid":userid},
+        type: 'POST',
+        enctype: 'multipart/form-data',
+        url: '/profile/change/' + nickname,
+        data: formData,
+        mimeType: "multipart/form-data",
+        processData: false,
+        contentType: false,
+        cache: false,
+        timeout: 600000,
         success: function (data) {
             window.location.href = "/board/list";
         },
@@ -33,7 +62,6 @@ function settingConfirm() {
 }
 /* 회원탈퇴 */
 async function deleteUser() {
-    const userid = document.getElementById("userid").value;
     var isConfirm = await confirm('','정말로 탈퇴 하시겠습니까?');
     if(isConfirm.isConfirmed) {
         $.ajax({
@@ -43,7 +71,7 @@ async function deleteUser() {
                 window.location.href = "/logout";
             },
             error: function (error) {
-                notification('이미 존재하는 별명입니다.');
+                notification('탈퇴에 실패했습니다. 다시 시도해주세요.');
             }
         });
     }
@@ -106,6 +134,26 @@ window.addEventListener('load', async () => {
     if (web3) {
         currentAccount = await web3.eth.requestAccounts();
     }
+    /* 지갑주소 표시 */
+    if(document.getElementById("wallet")){
+        try{
+            currentAccount =  web3.eth.requestAccounts().then(function(accounts) {
+                document.getElementById("wallet").textContent = accounts[0];
+                document.getElementById("wallet").style.color = "#6f42c1c7";
+            });
+            /* 계정 변경 감지 */
+            window.ethereum.on("accountsChanged", async function() {
+                // Time to reload your interface with accounts[0]!
+                accounts = await web3.eth.getAccounts();
+                // accounts = await web3.eth.getAccounts();
+                document.getElementById("wallet").textContent = accounts[0]
+                document.getElementById("wallet").style.color = "#6f42c1c7";
+            });
+        }catch (e) {
+            document.getElementById("wallet").textContent = "MetaMask 연동되지 않은 상태입니다.";
+            document.getElementById("wallet").style.color = "#e76876";
+        }
+    }
 });
 
 /* 메타마스크 연결 */
@@ -116,26 +164,3 @@ document.getElementById("ConnectMetaMask").addEventListener('click', async () =>
         params: [{ chainId: '0x5', }],
     });
 });
-
-/* 지갑주소 표시 */
-if(document.getElementById("wallet")){
-    try{
-        currentAccount =  web3.eth.requestAccounts().then(function(accounts) {
-            console.log(currentAccount);
-            console.log(accounts);
-            document.getElementById("wallet").textContent = accounts[0];
-            document.getElementById("wallet").style.color = "#6f42c1c7";
-        });
-        /* 계정 변경 감지 */
-        window.ethereum.on("accountsChanged", async function() {
-            // Time to reload your interface with accounts[0]!
-            accounts = await web3.eth.getAccounts();
-            // accounts = await web3.eth.getAccounts();
-            document.getElementById("wallet").textContent = accounts[0]
-            document.getElementById("wallet").style.color = "#6f42c1c7";
-        });
-    }catch (e) {
-        document.getElementById("wallet").textContent = "MetaMask 연동되지 않은 상태입니다.";
-        document.getElementById("wallet").style.color = "#e76876";
-    }
-}

@@ -11,7 +11,6 @@ import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
 import com.board.board.service.board.RecruitService;
 import com.board.board.service.hashTag.HashTagService;
-import com.board.board.service.web3j.TransferTokenService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.io.JsonEOFException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,12 +47,11 @@ public class BoardController {
     private final CommentService commentService;
     private final LikeService likeService;
     private final HashTagService hashTagService;
-    private final TransferTokenService transferTokenService;
     private final RecruitService recruitService;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----- Board 📋 ----- */
-    /* READ - 게시글 목록 Default(모집중) */
+    /* RETURN PAGE - 게시글 목록 페이지 (모집중) */
     @GetMapping({"","/list"})
     public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
         List<BoardListVo> boardList = boardService.getBoardListOnRecruit(pageNum);
@@ -65,7 +63,7 @@ public class BoardController {
         return "board/list";
     }
 
-    /* READ - 전체 게시글 */
+    /* RETURN PAGE - 게시글 목록 페이지 (전체 게시글) */
     @GetMapping("/AllBoard")
     public String recruitOn(@RequestParam(value = "page", defaultValue = "1") Integer pageNum , Model model) {
         List<BoardListVo> boardDtoList = boardService.getBoardlist(pageNum);
@@ -73,72 +71,17 @@ public class BoardController {
         return "/board/list";
     }
 
-    /* READ - 무한스크롤 AJAX */
-    @GetMapping("/listJson/{page}/{isRecruitOn}")
-    public ResponseEntity listJson(@PathVariable("page") Integer pageNum,@PathVariable("isRecruitOn") Boolean isRecruitOn) {
-        List<BoardListVo> boardList = new ArrayList<>();
-        if(isRecruitOn) { /* 모집중만 */
-            boardList = boardService.getBoardListOnRecruit(pageNum);
-        }else {           /* 전체 게시글 */
-            boardList = boardService.getBoardlist(pageNum);
-        }
-        return ResponseEntity.ok(boardList);
-    }
-
-    /* RETURN PAGE */
+    /* RETURN PAGE - 글작성 페이지 */
     @GetMapping("/post")
     public String write(){
         return "board/write";
     }
 
-    /* CREATE - 글작성 */
-    @PostMapping("/post")
-    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "walletAddress", required = false) String walletAddress) {
-        /* 글작성 유효성 검사 */
-        if(errors.hasErrors()) {
-            /* 글작성 실패시 입력 데이터 값 유지 */
-            model.addAttribute("boardDto",boardDto) ;
-            /* 유효성 통과 못한 필드와 메세지를 핸들링 */
-            model.addAttribute("error","제목을 입력해주세요.");
-            return "board/write";
-        }
-
-        /* 썸네일 부재시 디폴트값 설정 */
-        if (boardDto.getThumbnail().equals("") || boardDto.getThumbnail().equals(null)){
-            boardDto.setThumbnail("/img/panda.png");
-        }
-        boardDto.setWriter(sessionUser.getName());
-        Long board_Id = boardService.savePost(sessionUser.getName(),boardDto);
-
-        /* 해시태그 저장 */
-        if(!tags.isEmpty()) {
-            List<HashTagDto.Request> hashTagDtoList = new ArrayList<>();
-            try{
-                JSONParser parser = new JSONParser();
-                JSONArray json = (JSONArray) parser.parse(tags);
-                json.forEach(item -> {
-                    JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
-                    HashTagDto.Request hashTagDto = new HashTagDto.Request();
-                    hashTagDto.setTagcontent(jsonObject.get("value").toString());
-                    hashTagDtoList.add(hashTagDto);
-                });
-                hashTagService.SaveAll(board_Id,hashTagDtoList);
-            }catch (ParseException e) {
-                log.info(e.getMessage());
-            }
-        }
-
-        /* 스마트 컨트랙트 토큰 지급 */
-        if(!walletAddress.isBlank() || walletAddress == null) {
-            //transferTokenService.transfer(walletAddress);
-        }
-
-        return "redirect:/board/list";
-    }
-
-    /* READ - 글읽기 */
+    /* RETURN PAGE - 글읽기 페이지 */
     @GetMapping("/post/read/{boardId}")
     public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
+
+
         log.info("---FindById 게시글---");
         BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
@@ -229,7 +172,7 @@ public class BoardController {
         StringBuilder sb = new StringBuilder();
 
         while (hashTagContents.hasNext()) {
-           sb.append(hashTagContents.next().getTagcontent()).append(",");
+            sb.append(hashTagContents.next().getTagcontent()).append(",");
         }
 
         /* Html -> MarkDown */
@@ -241,6 +184,63 @@ public class BoardController {
         model.addAttribute("hashTags", sb);
         model.addAttribute("no", no);
         return "board/update";
+    }
+
+    /* READ - 무한스크롤 AJAX */
+    @GetMapping("/listJson/{page}/{isRecruitOn}")
+    public ResponseEntity listJson(@PathVariable("page") Integer pageNum,@PathVariable("isRecruitOn") Boolean isRecruitOn) {
+        List<BoardListVo> boardList = new ArrayList<>();
+        if(isRecruitOn) { /* 모집중만 */
+            boardList = boardService.getBoardListOnRecruit(pageNum);
+        }else {           /* 전체 게시글 */
+            boardList = boardService.getBoardlist(pageNum);
+        }
+        return ResponseEntity.ok(boardList);
+    }
+
+    /* CREATE - 글작성 */
+    @PostMapping("/post")
+    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "walletAddress", required = false) String walletAddress) {
+        /* 글작성 유효성 검사 */
+        if(errors.hasErrors()) {
+            /* 글작성 실패시 입력 데이터 값 유지 */
+            model.addAttribute("boardDto",boardDto) ;
+            /* 유효성 통과 못한 필드와 메세지를 핸들링 */
+            model.addAttribute("error","제목을 입력해주세요.");
+            return "board/write";
+        }
+
+        /* 썸네일 부재시 디폴트값 설정 */
+        if (boardDto.getThumbnail().equals("") || boardDto.getThumbnail().equals(null)){
+            boardDto.setThumbnail("/img/panda.png");
+        }
+        boardDto.setWriter(sessionUser.getName());
+        Long board_Id = boardService.savePost(sessionUser.getName(),boardDto);
+
+        /* 해시태그 저장 */
+        if(!tags.isEmpty()) {
+            List<HashTagDto.Request> hashTagDtoList = new ArrayList<>();
+            try{
+                JSONParser parser = new JSONParser();
+                JSONArray json = (JSONArray) parser.parse(tags);
+                json.forEach(item -> {
+                    JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
+                    HashTagDto.Request hashTagDto = new HashTagDto.Request();
+                    hashTagDto.setTagcontent(jsonObject.get("value").toString());
+                    hashTagDtoList.add(hashTagDto);
+                });
+                hashTagService.SaveAll(board_Id,hashTagDtoList);
+            }catch (ParseException e) {
+                log.info(e.getMessage());
+            }
+        }
+
+        /* 스마트 컨트랙트 토큰 지급 */
+        if(!walletAddress.isBlank() || walletAddress == null) {
+            //transferTokenService.transfer(walletAddress);
+        }
+
+        return "redirect:/board/list";
     }
 
     /* UPDATE - 게시글 수정 */

@@ -55,8 +55,8 @@ public class User extends Time {
         this.role = role;
     }
     /* Oauth 로그인 갱신 날짜 갱신 */
-    public User update(String picture) {
-        this.picture = picture;
+    public User updateProfile(String pictureURL) {
+        this.picture = pictureURL;
         return this;
     }
 

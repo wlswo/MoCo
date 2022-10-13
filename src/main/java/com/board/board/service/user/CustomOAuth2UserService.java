@@ -51,12 +51,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     /* 소셜로그인시 기존 회원이 존재하면 수정날짜 정보만 업데이트하여 기존의 데이터는 그대로 보존 */
     private User saveOrUpdate(OAuthAttributes attributes){
 
-        User user = userRepository.findByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getPicture()))
-                .orElse(attributes.toEntity());
+        User user = userRepository.findByEmail(attributes.getEmail()).orElse(attributes.toEntity());
         /* SNS 로그인은 이메일 인증 패스 */
         user.emailVerifiedSuccess();
-
         return userRepository.save(user);
     }
 

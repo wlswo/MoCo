@@ -2,23 +2,16 @@ package com.board.board.controller;
 
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
-import com.board.board.domain.User;
 import com.board.board.dto.BoardListVo;
+import com.board.board.service.aws.AwsS3Service;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
-import java.security.Security;
-import java.util.ArrayList;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 
@@ -29,18 +22,33 @@ public class ProfileController {
 
     private final UserService userService;
     private final BoardService boardService;
-    private final HttpSession httpSession;
+    private final AwsS3Service awsS3Service;
 
     @GetMapping("/")
     public String ProfilePage() { return "profile/profile"; }
 
-    @PatchMapping("/change/{nickname}")
-    public ResponseEntity ChangeNickname(@PathVariable("nickname") String nickname,Long userid) {
+    @PostMapping("/change/{nickname}")
+    public ResponseEntity ChangeNickname(@PathVariable("nickname") String nickname, @RequestParam(value = "image" ,required = false) MultipartFile multipartFile,@LoginUser SessionUser sessionUser) {
+
+        /* 프로필 사진만 바꾼 경우 */
+        if(sessionUser.getName().equals(nickname)) {
+            if (multipartFile != null && !multipartFile.isEmpty()) {
+                userService.profileUpdateInSetting(sessionUser.getId(),awsS3Service.uploadImage(multipartFile));
+            }
+            return ResponseEntity.ok("ok");
+        }
+
+        /* 이름중복검사 */
         if(userService.checkUsernameDuplication(nickname)){
             return ResponseEntity.status(400).build();
         }
 
-        userService.nameUpdateInSetting(userid, nickname);
+        /* 이름 프로필 둘다 바뀐경우*/
+        userService.nameUpdateInSetting(sessionUser.getId(), nickname);
+        if( multipartFile != null && !multipartFile.isEmpty() ){
+            userService.profileUpdateInSetting(sessionUser.getId(),awsS3Service.uploadImage(multipartFile));
+        }
+
 
         return ResponseEntity.ok("ok");
     }

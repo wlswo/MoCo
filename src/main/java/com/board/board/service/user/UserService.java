@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ public class UserService {
     private final ConfirmationTokenService confirmationTokenService;
     private final HttpSession httpSession;
     private final BoardRepository boardRepository;
+    private final AuthenticationManager authenticationManager;
 
     /* 회원가입 */
     @Transactional
@@ -38,7 +40,7 @@ public class UserService {
         userDto.setPassword(encoder.encode(userDto.getPassword()));
         return userRepository.save(userDto.toEntity());
     }
-    /* 회원가입 시 유효성 체크 */
+    /* 회원가입 시 input 유효성 체크 */
     @Transactional(readOnly = true)
     public Map<String,String> validateHandling(Errors errors){
         Map<String,String> validatorResult = new HashMap<>();
@@ -93,6 +95,14 @@ public class UserService {
         httpSession.setAttribute("user",user);
     }
 
+    /* 설정에서 프로필 사진 변경 */
+    @Transactional
+    public void profileUpdateInSetting(Long userId, String imgURL) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+        user.updateProfile(imgURL);
+        httpSession.setAttribute("user",user);
+    }
+
     /* 이메일 인증시 가입처리 */
     @Transactional
     public void confirmEmail(String token){
@@ -102,6 +112,7 @@ public class UserService {
         findConfirmationToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true로 변경
         user.emailVerifiedSuccess();	    // 유저의 이메일 인증 값 변경 emailcheck 컬럼 true
     }
+
     /* 회원탈퇴 */
     @Transactional
     public void deleteUser(Long userId) {

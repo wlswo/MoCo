@@ -1,5 +1,6 @@
 package com.board.board.controller;
 
+import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,17 +12,9 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @Controller
 public class BaseController {
-    private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-
-        if(user != null) {
-            model.addAttribute("userName",user.getName());
-            model.addAttribute("userImg",user.getPicture());
-        }
-
+    public String index() {
         return "index";
     }
 }
