@@ -85,22 +85,21 @@ public class UserService {
 
     /* 설정에서 별명 바꾸기 */
     @Transactional
-    public void nameUpdateInSetting(Long userid, String name) {
+    public User nameUpdateInSetting(Long userid, String name) {
         User user = userRepository.findById(userid).orElseThrow(() ->
                 new IllegalArgumentException("유저를 찾을수 없습니다."));
         user.updateNameInSetting(name);
         /* 해당 유저가 작성한 게시글 작성자도 변경 */
         boardRepository.updateWriter(name,user.getId());
-        /* 세션 변경 */
-        httpSession.setAttribute("user",user);
+        return user;
     }
 
     /* 설정에서 프로필 사진 변경 */
     @Transactional
-    public void profileUpdateInSetting(Long userId, String imgURL) {
+    public User profileUpdateInSetting(Long userId, String imgURL) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
         user.updateProfile(imgURL);
-        httpSession.setAttribute("user",user);
+        return user;
     }
 
     /* 이메일 인증시 가입처리 */

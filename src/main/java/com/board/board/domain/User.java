@@ -55,9 +55,8 @@ public class User extends Time {
         this.role = role;
     }
     /* Oauth 로그인 갱신 날짜 갱신 */
-    public User updateProfile(String pictureURL) {
+    public void updateProfile(String pictureURL) {
         this.picture = pictureURL;
-        return this;
     }
 
     /* 첫 소셜 로그인시 별명 중복검사 시키기 */

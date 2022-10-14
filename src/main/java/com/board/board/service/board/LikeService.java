@@ -37,9 +37,8 @@ public class LikeService {
 
     /* READ */
     @Transactional(readOnly = true)
-    public boolean findLike(String name, Long boardId) {
-        User user = userRepository.findByName(name);
-        return likeRepository.existsByUser_IdAndBoard_Id(user.getId(), boardId);
+    public boolean findLike(Long userId, Long boardId) {
+        return likeRepository.existsByUser_IdAndBoard_Id(userId, boardId);
     }
 
     /* READ COUNT */

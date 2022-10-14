@@ -80,9 +80,6 @@ public class BoardController {
     /* RETURN PAGE - 글읽기 페이지 */
     @GetMapping("/post/read/{boardId}")
     public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
-
-
-        log.info("---FindById 게시글---");
         BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
 
@@ -113,13 +110,11 @@ public class BoardController {
         }
 
         /* 좋아요 관련 */
-        log.info("---FindLikeCunt 좋아요 개수 쿼리---");
         Long like_count = likeService.findLikeCount(boardId);
         model.addAttribute("likeCount", like_count);
 
         if(sessionUser != null){
-            log.info("---FindLike 좋아요 클릭 여부---");
-            if(likeService.findLike(sessionUser.getName(), boardId)){
+            if(likeService.findLike(sessionUser.getId(), boardId)){
                 model.addAttribute("isLiked",true);
             }else {
                 model.addAttribute("isLiked", false);
@@ -151,7 +146,6 @@ public class BoardController {
         }
         /* 현재 참가 인원 */
         Long joinUsers = recruitService.countToJoinUsers(boardId);
-        log.info(joinUsers.toString());
         model.addAttribute("joinUsers",joinUsers);
         model.addAttribute("boardDto",boardDTO);
         return "board/detail";
