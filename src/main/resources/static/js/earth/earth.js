@@ -9,18 +9,23 @@ window.onload=function(){
         /* 가격 부여 */
         if(0 <= i && i <= 215 ) {
             rect_Collection[i].setAttribute('price','500');
+            rect_Collection[i].setAttribute('level','1');
         }
         else if(216 <= i && i <= 666) {
-            rect_Collection[i].setAttribute('price','1500');
+            rect_Collection[i].setAttribute('price','1000');
+            rect_Collection[i].setAttribute('level','2');
         }
         else if(667 <= i && i <= 1660) {
-            rect_Collection[i].setAttribute('price','2000');
+            rect_Collection[i].setAttribute('price','1500');
+            rect_Collection[i].setAttribute('level','3');
         }
         else if(1661 <= i && i <= 2370) {
-            rect_Collection[i].setAttribute('price','1500');
+            rect_Collection[i].setAttribute('price','1000');
+            rect_Collection[i].setAttribute('level','2');
         }
         else {
             rect_Collection[i].setAttribute('price','500');
+            rect_Collection[i].setAttribute('level','1');
         }
 
         /* 구매된 도트 처리 */
@@ -61,6 +66,7 @@ window.onload=function(){
             if(document.getElementById('buydot-wallet')){
                 document.getElementById('dotId').value = rect_Collection[i].getAttribute('id');
                 document.getElementById('price').textContent = '가격 : ' + rect_Collection[i].getAttribute('price') + '토큰입니다.';
+                document.getElementById('level').value = rect_Collection[i].getAttribute('level');
             }
         });
     }

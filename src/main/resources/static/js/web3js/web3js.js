@@ -28,9 +28,6 @@ document.getElementById("ConnectMetaMask").addEventListener('click', async () =>
 });
 
 /* 메타마스크에 토큰추가 */
-const tokenAddress = '0xeCDE103BDd3Ffb291b5f24330018A3E65413B076';
-const tokenSymbol = 'MGK';
-const tokenDecimals = 18;
 const getTokenInformation = async function (event){
     currentAccount = await web3.eth.requestAccounts().then(function(array) { return array[0] });
     web3.eth.getAccounts(console.log);
@@ -41,10 +38,10 @@ const getTokenInformation = async function (event){
             params: {
                 type: 'ERC20',
                 options: {
-                    address: tokenAddress,
-                    symbol: tokenSymbol,
-                    decimals: tokenDecimals,
-                    // image: tokenImage, // if you have the image, it goes here
+                    address: '0x7451425A01Cd543946f7b7DfE99B5010553895Ec',
+                    symbol: 'MoGaKKoin',
+                    decimals: 18,
+                    image: 'https://myzzbucket.s3.ap-northeast-2.amazonaws.com/tokenIcon.png', // if you have the image, it goes here
                 },
             },
         });
@@ -207,6 +204,45 @@ const abi = [
         "type": "event"
     },
     {
+        "inputs": [],
+        "name": "Buy_Level1_Dot",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "Buy_Level2_Dot",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "Buy_Level3_Dot",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",
@@ -271,25 +307,6 @@ const abi = [
             }
         ],
         "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            }
-        ],
-        "name": "buyLand",
-        "outputs": [
-            {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-            }
-        ],
-        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -510,26 +527,23 @@ const abi = [
         "type": "function"
     }
 ];
-
+const contractAddress = '0x7451425A01Cd543946f7b7DfE99B5010553895Ec';
 /* 출석체크 보상받기 - List Page */
 if(document.getElementById("getTokenButton")){
     document.getElementById("getTokenButton").addEventListener('click',async ()=>{
-        let loadingIcon = document.getElementById('banner2-loadingIcon');
         const account = await web3.eth.requestAccounts();
-        const SmartContract = new web3.eth.Contract(abi,"0xeCDE103BDd3Ffb291b5f24330018A3E65413B076");
-        await SmartContract.methods.getTokenOneDay().send({from:account.toString()},function (res,err) {
-            loadingIcon.style.display = "block";
+        const SmartContract = new web3.eth.Contract(abi,contractAddress);
+        await SmartContract.methods.getTokenOneDay().send({from:account.toString()},function (err,res) {
+            const txHash = document.getElementById("oneDay-contract");
+            txHash.style.display = 'block';
+            const recipe = document.getElementById("oneDay-contract-text");
+
             if (err) {
-                console.log(err);
-                loadingIcon.style.display = "none";
-                document.getElementById("contract-err").style.display = "block";
-                const error = document.getElementById("contract-error");
-                error.textContent = "하루에 한번만 받을수 있습니다.";
-                error.style.color = "firebrick";
-                return
+                recipe.textContent = "다시 시도해 주세요.";
+                recipe.style.color = "firebrick";
             }else{
-                loadingIcon.style.display = "none";
-                console.log("Hash of the transaction: " + res)
+                txHash.href = 'https://goerli.etherscan.io/tx/' + res;
+                recipe.textContent = '트랜잭션 확인하기';
             }
         });
     });
@@ -539,57 +553,88 @@ if(document.getElementById("getWelcomeTokenButton")){
     document.getElementById("getWelcomeTokenButton").addEventListener('click',async ()=>{
         let loadingIcon = document.getElementById('banner3-loadingIcon');
         const account = await web3.eth.requestAccounts();
-        const SmartContract = new web3.eth.Contract(abi,"0xeCDE103BDd3Ffb291b5f24330018A3E65413B076");
-        await SmartContract.methods.getTokenOnce().send({from:account.toString()},function (res,err) {
-            loadingIcon.style.display = "block";
+        const SmartContract = new web3.eth.Contract(abi,contractAddress);
+        await SmartContract.methods.getTokenOnce().send({from:account.toString()},function (err,res) {
+            const txHash = document.getElementById("welcome-contract");
+            txHash.style.display = "block";
+            const recipe = document.getElementById('welcome-contract-text');
             if (err) {
-                console.log(err);
-                loadingIcon.style.display = "none";
-                document.getElementById("welcome-contract-err").style.display = "block";
-                const error = document.getElementById("welcome-contract-error");
-                error.textContent = '가입 토큰은 한번만 받을수 있습니다.';
-                error.style.color = "firebrick";
-                return
-            }else {
-                loadingIcon.style.display = "none";
-                console.log("Hash of the transaction: " + res)
+                recipe.textContent = "다시 시도해 주세요.";
+                recipe.style.color = "firebrick";
+            }else{
+                txHash.href = 'https://goerli.etherscan.io/tx/' + res;
+                recipe.textContent = '트랜잭션 확인하기';
             }
         });
     });
 }
+
 /* 땅사기 - earth Page */
 if(document.getElementById("buyLandButton")) {
     document.getElementById("buyLandButton").addEventListener('click',async ()=>{
         let loadingIcon = document.getElementById('buyDot-loadingIcon');
-        // calculate ERC20 token amount
-        const amount = web3.utils.toWei("1000");
         const account = await web3.eth.requestAccounts();
-        const SmartContract = new web3.eth.Contract(abi,"0xeCDE103BDd3Ffb291b5f24330018A3E65413B076");
-        console.log(SmartContract.methods.balanceOf(account.toString()).call());
-        await SmartContract.methods.buyLand(amount).send({from:account.toString(),gasprice: 20000000000},async function (err,res) {
+        const SmartContract = new web3.eth.Contract(abi,contractAddress);
+        let balance;
+        await SmartContract.methods.balanceOf(account.toString()).call().then((e) =>  balance = web3.utils.fromWei(e));
+        const level = document.getElementById('level').value;
+        const contract = document.getElementById("dotmap-contract");
+        const recipe = document.getElementById('dotmap-contract-text');
+        let BuyDot;
+
+        console.log(balance);
+        console.log(typeof balance);
+        const balanceErrMsg = () => {
+            contract.style.display = "block";
+            recipe.textContent = "토큰이 부족합니다.";
+            recipe.style.color = "red";
+        }
+        if(level === '1' ) {
+            if(balance < 500) {
+                balanceErrMsg();
+                return false;
+            }
+            BuyDot = await SmartContract.methods.Buy_Level1_Dot();
+        }
+        if(level === '2') {
+            if(balance < 1000) {
+                balanceErrMsg();
+                return false;
+            }
+            BuyDot = await SmartContract.methods.Buy_Level2_Dot();
+        }
+        if(level === '3') {
+            if(balance < 1500) {
+                balanceErrMsg();
+                return false;
+            }
+            BuyDot = await SmartContract.methods.Buy_Level3_Dot();
+        }
+        BuyDot.send({from:account.toString(),gasprice: 20000000000}, async function (err,res) {
             loadingIcon.style.display = "block";
             if (err) {
                 console.log(err);
                 loadingIcon.style.display = "none";
-                document.getElementById("dotmap-contract-err").style.display = "block";
-                const error = document.getElementById("dotmap-contract-err");
-                error.textContent = '트랜잭션이 취소됐습니다.';
-                error.style.color = "firebrick";
-                return
+                contract.style.display = "block";
+                recipe.textContent = '트랜잭션이 취소됐습니다.';
+                recipe.style.color = "firebrick";
             }else {
-                const success = document.getElementById("dotmap-contract-suc");
-                success.style.display = "block";
-                success.textContent = '트랜잭션 성공후 땅이 구매됩니다.';
-                success.style.color = "gray";
+                contract.style.display = "block";
+                recipe.style.display = "block";
+                recipe.textContent = '트랜잭션 성공후 땅이 구매됩니다.';
+                recipe.style.color = "gray";
                 console.log(res);
                 const interval = setInterval(()=>{
                     console.log("트랜잭션 영수증을 기다리고있습니다...");
                     web3.eth.getTransactionReceipt(res, function(err, rec){
                         if (rec) {
-                            console.log("See transaciton in https://goerli.etherscan.io/tx/"+rec.transactionHash);
-                            loadingIcon.style.display = "none";
-                            success.textContent = '트랜잭션이 성공했습니다.';
-                            success.style.color = "green";
+                            if(rec.status === false) {
+                                loadingIcon.style.display = "none";
+                                contract.style.display = "block";
+                                recipe.textContent = "구매에 실패했습니다.";
+                                clearInterval(interval);
+                                return false;
+                            }
                             clearInterval(interval);
                             /* 성공시 도트 구매 AJAX */
                             var params = {
@@ -598,17 +643,16 @@ if(document.getElementById("buyLandButton")) {
                                 color       : $("#dot-color").val(),
                                 txHash      : rec.transactionHash.toString(),
                             }
-
                             $.ajax({
                                 type : "POST",
                                 url : "/earth/buy/" + $("#userId").val(),
                                 data : JSON.stringify(params),
                                 contentType : 'application/json',
                                 dataType : 'json',
-                                success : function(res){ // 비동기통신의 성공일경우 success콜백으로 들어옵니다. 'res'는 응답받은 데이터이다.
+                                success : function(res){
                                     location.reload();
                                 },
-                                error : function(XMLHttpRequest, textStatus, errorThrown){ // 비동기 통신이 실패할경우 error 콜백으로 들어옵니다.
+                                error : function(err){
                                     alert('땅 구매에 실패했습니다. 다시 시도해주세요.');
                                 }
                             });

@@ -2657,6 +2657,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="level">
                 <p style="font-weight: 700; font-size: 25px;"> 지역마다 가격이 다릅니다. </p>
                 <p>💡보유하신 토큰을 확인해주세요</p>
                 <span sec:authorize="isAnonymous()"><a href="/login" style="text-decoration: underline; color: #0d6efd; font-size: 15px; padding: 0.5rem;">로그인이 필요합니다.</a></span>
@@ -2690,8 +2691,7 @@
                     </div>
                 </form>
                 <p id="buyDot-loadingIcon" style="font-size: 15px; display: none;"><iconify-icon icon="eos-icons:loading" width="35" height="35"></iconify-icon>트랜잭션 영수증을 기다리는 중입니다. 네트워크 상태에 따라 소요되는 시간이다릅니다.</p>
-                <div id="dotmap-contract-err" style="margin-top: 10px; display: none;"><span id="dotmap-contract-error" style="padding: 0.5rem;"></span></div>
-                <div id="dotmap-contract-suc" style="margin-top: 10px; display: none;"><span id="dotmap-contract-success" style="padding: 0.5rem;"></span></div>
+                <div id="dotmap-contract" style="margin-top: 10px; display: none;"><span id="dotmap-contract-text" style="padding: 0.5rem;"></span></div>
             </div>
             <div class="modal-footer">
                 <button sec:authorize="isAuthenticated()" id="buyLandButton" type="button" class="btn btn-primary">구매</button>
