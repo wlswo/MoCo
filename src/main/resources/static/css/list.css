@@ -57,7 +57,7 @@ body {
     text-align: center;
 }
 
-.banner-container {
+.banner-container{
     display: flex;
     height: 260px;
     padding: 0 90px;
@@ -85,6 +85,7 @@ body {
 .banner-in-right {
     flex : 1 1;
     margin: 0 auto;
+    display: block;
 }
 .banner-title{
     display: inline-block;
@@ -96,6 +97,33 @@ body {
 .banner-text {
     font-size: 25px;
 }
+@media all and (min-width: 320px) {
+    .banner-container {
+        padding: 0 20px;
+    }
+    .banner-in-right {
+        flex : 1 1;
+        margin: 0 auto;
+        display: none;
+    }
+}
+
+@media all and (min-width: 760px) {
+    .banner-in-right {
+        flex : 1 1;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+@media all and (min-width: 1024px) {
+    .banner-in-right {
+        flex : 1 1;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
 .slick-dots{
     bottom: -45px;
     width: 100%;

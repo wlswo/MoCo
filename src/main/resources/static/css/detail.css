@@ -11,13 +11,29 @@ nav {
 body {
     box-sizing: inherit;
 }
-.container {
-    margin-top: 5.5rem;
-    width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
+@media (min-width: 768px) {
+    .board-container{
+        width:600px;
+        margin-top: 5.5rem;
+        margin-left: auto;
+        margin-right: auto;
+    }}
 
+@media (min-width: 992px) {
+    .board-container{
+        width:720px;
+        margin-top: 5.5rem;
+        margin-left: auto;
+        margin-right: auto;
+    }}
+
+@media (min-width: 1200px) {
+    .board-container{
+        width:900px;
+        margin-top: 5.5rem;
+        margin-left: auto;
+        margin-right: auto;
+    }}
 .detail-title {
     font-size: 3rem;
     line-height: 1.9;

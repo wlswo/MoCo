@@ -91,12 +91,13 @@
               <iconify-icon icon="logos:metamask-icon" width="30" height="30"></iconify-icon>
               토큰을 받을 주소를 확인해주세요.
             </p>
+            <p>🪙 300 토큰이 지급됩니다. </p>
             <input id="wallet" class="form-control" type="text" value="메타마스크와 연동이 되지 않았습니다." aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
             <a href="#" id="GetTokenInfo" style="text-decoration: underline; color: #0d6efd; font-size: 15px; padding: 0.5rem;">메타마스크에 모각코인 정보 추가하기</a>
           </span>
-          <p id="banner2-loadingIcon" style="font-size: 15px; display: none;"><iconify-icon icon="eos-icons:loading" width="35" height="35"></iconify-icon>트랜잭션 실행중입니다. 네트워크 상태에 따라 소요되는 시간이다릅니다.</p>
-          <div id="contract-err" style="margin-top: 10px; display: none;"><span id="contract-error" style="padding: 0.5rem;"></span></div>
-          <div id="contract-suc" style="margin-top: 10px; display: none;"><span id="contract-success" style="padding: 0.5rem;"></span></div>
+          <a id="oneDay-contract" target="_blank" style="text-decoration: underline; color: dimgrey; font-size: 15px; padding: 0.5rem; display: none;">
+            <span id="oneDay-contract-text"></span>
+          </a>
         </div>
         <div class="modal-footer">
           <button sec:authorize="isAuthenticated()" id="getTokenButton" type="button" class="btn btn-primary">토큰 받기</button>
@@ -116,7 +117,7 @@
         <div class="modal-body">
           <p style="font-weight: 700; font-size: 25px;"> 첫 가입 토큰은 한번만 받을수 있습니다.</p>
           <p>💡goerliETH 와 Metamask가 설치되어 있어야 합니다.</p>
-          <p>🪙 1000 토큰이 지급됩니다. </p>
+          <p>🪙 1500 토큰이 지급됩니다. </p>
           <span sec:authorize="isAnonymous()"><a href="/login" style="text-decoration: underline; color: #0d6efd; font-size: 15px; padding: 0.5rem;">로그인이 필요합니다.</a></span>
           <span sec:authorize="isAuthenticated()">
             <p>
@@ -126,9 +127,9 @@
             <input id="welcome-wallet" class="form-control" type="text" value="메타마스크와 연동이 되지 않았습니다." aria-label="readonly input example" style=" margin-top: 25px;  margin-bottom: 25px;" readonly>
             <a href="#" id="GetWelcomeTokenInfo" style="text-decoration: underline; color: #0d6efd; font-size: 15px; padding: 0.5rem;">메타마스크에 모각코인 정보 추가하기</a>
           </span>
-          <p id="banner3-loadingIcon" style="font-size: 15px; display: none;"><iconify-icon icon="eos-icons:loading" width="35" height="35"></iconify-icon>트랜잭션 실행중입니다. 네트워크 상태에 따라 소요되는 시간이다릅니다.</p>
-          <div id="welcome-contract-err" style="margin-top: 10px; display: none;"><span id="welcome-contract-error" style="padding: 0.5rem;"></span></div>
-          <div id="welcome-contract-suc" style="margin-top: 10px; display: none;"><span id="welcome-contract-success" style="padding: 0.5rem;"></span></div>
+          <a id="welcome-contract" target="_blank" style="text-decoration: underline; color: dimgrey; font-size: 15px; padding: 0.5rem; display: none;">
+            <span id="welcome-contract-text"></span>
+          </a>
         </div>
         <div class="modal-footer">
           <button sec:authorize="isAuthenticated()" id="getWelcomeTokenButton" type="button" class="btn btn-primary">토큰 받기</button>
