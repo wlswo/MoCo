@@ -13,6 +13,9 @@
     <meta content="summary" name="twitter:card">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="Webflow" name="generator">
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- css -->
     <link href="/css/normalize.css" rel="stylesheet" type="text/css">
     <link href="/css/webflow.css" rel="stylesheet" type="text/css">
@@ -20,6 +23,8 @@
     <link href="/css/nav.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <!-- web3.js -->
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
     <link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
@@ -49,116 +54,108 @@
         <div class="row w-row">
             <div class="w-col w-col-6" id="our-mission">
                 <h2 class="heading-2" data-ix="fade-in-on-scroll">모여서 각자 코딩하자 🧑‍💻</h2>
-                <p class="paragraph" data-ix="fade-in-on-scroll">외로운 코딩은 그만, 같은 목표를 가진 스터디원을 구해보세요.<br>
-
+                <p class="paragraph" data-ix="fade-in-on-scroll">외로운 코딩은 그만, 같은 목표를 가진 스터디원을 구해보세요.
                     공부도하고 모각코인을 받아 땅을 구매해보세요.
-
-                    <br>
-                    <br>“Exploration really is the essence of the human spirit, and to pause, to falter, to turn our back on the quest for knowledge, is to perish.”</p>
-            </div>
-            <div style="margin-top: 30px;">
                 <button class="btn btn-dark" onclick="location.href='/board/list' ">시작하기</button>
+                <div style="margin-top: 50px;"></div>
+                <p style="font-weight: bolder; color: coral;">"서비스용이 아닌 포트폴리오 용입니다. 궁금하신점이나 문의사항은 아래링크를 통해 부탁드립니다."</p>
+                </p>
+                <button class="btn btn-dark" onclick="window.open('http://www.naver.com')">문의하기</button>
             </div>
             <div class="column w-col w-col-6"></div>
         </div>
     </div>
 </div>
-<div class="number-section">
-    <div class="w-container">
-        <div class="in-the-numbers-box" data-ix="fade-in-on-scroll-2"><img class="image-2" src="/img/moon-logo.png" width="120">
-            <div class="text-block-2">Clean Code</div>
+<!-- Services-->
+<section class="page-section" id="services">
+    <div class="container">
+        <div class="text-center" style="text-align: center;">
+            <h2 class="section-heading text-uppercase">SERVICES</h2>
+            <h3 class="section-subheading text-muted"></h3>
         </div>
-        <div class="row-2 w-row">
-            <div class="w-col w-col-4">
-                <div class="div-block-2" data-ix="fade-in-on-scroll-2"><img src="/img/Milestraveled-ellipse.png" width="348">
-                    <div class="absolute-centered">
-                        <div class="text-block-3">Deduplicated</div>
-                    </div>
-                </div>
-                <div class="div-block-2 v2" data-ix="fade-in-on-scroll-2"><img src="/img/returned-to-earth-ellipse.png" width="348">
-                    <div class="absolute-centered">
-                        <div class="text-block-3">Testable</div>
-                    </div>
-                </div>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <span class="fa-stack fa-4x">
+                    <i class="fa-solid fa-users-rectangle"></i>
+                </span>
+                <h4 class="my-3">게시글을 작성해보세요.</h4>
+                <p class="text-muted">함께 공부하기 위한 사람들을 모집할수 있습니다.</p>
             </div>
-            <div class="w-col w-col-4">
-                <div class="div-block-2 v3" data-ix="fade-in-on-scroll-2"><img src="/img/around-the-sun.png" width="348">
-                    <div class="absolute-centered">
-                        <div class="text-block-3">Readable</div>
-                    </div>
-                </div>
-                <div class="div-block-2 v3"><img src="/img/Orbits-on-mars-ellipse.png" width="348">
-                    <div class="absolute-centered">
-                        <div class="text-block-3">Meaningful</div>
-                    </div>
-                </div>
+            <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fa-solid fa-cubes"></i>
+                        </span>
+                <h4 class="my-3">모각코인을 받아보세요.</h4>
+                <p class="text-muted">받은 토큰으로 땅을 구매할수 있습니다.</p>
             </div>
-            <div class="w-col w-col-4">
-                <div class="div-block-2 v4" data-ix="fade-in-on-scroll-2"><img sizes="(max-width: 479px) 100vw, (max-width: 767px) 55vw, (max-width: 991px) 23vw, 299.984375px" src="/img/Average-speed-ellipse.png" srcset="/img/Average-speed-ellipse-p-500.png 500w, /img/Average-speed-ellipse.png 696w" width="348">
-                    <div class="absolute-centered">
-                        <div class="text-block-3">Collaboratable</div>
-                    </div>
-                </div>
+            <div class="col-md-4">
+                        <span class="fa-stack fa-4x">
+                            <i class="fa-brands fa-ethereum"></i>
+                        </span>
+                <h4 class="my-3">Goerli 네트워크</h4>
+                <p class="text-muted">이더리움 기반 테스트 네트워크를 이용하고 있습니다.</p>
             </div>
         </div>
     </div>
-</div>
-<div class="image-section" id="photos-and-videos">
-    <div class="left-side-content">
-        <div class="half-block" data-ix="fade-in-on-scroll">
-            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
-                <div class="text-block-4">Share</div>
-                <h4 class="heading-3">Photo Heading</h4>
-                <div class="expanding-container" data-ix="on-load-0px">
-                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
-                </div>
-            </a>
+</section>
+<!-- About-->
+<section class="page-section" id="about">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Goerli 사용법</h2>
+            <h3 class="section-subheading text-muted">토큰을 받기 위해서 메타마스크가 필요합니다.</h3>
         </div>
-        <div class="half-block v2" data-ix="fade-in-on-scroll-2">
-            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
-                <div class="text-block-4">Share</div>
-                <h4 class="heading-3">Photo Heading</h4>
-                <div class="expanding-container" data-ix="on-load-0px">
-                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+        <ul class="timeline">
+            <li>
+                <div class="timeline-image"><a href="https://goerlifaucet.com/" target="_blank"><img class="rounded-circle img-fluid" src="/img/about1.png" alt="..." /></a></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading">GoerliEth 받기</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">해당 네트워크를 이용하기 위해선 goerliEth가 필요합니다.<br> 왼쪽의 그림을 클릭하시면 테스트넷 이더리움을 받을수 있는 사이트로 이동합니다. </p></div>
                 </div>
-            </a>
-        </div>
-        <div class="full-block" data-ix="fade-in-on-scroll-3">
-            <a class="half hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
-                <div class="text-block-4">Share</div>
-                <h4 class="heading-3">Photo Heading</h4>
-                <div class="expanding-container" data-ix="on-load-0px">
-                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="/img/tokenIcon.png" alt="..." /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading">모각코인받기</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">가입시와 하루에 한번 토큰을 받아보세요. 아직은 이 두경로로 밖에 토큰을 얻지 못합니다. 추후 기능이 업데이트 될 예정입니다.</p></div>
                 </div>
-            </a>
-        </div>
+            </li>
+            <li>
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="/img/about3.png" alt="..." /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading">모각코 모집하기</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">게시글을 통해서 다양한 사람들과 같이 공부해보세요.</p></div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image"><img class="rounded-circle img-fluid" src="/img/about4.jpg" alt="..." /></div>
+                <div class="timeline-panel">
+                    <div class="timeline-heading">
+                        <h4 class="subheading">토큰으로 땅을 구매하기</h4>
+                    </div>
+                    <div class="timeline-body"><p class="text-muted">모각코인으로 도트로 된 땅을 구매하실수 있습니다. 메시지와 함께 흔적을 남겨보세요</p></div>
+                </div>
+            </li>
+            <li class="timeline-inverted">
+                <div class="timeline-image">
+                    <h4>
+                        <br />
+                        <a href="/login" style="text-decoration: none; color: gray; font-size: 25px; font-weight: 900;">시작하기</a>
+                        <br />
+                    </h4>
+                </div>
+            </li>
+        </ul>
     </div>
-    <div class="right-side-content">
-        <div class="tall-image" data-ix="fade-in-on-scroll-3">
-            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
-                <div class="text-block-4">Share</div>
-                <h4 class="heading-3">Photo Heading</h4>
-                <div class="expanding-container" data-ix="on-load-0px">
-                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam libero vitae erat. Aenean faucibus nibh et justo cursus id rutrum lorem imperdiet. Nunc ut sem vitae risus tristique posuere.</p>
-                </div>
-            </a>
-        </div>
-        <div class="half-block v3">
-            <a class="hover-over-link-block w-inline-block" data-ix="expand-container" href="#">
-                <div class="text-block-4">Share</div>
-                <h4 class="heading-3">Photo Heading</h4>
-                <div class="expanding-container" data-ix="on-load-0px">
-                    <p class="paragraph-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.&nbsp;</p>
-                </div>
-            </a>
-        </div>
-    </div>
-</div>
-<footer class="footer"><img class="nasa-logo" src="/img/moon-logo.png" width="182">
-    <!-- Back to top button -->
-    <a id="backToTop"></a>
-    <a class="dribbble-link" href="https://dribbble.com/shots/3546309-NASA-Design-by-Michael-K-built-by-Waldo-in-Webflow" target="_blank"><img src="/img/dribbble.svg" width="35"></a>
-</footer>
+</section>
+<a id="backToTop"></a>
+
 <!-- Script -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script><script src="/js/mainPage/webflow.js" type="text/javascript"></script>
