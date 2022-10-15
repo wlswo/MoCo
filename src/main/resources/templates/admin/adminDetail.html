@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>글보기</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <!-- BootStrap / CSS -->
+  <link href="/css/detail.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <!-- icon -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+  <!-- Script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/loaders/DRACOLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r110/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
+  <!-- alert Library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header"></nav>
+
+<main role="main" class="board-container" modelAttribute="boardDto">
+  <!-- 제목 -->
+  <div class="detail-title">
+    <h1>[[${boardDto.title}]]</h1>
+  </div>
+  <div class="detail-information">
+    <!-- 작성자 / 작성일 -->
+    <div class="detail-information-user">
+      <span class="username" th:text="${boardDto.writer}"></span>&nbsp;•&nbsp;
+      <span>[[${#temporals.format(boardDto.createdDate, 'yyyy-MM-dd HH:mm')}]]</span>
+    </div>
+    <!-- 삭제 -->
+    <span style="display:flex;">
+        <form id="delete-form" th:action="@{'/admin/post/' + ${boardDto.id}}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button id="delete-btn">삭제</button>
+        </form>
+    </span>
+  </div>
+  <!-- 좋아요 -->
+  <div style="width:100%; height: 70px;">
+    <div style="float: right;">
+      <!-- 로그인 O -->
+      <span id="isLoggedIn" sec:authorize="isAuthenticated()">
+            <!-- 좋아요를 누르지 않은 상태 -->
+            <button class="button-star" th:onclick="|likeCheck('${boardDto.id}')|">
+                <canvas></canvas>
+                <div class="label">
+                    <span class="default">Star<span class="success">red</span></span>
+                </div>
+                <div class="number">
+                    <span class="current">[[${likeCount}]]</span>
+                    <span class="new">[[${likeCount}]]</span>
+                    <div class="add">+1</div>
+                </div>
+                <input name="isClick" value="noclick" style="display: none;"/>
+            </button>
+        </span>
+    </div>
+  </div>
+  <!-- 글내용 -->
+  <div class="detail-container">
+    <div class="detail-content">
+      <p th:utext="${boardDto.content}"></p>
+    </div>
+  </div>
+  <div style="margin: 30px; text-align: center;">
+    <p class="currentJoin"><span id="currentJoin">[[${joinUsers}]]</span> 명 참가중..</p>
+  </div>
+  <!-- 참가 신청 / 참가 취소 -->
+  <div class="register-button" style="text-align: center; margin-bottom: 30px;">
+    <span>
+        <button class="btn btn-secondary" id="recruitCloseButton" th:onclick="|recruitClose(${boardDto.id})|" th:text="${boardDto.isfull ? '마감취소' : '마감하기'}" th:style="${boardDto.isfull ? 'background-color: #94324b' : 'background-color: #74d65c'}"></button>
+    </span>
+  </div>
+  <div class="starter-template">
+    <!-- 댓글 -->
+    <div id="commentList" class="card" th:if="${boardDto.comments != null}">
+      <div class="card-header bi bi-chat-dots"> [[${#lists.size(boardDto.comments)}]] Comments</div>
+      <!-- 내용 -->
+      <ul class="list-group-flush">
+        <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${comments}">
+                    <span>
+                        <span style="font-size: small" th:text="${!comment.isRemoved} ? ${comment.getName()} : '알수없는사용자' "></span>
+                        <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
+                        <!-- 댓글 삭제 버튼 -->
+                        <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}','comment')|" class="a-tag-button">삭제</a>&nbsp;
+                    </span>
+          <!-- 댓글 내용 -->
+          <p th:id="'comment-collapse-' + ${comment.getId()}" th:text="${!comment.isRemoved} ? ${comment.getComment()} : '삭제된 댓글입니다.'"></p>
+          <!-- 대댓글 -->
+          <div class="collapse" th:id="'reply-collapse-' + ${comment.getId()}">
+            <ul  th:id="'ul-' + ${comment.getId()}" class="list-group-flush">
+              <li style="padding: 15px;" class="list-group-item" th:each="recomment : ${comment.getChildList()}">
+                <span>
+                    <span style="font-size: small" th:text="${recomment.getName()}"></span>
+                    <span style="font-size: xx-small">[[${#temporals.format(recomment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
+                    <!-- 대댓글 삭제 버튼 -->
+                    <a type="button" th:onclick="|commentDelete('${recomment.getId()}','recomment')|" class="a-tag-button">삭제</a>
+                    <p th:id="'multi-collapse-' + ${recomment.getId()}" th:text="${recomment.getComment()}"></p>
+                </span>
+              </li>
+            </ul>
+            <!-- 대댓글 달기 폼 -->
+            <form sec:authorize="isAuthenticated()">
+              <div class="form-group">
+                <textarea class="form-control" th:id="'recomment-content-' + ${comment.getId()}" rows="3" placeholder="답글을 입력하세요."></textarea>
+              </div>
+              <div>
+                <button type="button" class="btn btn-outline-primary bi bi-pencil-square" th:onclick="|saveComment('${comment.getId()}')|" style="float: right;"> 등록</button>
+              </div>
+            </form>
+          </div>
+          <!-- 대댓글 보이기 버튼 -->
+          <div style="margin-top: 10px;">
+            <a type="button" data-bs-toggle="collapse" th:href="'#reply-collapse-' + ${comment.getId()}" th:text="${comment.getChildList().size()} ? ' ' + ${comment.getChildList().size()} + '개의 답글' : ' 답글 달기' " class="bi bi-plus-square" style="text-decoration: none; color: #9b7b72;"></a>
+          </div>
+        </li>
+      </ul>
+    </div><br/>
+    <!-- 댓글 입력 -->
+    <div class="card">
+      <div class="card-header bi bi-chat-dots">Write a Comment</div>
+      <form>
+        <input type="hidden" id="boardId" th:value="${boardDto.id}"/>
+        <div sec:authorize="isAuthenticated()">
+          <div class="card-body">
+            <textarea id="comment" class="form-control" rows="4" placeholder="댓글을 입력하세요."></textarea>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-outline-primary bi bi-pencil-square" type="button" id="btn-comment-save" onclick="saveComment()" th:text=" 등록"></button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+<input type="hidden" id="userId" th:value="${session.user['id']}"/>
+</body>
+<!-- Script -->
+<script src="/js/admin/adminDetail.js"></script>
+<script src="/js/board/detail-like-button.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+</html>
