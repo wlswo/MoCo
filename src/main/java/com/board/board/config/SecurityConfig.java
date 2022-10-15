@@ -55,6 +55,7 @@ public class SecurityConfig{
                 .and()
                     .authorizeRequests()
                     .antMatchers("/").permitAll()
+                    .antMatchers("/admin","/admin/**").hasRole("MASTER")
                     .antMatchers("/login","/confirm-email/**").permitAll()
                     .antMatchers("/css/**", "/img/**", "/js/**", "/json/**", "/favicon.ico").permitAll()
                     .antMatchers("/earth").permitAll()
