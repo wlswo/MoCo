@@ -12,7 +12,7 @@ import java.util.Collection;
 public class CustomUserDetails implements UserDetails {
     private final User user;
 
-    // 유저의 권한 목록
+    /* 유저의 권한 목록 */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collectors = new ArrayList<>();
@@ -20,7 +20,7 @@ public class CustomUserDetails implements UserDetails {
         return collectors;
     }
 
-    //사용자의 id를 반환 (email)
+    /* 사용자의 id를 반환 (email) */
     @Override
     public String getUsername() {
         return user.getEmail();
@@ -31,13 +31,13 @@ public class CustomUserDetails implements UserDetails {
         return user.getPassword();
     }
 
-    //   계정 만료 여부 true : 만료 안됨 , false : 만료
+    /* 계정 만료 여부 true : 만료 안됨 , false : 만료 */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    // 계정 잠김 여부 true : 잠기지 않음, false : 잠김
+    /* 계정 잠김 여부 true : 잠기지 않음, false : 잠김 */
     @Override
     public boolean isAccountNonLocked() {
         if(user.getEmailcheck().equals("false")){
@@ -46,7 +46,7 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    // 비밀번호 만료 여부 true : 만료 안됨 , false : 만료
+    /* 비밀번호 만료 여부 true : 만료 안됨 , false : 만료 */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;

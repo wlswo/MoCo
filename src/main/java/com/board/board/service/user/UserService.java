@@ -30,9 +30,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
     private final ConfirmationTokenService confirmationTokenService;
-    private final HttpSession httpSession;
     private final BoardRepository boardRepository;
-    private final AuthenticationManager authenticationManager;
 
     /* 회원가입 */
     @Transactional

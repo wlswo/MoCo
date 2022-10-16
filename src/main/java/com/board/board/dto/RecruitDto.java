@@ -1,7 +1,6 @@
 package com.board.board.dto;
 
 import com.board.board.domain.Board;
-import com.board.board.domain.Like;
 import com.board.board.domain.Recruit;
 import com.board.board.domain.User;
 import lombok.*;

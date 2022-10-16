@@ -21,8 +21,6 @@ public class HashTagService {
     private final HashTagRepository hashTagRepository;
     private final BoardRepository boardRepository;
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
-
     /* CREATE */
     @Transactional
     public void SaveAll(Long board_id, List<HashTagDto.Request> hashTagDto) {

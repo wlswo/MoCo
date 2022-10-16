@@ -3,7 +3,6 @@ package com.board.board.controller;
 
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
-import com.board.board.domain.Comment;
 import com.board.board.domain.HashTag;
 import com.board.board.dto.*;
 import com.board.board.service.board.BoardService;
@@ -11,10 +10,6 @@ import com.board.board.service.board.CommentService;
 import com.board.board.service.board.LikeService;
 import com.board.board.service.board.RecruitService;
 import com.board.board.service.hashTag.HashTagService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.io.JsonEOFException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import io.github.furstenheim.CopyDown;
 import lombok.AllArgsConstructor;
 import org.json.simple.JSONArray;
@@ -24,7 +19,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -157,7 +150,7 @@ public class BoardController {
         BoardDto.Response boardDTO = boardService.getPost(no);
 
         if( !boardDTO.getUserId().equals(sessionUser.getId()) ) {
-            return "error/errorpage";
+            return "404error";
         }
 
         /* 해시태그 내용만 Filter */
@@ -241,7 +234,7 @@ public class BoardController {
     @PutMapping("/post/edit/{no}")
     public String update(@PathVariable("no") Long no,BoardDto.Request boardDto, @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
         if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())) {
-            return "error/errorpage";
+            return "404error";
         }
 
         boardDto.setWriter(sessionUser.getName());
@@ -300,7 +293,7 @@ public class BoardController {
     @DeleteMapping("/post/{no}")
     public String delete(@PathVariable("no") Long no, @LoginUser SessionUser sessionUser) {
         if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())){
-            return "error/errorpage";
+            return "/error/404error";
         }
 
         boardService.deletePost(no);

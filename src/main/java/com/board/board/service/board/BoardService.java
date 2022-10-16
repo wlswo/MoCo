@@ -5,16 +5,14 @@ import com.board.board.domain.User;
 import com.board.board.dto.BoardDto;
 import com.board.board.dto.BoardListVo;
 import com.board.board.repository.BoardRepository;
-import com.board.board.repository.LikeRepository;
 import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
 
 @AllArgsConstructor
 @Service

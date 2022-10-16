@@ -22,8 +22,6 @@ public class DotMapService {
     private final DotMapRepositoey dotMapRepositoey;
     private final UserRepository userRepository;
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
-
     /* CREATE (도트맵 구매) */
     @Transactional
     public Long saveDot(DotMapDto.Request dotDto, Long userId) {

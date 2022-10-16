@@ -1,15 +1,12 @@
 package com.board.board.dto;
 
 import com.board.board.domain.Board;
-import com.board.board.domain.Comment;
 import com.board.board.domain.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BoardDto {
