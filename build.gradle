@@ -48,6 +48,16 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+bootBuildImage {
+	imageName = "zaezin/project"
+	publish = true
+	docker {
+		publishRegistry {
+			username = docker_id
+			password = docker_pw
+		}
+	}
+}
 
 tasks.named('test') {
 	useJUnitPlatform()
