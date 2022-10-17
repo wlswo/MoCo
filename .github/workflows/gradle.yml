@@ -24,7 +24,7 @@ jobs:
       ## create application.yml
       - name: make application.yml
         run: |
-          ## create application-database.yaml
+          ## create application.yml
           cd ./src/main/resources
           
           # application.yml 파일 생성
