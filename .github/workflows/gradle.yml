@@ -40,10 +40,7 @@ jobs:
         echo "${{ secrets.APPLICATION_OAUTH2}}" >> ./application-oauth2.yml
       shell: bash
 
-    ## gradle build
-    - name: Build with Gradle
-      run: |
-        ./gradlew --exclude-task test
+ 
     ## build Docker and Push Docker Hub
     - name: build docker
       run: ./gradlew bootBuildImage -Pdocker_id=${{ secrets.DOCKER_USERNAME }} -Pdocker_pw=${{ secrets.DOCKER_PASSWORD }}
