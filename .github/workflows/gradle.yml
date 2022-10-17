@@ -37,7 +37,7 @@ jobs:
         touch ./application.yml
 
         # GitHub-Actions 에서 설정한 값을 application.yml 파일에 쓰기
-        echo "${{ secrets.APPLICATION-OAUTH2}}" >> ./application-oath2.yml
+        echo "${{ secrets.APPLICATION_OAUTH2}}" >> ./application-oath2.yml
       shell: bash
 
     ## gradle build
