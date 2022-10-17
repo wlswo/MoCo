@@ -42,8 +42,14 @@ jobs:
 
  
     ## build Docker and Push Docker Hub
-    - name: build docker
-      run: ./gradlew bootBuildImage -Pdocker_id=${{ secrets.DOCKER_USERNAME }} -Pdocker_pw=${{ secrets.DOCKER_PASSWORD }}
+    - name: build with Gradle
+      run: ./gradlew --exclude-task test
+    - name: build Docker
+      run: |
+        docker login -u ${{ secret.DOCKER_USERNAME }} -p ${{ secret.DOCKER_PASSWORD }}
+        docker build -t ${{ secret.DOCKER_REPO }} .
+        docker tag ${{ secret.DOCKER_REPO }}:latest
+        docker push ${{ secret.DOCKER_REPO }}:latest
    
     ## ec2 docker Pull And deploy
     - name: executing remote ssh commands using password
@@ -56,7 +62,7 @@ jobs:
           sudo docker stop $(sudo docker ps -a -q)
           sudo docker rm $(sudo docker ps -a -q)
           sudo docker rmi $(sudo docker images -q)
-          sudo docker pull ${{ secrets.DOCKER_REPO }}/project:1.0.0
+          sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
 
 
     
