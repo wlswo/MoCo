@@ -32,12 +32,7 @@ jobs:
           
           # GitHub-Actions 에서 설정한 값을 application.yml 파일에 쓰기
           echo "${{ secrets.APPLICATION }}" >> ./application.yml
-          
-          # application-oauth2.yml 파일 생성
-          touch ./application-oauth2.yml
-          
-          # GitHub-Actions 에서 설정한 값을 application.yml 파일에 쓰기
-          echo "${{ secrets.APPLICATION_OAUTH2}}" >> ./application-oauth2.yml
+
         shell: bash
 
 
