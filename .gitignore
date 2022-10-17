@@ -39,5 +39,3 @@ out/
 ### yml ###
 *.yml
 
-### images ###
-/src/main/resources/static/img/
