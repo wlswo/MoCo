@@ -44,14 +44,10 @@ jobs:
     - name: Build with Gradle
       run: |
         ./gradlew --exclude-task test
-        
-    ## 웹 이미지 빌드 및 도커허브에 push
-    - name: web docker build and push
-      run: |
-        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        docker build -t ${{ secrets.DOCKER_REPO }}/project:1.0.0 .
-        docker push ${{ secrets.DOCKER_REPO }}/project:1.0.0
-
+    ## build Docker and Push Docker Hub
+    - name: build docker
+      run: ./gradlew bootBuildImage -Pdocker_id=${{ secrets.DOCKER_USERNAME }} -Pdocker_pw=${{ secrets.DOCKER_PASSWORD }}
+   
     ## ec2 docker Pull And deploy
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@master
