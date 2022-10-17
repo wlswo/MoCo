@@ -46,10 +46,10 @@ jobs:
         run: ./gradlew --exclude-task test
       - name: build Docker
         run: |
-          docker login -u ${{ secret.DOCKER_USERNAME }} -p ${{ secret.DOCKER_PASSWORD }}
-          docker build -t ${{ secret.DOCKER_REPO }} .
-          docker tag ${{ secret.DOCKER_REPO }}:latest
-          docker push ${{ secret.DOCKER_REPO }}:latest
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_REPO }} .
+          docker tag ${{ secrets.DOCKER_REPO }}:latest
+          docker push ${{ secrets.DOCKER_REPO }}:latest
 
       ## ec2 docker Pull And deploy
       - name: executing remote ssh commands using password
