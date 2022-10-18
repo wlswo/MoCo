@@ -41,7 +41,7 @@ public class SignupController {
     @GetMapping("/signup")
     public String sign_up_page(Model model) {
         model.addAttribute("userDto",new UserDto.Request()); //빈객체 전달
-        return "/login/signup";
+        return "login/signup";
     }
 
     /* 회원가입화면 아이디 중복확인 (email) */
@@ -79,7 +79,7 @@ public class SignupController {
             }
 
             /* 회원가입 페이지로 다시 리턴 */
-            return "/login/signup";
+            return "login/signup";
         }
         /* 회원저장 */
         userService.join(userDto);

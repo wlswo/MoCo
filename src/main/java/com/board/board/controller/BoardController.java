@@ -61,7 +61,7 @@ public class BoardController {
     public String recruitOn(@RequestParam(value = "page", defaultValue = "1") Integer pageNum , Model model) {
         List<BoardListVo> boardDtoList = boardService.getBoardlist(pageNum);
         model.addAttribute("boardList",boardDtoList);
-        return "/board/list";
+        return "board/list";
     }
 
     /* RETURN PAGE - 글작성 페이지 */
@@ -150,7 +150,7 @@ public class BoardController {
         BoardDto.Response boardDTO = boardService.getPost(no);
 
         if( !boardDTO.getUserId().equals(sessionUser.getId()) ) {
-            return "404error";
+            return "error/404error";
         }
 
         /* 해시태그 내용만 Filter */
@@ -234,7 +234,7 @@ public class BoardController {
     @PutMapping("/post/edit/{no}")
     public String update(@PathVariable("no") Long no,BoardDto.Request boardDto, @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
         if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())) {
-            return "404error";
+            return "error/404error";
         }
 
         boardDto.setWriter(sessionUser.getName());

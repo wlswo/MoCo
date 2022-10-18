@@ -52,7 +52,6 @@ jobs:
           docker build -t ${{ secrets.DOCKER_REPO }} .
           docker push ${{ secrets.DOCKER_REPO }}:latest
 
-      - uses: actions/checkout@v2
       - name: Run scripts in server
         uses: appleboy/ssh-action@master
         with:
@@ -62,6 +61,8 @@ jobs:
           script: |
             sudo docker rm $(sudo docker ps -a -q)
             sudo docker rmi $(sudo docker images -q)
+            sudo docker pull ${{ secrets.DOCKER_REPO}}:latest
+            sudo docker run -p 8080:8080 ${{ secrets.DOCKER_REPO }}
 
 
     
