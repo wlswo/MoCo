@@ -57,7 +57,7 @@ public class SecurityConfig{
                     .antMatchers("/").permitAll()
                     .antMatchers("/admin","/admin/**").hasRole("MASTER")
                     .antMatchers("/login","/confirm-email/**").permitAll()
-                    .antMatchers("/css/**", "/img/**", "/js/**", "/json/**", "/favicon.ico").permitAll()
+                    .antMatchers("/css/**", "/img/**", "/js/**", "/json/**", "/favicon.ico","/error/**").permitAll()
                     .antMatchers("/earth").permitAll()
                     .antMatchers("/board/post").authenticated()
                     .antMatchers("/board/**").permitAll()
@@ -79,7 +79,6 @@ public class SecurityConfig{
                     .successHandler(new OauthSuccessHandler()) /* 로그인 성공시 진입점 */
                     .userInfoEndpoint()
                     .userService(customOAuth2UserService);
-
 
         return http.build();
     }

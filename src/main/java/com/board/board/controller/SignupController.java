@@ -25,8 +25,7 @@ import java.util.Map;
 @Controller
 @AllArgsConstructor
 public class SignupController {
-    private CustomUserDetailsService customUserDetailsService;
-    private UserService userService;
+    private final UserService userService;
     private final CheckUseremailValidator checkUseremailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final HttpSession httpSession;
