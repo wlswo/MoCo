@@ -63,7 +63,7 @@ jobs:
             sudo docker rm $(sudo docker ps -a -q)
             sudo docker rmi $(sudo docker images -q)
             sudo docker pull ${{ secrets.DOCKER_REPO}}:latest
-            sudo docker run -d -p 8080:8080 ${{ secrets.DOCKER_REPO }}
+            sudo docker run -d -p 80:8080 ${{ secrets.DOCKER_REPO }}
 
     
  
