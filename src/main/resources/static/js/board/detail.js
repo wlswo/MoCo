@@ -41,7 +41,7 @@ function SuccessAlert(message) {
     })
     return false;
 }
-
+/* 확인창 */
 function confirm(text, title) {
     return new Promise(function(resolve, reject) {
          Swal.fire({
@@ -59,25 +59,21 @@ function confirm(text, title) {
     })
 }
 
-
-
 /* 좋아요 CREATE */
 function likeCheck(boardId) {
     /* isLiked == 0 좋아요를 누르지않은상태
      * isLiked == 1 좋아요를 누른상태
      */
     const isClick = document.getElementsByName('isClick').item(0).value;
-    console.log(isClick);
 
     /* CREATE */
     if(isClick === 'noclick'){
         /* ajax */
-        const baseUrl = "http://localhost:8080";
         /* XMLHttpRequest 객체 정의 */
         httpRequest = new XMLHttpRequest();
 
         /* POST 방식으로 요청 */
-        httpRequest.open('POST', baseUrl + "/board/post/"+boardId+"/like");
+        httpRequest.open('POST',"/board/post/"+boardId+"/like");
 
         /* ResponseType Json */
         httpRequest.responseType = "json";
@@ -104,12 +100,11 @@ function likeCheck(boardId) {
     /* DELETE */
     else {
         /* ajax */
-        const baseUrl = "http://localhost:8080";
         /* XMLHttpRequest 객체 정의 */
         httpRequest = new XMLHttpRequest();
 
         /* DELETE 방식으로 요청 */
-        httpRequest.open('DELETE', baseUrl + "/board/post/"+boardId+"/like");
+        httpRequest.open('DELETE', "/board/post/"+boardId+"/like");
 
         /* ResponseType Json */
         httpRequest.responseType = "json";
