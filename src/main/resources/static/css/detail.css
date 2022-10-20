@@ -232,3 +232,20 @@ textarea {
 .currentJoin {
     font-family: 'HBIOS-SYS',sans-serif;
 }
+.comment-btn {
+    padding: 0px 30px;
+    min-width: 100px;
+    height: 35px;
+    background: #333;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #fff;
+    font-size: 15px;
+}
+.card p{
+    margin-top: 10px;
+    font-size: 1.125rem;
+    font-weight: 300;
+    letter-spacing: -.004em;
+    line-height: 1.7;;
+}
