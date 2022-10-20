@@ -17,10 +17,10 @@ public class OauthSuccessHandler implements AuthenticationSuccessHandler {
         SessionUser sessionUser = (SessionUser)session.getAttribute("user");
 
         /* 이름 중복체크에 따라 분기 */
-        if(sessionUser.getNameCheck().equals("false")) {
-            response.sendRedirect("/OauthNameCheck");
-        }else {
+        if(sessionUser.isNameCheck()) {
             response.sendRedirect("/");
+        }else {
+            response.sendRedirect("/OauthNameCheck");
         }
     }
 }

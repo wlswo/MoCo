@@ -4,9 +4,11 @@ import com.board.board.domain.Role;
 import com.board.board.domain.User;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
+@Setter
 @Getter
 public class OAuthAttributes {
     private Map<String, Object> attributes;
@@ -93,7 +95,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .namecheck("false")
+                .namecheck(false)
                 .role(Role.SNS)
                 .build();
     }

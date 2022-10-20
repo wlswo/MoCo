@@ -66,7 +66,10 @@ public class BoardController {
 
     /* RETURN PAGE - 글작성 페이지 */
     @GetMapping("/post")
-    public String write(){
+    public String write(@LoginUser SessionUser sessionUser){
+        if(!sessionUser.isNameCheck()){
+            return "login/OauthNameCheck";
+        }
         return "board/write";
     }
 
@@ -220,11 +223,6 @@ public class BoardController {
             }catch (ParseException e) {
                 log.info(e.getMessage());
             }
-        }
-
-        /* 스마트 컨트랙트 토큰 지급 */
-        if(!walletAddress.isBlank() || walletAddress == null) {
-            //transferTokenService.transfer(walletAddress);
         }
 
         return "redirect:/board/list";

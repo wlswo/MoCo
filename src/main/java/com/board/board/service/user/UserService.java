@@ -65,7 +65,6 @@ public class UserService {
     public boolean checkUsernameDuplication(String name) {
         boolean usernameDuplication = userRepository.existsByName(name);
 
-        //중복 = true
         return usernameDuplication;
     }
 
@@ -76,7 +75,7 @@ public class UserService {
                 .map(entity -> entity.updateName(name, picture))
                 .orElseThrow(()-> new IllegalArgumentException("해당 회원이 존재하지 않습니다."));
 
-        user.isNameCheck();
+        user.setNamecheck(true);
 
         return user;
     }

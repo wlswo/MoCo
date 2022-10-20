@@ -40,7 +40,7 @@ public class CustomUserDetails implements UserDetails {
     /* 계정 잠김 여부 true : 잠기지 않음, false : 잠김 */
     @Override
     public boolean isAccountNonLocked() {
-        if(user.getEmailcheck().equals("false")){
+        if(!user.isEmailcheck()){
             return false;
         }
         return true;

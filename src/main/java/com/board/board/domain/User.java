@@ -25,7 +25,7 @@ public class User extends Time {
     private String password;
 
     @NotBlank @Length(min = 2, max = 10)
-    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-]{2,10}$")
+    @Pattern(regexp = "^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$") //한글, 영문, 숫자만 가능하며 2-10자리 가능
     @Column(nullable = false)
     private String name;
 
@@ -33,17 +33,17 @@ public class User extends Time {
     private String picture;
 
     @Column(nullable = false)
-    private String namecheck;
+    private boolean namecheck = false;
 
-    @Column(columnDefinition = "varchar(10) default 'false'", nullable = false)
-    private String emailcheck;
+    @Column(nullable = false)
+    private boolean emailcheck = false;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     @Builder
-    public User(String name, String password, String email, String picture,String namecheck, String emailcheck,Role role) {
+    public User(String name, String password, String email, String picture,boolean namecheck, boolean emailcheck,Role role) {
         this.name = name;
         this.password = password;
         this.email = email;
@@ -69,11 +69,6 @@ public class User extends Time {
         this.name = name;
     }
 
-    /* 별명 체크 업데이트 */
-    public void isNameCheck() {
-        this.namecheck = "true";
-    }
-
     /* 권한 타입 가져오기 */
     public String getRoleKey() {
         return this.role.getKey();
@@ -81,6 +76,6 @@ public class User extends Time {
 
     /* 유저이메일 인증 성공 */
     public void emailVerifiedSuccess() {
-        this.emailcheck = "true";
+        this.emailcheck = true;
     }
 }
