@@ -199,7 +199,7 @@ public class BoardController {
 
         /* 썸네일 부재시 디폴트값 설정 */
         if (boardDto.getThumbnail().equals("") || boardDto.getThumbnail().equals(null)){
-            boardDto.setThumbnail("/img/panda.png");
+            boardDto.setThumbnail("/img/thumbnail.png");
         }
         boardDto.setWriter(sessionUser.getName());
         Long board_Id = boardService.savePost(sessionUser.getName(),boardDto);
