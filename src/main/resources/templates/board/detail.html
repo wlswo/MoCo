@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>글보기</title>
+    <title>MoCo</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!-- Favicon -->
@@ -23,7 +23,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
 
-<body>
+<body style="margin-bottom: 150px;">
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header"></nav>
 
 <main role="main" class="board-container" modelAttribute="boardDto">
@@ -106,6 +106,7 @@
         <p class="currentJoin"><span id="currentJoin">[[${joinUsers}]]</span> 명 참가중..</p>
     </div>
     <!-- 참가 신청 / 참가 취소 -->
+    <span th:if="!${boardDto.isfull}">
     <div sec:authorize="isAuthenticated()" class="register-button" style="text-align: center; margin-bottom: 30px;">
         <span th:if="${!iswriter}">
             <button class="btn btn-success" th:onclick="|recruit(${session.user['id']})|">참가신청</button>
@@ -119,11 +120,14 @@
         <button class="btn btn-success" onclick="notification('로그인후 이용해주세요.')">참가신청</button>
         <button class="btn btn-secondary" onclick="notification('로그인후 이용해주세요.')">참가취소</button>
     </div>
-
+    </span>
+    <span th:if="${boardDto.isfull}">
+        <div class="alert alert-warning" role="alert" style="text-align: center;">마감 되었습니다.</div>
+    </span>
     <div class="starter-template">
         <!-- 댓글 -->
-        <div id="commentList" class="card" th:if="${boardDto.comments != null}">
-            <div class="card-header bi bi-chat-dots"> [[${#lists.size(boardDto.comments)}]] Comments</div>
+        <div id="commentList" class="card" th:if="${boardDto.comments != null}" style="border: none;">
+            <div class="card-header bi bi-chat-dots" style="background-color: white;"> [[${#lists.size(boardDto.comments)}]] 개의 댓글</div>
             <!-- 내용 -->
             <ul class="list-group-flush">
                 <li th:id="'comment' + ${comment.getId()}" class="list-group-item" th:each="comment : ${comments}">
@@ -144,8 +148,8 @@
                         <div class="form-group">
                             <textarea class="form-control" id="comment-content" rows="3" th:text="${comment.getComment()}"></textarea>
                         </div>
-                        <div style="margin-top: 8px;">
-                            <button type="button" class="btn btn-outline-primary bi bi-pencil-square" onclick="commentUpdate('comment',form)"> 수정</button>
+                        <div style="margin-top: 8px; text-align: right;">
+                            <button type="button" class="comment-btn" onclick="commentUpdate('comment',form)"> 수정</button>
                         </div>
                     </form>
                     <!-- 댓글 내용 -->
@@ -173,8 +177,8 @@
                                     <div class="form-group">
                                         <textarea class="form-control" id="recomment-content" rows="3" th:text="${recomment.getComment()}"></textarea>
                                     </div>
-                                    <div style="margin-top: 8px;">
-                                        <button type="button" class="btn btn-outline-primary bi bi-pencil-square" onclick="commentUpdate('recomment',form)"> 수정</button>
+                                    <div style="margin-top: 8px; text-align: right;">
+                                        <button type="button" class="comment-btn" onclick="commentUpdate('recomment',form)"> 수정</button>
                                     </div>
                                 </form>
                             </li>
@@ -184,8 +188,8 @@
                             <div class="form-group">
                                 <textarea class="form-control" th:id="'recomment-content-' + ${comment.getId()}" rows="3" placeholder="답글을 입력하세요."></textarea>
                             </div>
-                            <div>
-                                <button type="button" class="btn btn-outline-primary bi bi-pencil-square" th:onclick="|saveComment('${comment.getId()}')|" style="float: right;"> 등록</button>
+                            <div style="margin-top: 15px; text-align: right;">
+                                <button type="button" class="comment-btn" th:onclick="|saveComment('${comment.getId()}')|"> 등록</button>
                             </div>
                         </form>
                         <form sec:authorize="isAnonymous()">
@@ -202,16 +206,15 @@
             </ul>
         </div><br/>
         <!-- 댓글 입력 -->
-        <div class="card">
-            <div class="card-header bi bi-chat-dots">Write a Comment</div>
+        <div class="card" style="border: none;">
             <form>
                 <input type="hidden" id="boardId" th:value="${boardDto.id}"/>
                 <div sec:authorize="isAuthenticated()">
                     <div class="card-body">
                         <textarea id="comment" class="form-control" rows="4" placeholder="댓글을 입력하세요."></textarea>
                     </div>
-                    <div class="card-footer">
-                        <button class="btn btn-outline-primary bi bi-pencil-square" type="button" id="btn-comment-save" onclick="saveComment()" th:text=" 등록"></button>
+                    <div style="margin-top: 10px; text-align: right;">
+                        <button class="comment-btn" type="button" id="btn-comment-save" onclick="saveComment()" th:text=" 등록"></button>
                     </div>
                 </div>
                 <div sec:authorize="isAnonymous()">
