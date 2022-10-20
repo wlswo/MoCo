@@ -11,7 +11,6 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"/>
-    <script defer src="/js/loginAndSignUp/oauthnamecheck.js"></script>
     <link href="/css/signup.css" rel="stylesheet">
     <title th:text="${title}">MoCo</title>
 </head>
@@ -37,10 +36,11 @@
                 <!-- button -->
                 <div class="form-group form-button">
                     <input type="submit" id="signup" class="btn btn-secondary" value="가입"/>
-                    <a name="goBack" id="goBack" class="btn btn-secondary" th:href="@{/login}">돌아가기</a>
+                    <a id="goBack" class="btn btn-secondary" th:href="@{/login}">돌아가기</a>
                 </div>
             </form>
         </section>
     </div>
 </main>
+<script src="/js/loginAndSignUp/oauthnamecheck.js"></script>
 </body>

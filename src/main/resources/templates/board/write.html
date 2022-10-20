@@ -51,7 +51,7 @@
                             <div style="padding-top: 15px;">
                                 <a th:href="@{/board/list}" class="btn btn-secondary">뒤로 가기</a>
                                 <span style="width: 100px;"></span>
-                                <span class="btn btn-primary" id="next">확인</span>
+                                <span class="btn btn-dark" id="next">확인</span>
                             </div>
                         </div>
                     </div>
@@ -76,9 +76,9 @@
                                     </div>
                                     <!-- 썸네일 업로드 -->
                                     <div id="uploadImg">
-                                        <div class="btn btn-primary">업로드</div>
+                                        <div class="btn btn-dark">업로드</div>
                                     </div>
-                                    <input type="file" id="uploadThumbnail" accept="image/*" class="btn btn-primary" style="display: none;"/>
+                                    <input type="file" id="uploadThumbnail" accept="image/*" class="btn btn-dark" style="display: none;"/>
                                     </div>
                                 </section>
                                 <!-- 게시글 미리보기 글 -->
@@ -86,7 +86,7 @@
                                 <section>
                                     <h4>게시글 소개</h4>
                                     <div style="padding-top: 27px;">
-                                        <textarea id="subcontent"name="subcontent" th:text="${boardDto} ? ${boardDto.subcontent}" placeholder="당신의 포스트를 소개해보세요."></textarea>
+                                        <textarea id="subcontent"name="subcontent" th:text="${boardDto} ? ${boardDto.subcontent}" placeholder="소개글을 적어보세요."></textarea>
                                         <div style="display: flex; justify-content: right;">
                                             <p class="textcount">0</p>
                                             <p class="totaltext">/150</p>
@@ -95,8 +95,8 @@
                                 </section>
                             </div>
                             <div class="uploadSection" style="justify-content: space-between">
-                                <span class="btn btn-primary" id="prev">취소</span>
-                                <button type="submit" class="btn btn-primary">작성완료</button>
+                                <span class="btn btn-dark" id="prev">취소</span>
+                                <button type="submit" class="btn btn-dark">작성완료</button>
                             </div>
                         </div>
                     </div>

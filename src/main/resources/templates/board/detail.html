@@ -109,11 +109,11 @@
     <span th:if="!${boardDto.isfull}">
     <div sec:authorize="isAuthenticated()" class="register-button" style="text-align: center; margin-bottom: 30px;">
         <span th:if="${!iswriter}">
-            <button class="btn btn-success" th:onclick="|recruit(${session.user['id']})|">참가신청</button>
-            <button class="btn btn-secondary" th:onclick="|recruitCancel(${session.user['id']})|">참가취소</button>
+            <button class="comment-btn" th:onclick="|recruit(${session.user['id']})|">참가신청</button>
+            <button class="comment-btn" th:onclick="|recruitCancel(${session.user['id']})|">참가취소</button>
         </span>
         <span th:if="${iswriter}">
-                <button class="btn btn-secondary" id="recruitCloseButton" th:onclick="|recruitClose(${boardDto.id})|" th:text="${boardDto.isfull ? '마감취소' : '마감하기'}" th:style="${boardDto.isfull ? 'background-color: #94324b' : 'background-color: #74d65c'}"></button>
+                <button class="comment-btn" id="recruitCloseButton" th:onclick="|recruitClose(${boardDto.id})|" th:text="${boardDto.isfull ? '마감취소' : '마감하기'}" th:style="${boardDto.isfull ? 'background-color: #94324b' : 'background-color: yellowgreen'}"></button>
         </span>
     </div>
     <div sec:authorize="isAnonymous()" class="register-button" style="text-align: center; margin-bottom: 30px;">
