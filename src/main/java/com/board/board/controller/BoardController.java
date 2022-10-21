@@ -11,6 +11,14 @@ import com.board.board.service.board.LikeService;
 import com.board.board.service.board.RecruitService;
 import com.board.board.service.hashTag.HashTagService;
 import io.github.furstenheim.CopyDown;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -34,7 +42,7 @@ import java.util.*;
 /* 게시판 */
 @AllArgsConstructor
 @Controller
-@RequestMapping("board") //board 경로로 들어오는 경우 , 그후 해당 필드의 Method로 분기될 수 있도록 설정
+@RequestMapping("board")
 public class BoardController {
     private final BoardService boardService;
     private final CommentService commentService;
@@ -44,9 +52,9 @@ public class BoardController {
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----- Board 📋 ----- */
-    /* RETURN PAGE - 게시글 목록 페이지 (모집중) */
+    @Operation(summary = "모집중인 게시글 페이지 반환", description = "모집중인 게시글 리스트 데이터를 담아 페이지를 반환합니다.")
     @GetMapping({"","/list"})
-    public String list(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
+    public String list(@Parameter(description = "타임리프에 반환하기 위한 객체") Model model, @Parameter(description = "반환할 게시글의 페이지 번호") @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
         List<BoardListVo> boardList = boardService.getBoardListOnRecruit(pageNum);
         Integer pageList = boardService.getPageList(pageNum);
 
@@ -57,16 +65,18 @@ public class BoardController {
     }
 
     /* RETURN PAGE - 게시글 목록 페이지 (전체 게시글) */
-    @GetMapping("/AllBoard")
-    public String recruitOn(@RequestParam(value = "page", defaultValue = "1") Integer pageNum , Model model) {
+    @Operation(summary = "모든 게시글 페이지 반환", description = "전체 게시글 리스트 데이터를 담아 페이지를 반환합니다.")
+    @GetMapping("/list-all")
+    public String recruitOn(@Parameter(description = "반환할 게시글의 페이지번호") @RequestParam(value = "page", defaultValue = "1") Integer pageNum , @Parameter(description = "타임리프에 반환하기 위한 객체") Model model) {
         List<BoardListVo> boardDtoList = boardService.getBoardlist(pageNum);
         model.addAttribute("boardList",boardDtoList);
         return "board/list";
     }
 
     /* RETURN PAGE - 글작성 페이지 */
-    @GetMapping("/post")
-    public String write(@LoginUser SessionUser sessionUser){
+    @Operation(summary = "글 작성 페이지 반환", description = "글쓰기 페이지를 반환합니다.")
+    @GetMapping("/write")
+    public String write(@Parameter(description = "현재 로그인된 사용자 식별")@LoginUser SessionUser sessionUser){
         if(!sessionUser.isNameCheck()){
             return "login/OauthNameCheck";
         }
@@ -74,8 +84,9 @@ public class BoardController {
     }
 
     /* RETURN PAGE - 글읽기 페이지 */
-    @GetMapping("/post/read/{boardId}")
-    public String detail(@PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser, Model model, HttpServletRequest request, HttpServletResponse response) {
+    @Operation(summary = "게시글 상세 페이지 반환", description = "게시글을 클릭 했을때 해당 게시글의 상세 페이지로 이동합니다.")
+    @GetMapping("/detail/{boardId}")
+    public String detail(@Parameter(description = "해당번호를 가진 게시글을 읽습니다.")@PathVariable("boardId") Long boardId, @Parameter(description = "현재 로그인된 사용자를 식별")@LoginUser SessionUser sessionUser, Model model, @Parameter(description = "조회수 중복 방지를 위해 쿠키값을 가져오기 위한 파라미터입니다. ")HttpServletRequest request, @Parameter(description = "조회수 중복 방지를 위해 쿠키값을 가져오기 위한 파라미터입니다. ") HttpServletResponse response) {
         BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
 
@@ -148,8 +159,9 @@ public class BoardController {
     }
 
     /* RETURN PAGE - 게시글 수정 페이지 */
-    @GetMapping("post/edit/{no}")
-    public String edit(@PathVariable("no") Long no, Model model, @LoginUser SessionUser sessionUser) {
+    @Operation(summary = "게시글 수정 페이지 반환", description = "게시글 수정 화면으로 이동합니다.")
+    @GetMapping("/edit/{boardId}")
+    public String edit(@Parameter(description = "해당 번호를 가진 게시글을 수정합니다.") @PathVariable("boardId") Long no, Model model,@Parameter(description = "현재 로그인된 사용자를 식별") @LoginUser SessionUser sessionUser) {
         BoardDto.Response boardDTO = boardService.getPost(no);
 
         if( !boardDTO.getUserId().equals(sessionUser.getId()) ) {
@@ -177,8 +189,9 @@ public class BoardController {
     }
 
     /* READ - 무한스크롤 AJAX */
-    @GetMapping("/listJson/{page}/{isRecruitOn}")
-    public ResponseEntity listJson(@PathVariable("page") Integer pageNum,@PathVariable("isRecruitOn") Boolean isRecruitOn) {
+    @Operation(summary = "다음 페이지의 게시글들을 반환", description = "가져올 페이지번호를 받아 모집중인 게시글들을 반환합니다.")
+    @GetMapping("/list-next/{page}/{isRecruitOn}")
+    public ResponseEntity listJson(@Parameter(description = "가져올 게시글들의 페이지 번호입니다.") @PathVariable("page") Integer pageNum,@Parameter(description = "모집중인 게시글을 구분하기 위한 파라미터입니다.") @PathVariable("isRecruitOn") Boolean isRecruitOn) {
         List<BoardListVo> boardList = new ArrayList<>();
         if(isRecruitOn) { /* 모집중만 */
             boardList = boardService.getBoardListOnRecruit(pageNum);
@@ -189,8 +202,9 @@ public class BoardController {
     }
 
     /* CREATE - 글작성 */
-    @PostMapping("/post")
-    public String write(@Valid BoardDto.Request boardDto, Errors errors , @LoginUser SessionUser sessionUser, Model model, @RequestParam(value = "tags", required = false) String tags, @RequestParam(value = "walletAddress", required = false) String walletAddress) {
+    @Operation(summary = "게시글 작성", description = "신규 게시글을 등록합니다.")
+    @PostMapping("/write")
+    public String write(@Parameter(description = "게시글의 정보가 담긴 Request 객체입니다.") @Valid BoardDto.Request boardDto, Errors errors , @Parameter(description = "현재 로그인된 사용자를 식별")@LoginUser SessionUser sessionUser, Model model, @Parameter(description = "해시태그의 정보를 String 으로 받습니다. 후에 문자열 파싱을 통해 DB에 저장합니다.") @RequestParam(value = "tags", required = false) String tags) {
         /* 글작성 유효성 검사 */
         if(errors.hasErrors()) {
             /* 글작성 실패시 입력 데이터 값 유지 */
@@ -229,8 +243,9 @@ public class BoardController {
     }
 
     /* UPDATE - 게시글 수정 */
-    @PutMapping("/post/edit/{no}")
-    public String update(@PathVariable("no") Long no,BoardDto.Request boardDto, @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
+    @Operation(summary = "게시글 수정", description = "게시글을 수정 합니다. 수정 성공시 모집하기 페이지로 리다이렉트 됩니다.")
+    @PutMapping("/edit/{no}")
+    public String update(@Parameter(description = "해당 번호를 가진 게시글을 수정합니다.") @PathVariable("no") Long no, @Parameter(description = "수정된 게시글의 정보가 담긴 Request 객체 입니다.") @Valid BoardDto.Request boardDto, @Parameter(description = "해시태그의 정보를 String 으로 받습니다. 후에 문자열 파싱을 통해 DB에 저장합니다.") @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
         if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())) {
             return "error/404error";
         }
@@ -288,27 +303,34 @@ public class BoardController {
     }
 
     /* DELETE - 게시글 삭제 */
-    @DeleteMapping("/post/{no}")
-    public String delete(@PathVariable("no") Long no, @LoginUser SessionUser sessionUser) {
-        if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())){
+    @Operation(summary = "게시글 삭제", description = "게시글을 삭제합니다. 삭제 성공시 모집하기 페이지로 리다이렉트 됩니다.")
+    @DeleteMapping("/{boardId}")
+    public String delete(@Parameter(description = "해당 번호를 가진 게시글을 삭제합니다.") @PathVariable("boardId") Long boardId, @LoginUser SessionUser sessionUser) {
+        if(!sessionUser.getId().equals(boardService.getPost(boardId).getUserId())){
             return "/error/404error";
         }
 
-        boardService.deletePost(no);
+        boardService.deletePost(boardId);
         return "redirect:/board/list";
     }
 
     /* READ - 검색 */
+    @Operation(summary = "게시글 검색", description = "게시글을 검색합니다. 모집중인 게시글만 반환합니다.")
     @GetMapping("/search")
-    public String search(@RequestParam(value = "page", defaultValue = "1") Integer pageNum ,@RequestParam(value = "keyword") String keyword, Model model) {
+    public String search(@Parameter(description = "검색한 게시글들의 페이지 번호입니다. 기본값으로는 1 입니다.") @RequestParam(value = "page", defaultValue = "1") Integer pageNum , @Parameter(description = "검색할 키워드가 담긴 파라미터입니다.") @RequestParam(value = "keyword") String keyword, Model model) {
         List<BoardListVo> boardDtoList = boardService.searchPosts(pageNum, keyword);
         model.addAttribute("boardList", boardDtoList);
         return "/board/list";
     }
 
     /* CREATE - 스터디 참가 */
+    @Operation(summary = "스터디 참가", description = "스터디에 참가합니다. 응답으로는 200 , 400 입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "참가 성공의 경우 응답입니다."),
+            @ApiResponse(responseCode = "400", description = "참가 실패의 경우 응답입니다."),
+    })
     @PostMapping("/recruit/{boardId}/{userId}")
-    public ResponseEntity recruitSave(@PathVariable Long boardId, @PathVariable Long userId, @LoginUser SessionUser sessionUser) {
+    public ResponseEntity recruitSave(@Parameter(description = "참가하는 게시글 번호입니다.") @PathVariable Long boardId, @Parameter(description = "참가하는 사용자의 번호입니다.") @PathVariable Long userId, @LoginUser SessionUser sessionUser) {
         if (!sessionUser.getId().equals(userId)) {
             return ResponseEntity.badRequest().build();
         }
@@ -323,8 +345,9 @@ public class BoardController {
     }
 
     /* DELETE - 모집 마감 취소 */
-    @DeleteMapping("/recruitCancel/{boardId}/{userId}")
-    public ResponseEntity recruitDelete(@PathVariable Long boardId, @PathVariable Long userId, @LoginUser SessionUser sessionUser) {
+    @DeleteMapping("/recruit-cancel/{boardId}/{userId}")
+    @Operation(summary = "모각코 모집 마감 취소", description = "모집 마감을 취소합니다. 게시글 작성자만 호출할수 있습니다.")
+    public ResponseEntity recruitDelete(@Parameter(description = "모집 마감을 취소할 게시글의 번호입니다.") @PathVariable Long boardId, @Parameter(description = "모집 취소를 누른 사용자의 번호입니다.") @PathVariable Long userId, @LoginUser SessionUser sessionUser) {
         if(!sessionUser.getId().equals(userId)) {
             return ResponseEntity.badRequest().build();
         }
@@ -335,61 +358,14 @@ public class BoardController {
     }
 
     /* UPDATE - 모집 마감 */
-    @PatchMapping("/recruitClose/{boardId}")
-    public ResponseEntity recruitClose(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
+    @Operation(summary = "모각코 모집을 마감", description = "모각코 모집을 마감합니다. 게시글 작성자만 호출할수 있습니다.")
+    @PatchMapping("/recruit-off/{boardId}")
+    public ResponseEntity recruitClose(@Parameter(description = "해당 번호를 가진 게시글에 대해 요청합니다.") @PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
         if(!sessionUser.getId().equals(boardService.getPost(boardId))) {
             ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(boardService.updateFull(boardId));
     }
-
-
-    /* ------ Comment 💬 ------- */
-
-    /* CREATE - 댓글 달기 */
-    @PostMapping("/comment/{id}")
-    public ResponseEntity commentSave(@PathVariable Long id, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-        return ResponseEntity.ok(commentService.commentSave(sessionUser.getId(), id, commentDto));
-    }
-
-    /* CREATE - 답글 달기 */
-    @PostMapping("/recomment/{boardId}/{parendId}")
-    public ResponseEntity recommentSave(@PathVariable Long boardId,@PathVariable Long parendId ,@RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-        return ResponseEntity.ok(commentService.recommentSave(sessionUser.getId(), boardId, parendId, commentDto));
-    }
-
-    /* UPDATE - 댓글/답글 수정 */
-    @PutMapping("/post/comment/{commentId}/{userId}")
-    public ResponseEntity commentUpdate(@PathVariable Long commentId, @PathVariable Long userId, @RequestBody CommentDto.Request commentDto, @LoginUser SessionUser sessionUser) {
-        if(!sessionUser.getId().equals(userId)) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        commentService.commentUpdate(commentId, commentDto);
-        return ResponseEntity.ok(commentId);
-    }
-
-    /* DELETE - 댓글 삭제 */
-    @DeleteMapping("/post/{boardId}/comment/{commentId}")
-    public ResponseEntity commentDelete(@PathVariable Long commentId) {
-        commentService.commentDelete(commentId);
-        return ResponseEntity.ok(commentId);
-    }
-
-    /* ----- Likes 🌠 ----- */
-
-    /* CREATE - 좋아요 */
-    @PostMapping("/post/{boardId}/like")
-    public ResponseEntity likeSave(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
-        return ResponseEntity.ok(likeService.likeSave(sessionUser.getName(),boardId));
-    }
-
-    /* DELETE - 좋아요 취소 */
-    @DeleteMapping("/post/{boardId}/like")
-    public ResponseEntity deleteLike(@PathVariable Long boardId, @LoginUser SessionUser sessionUser) {
-        return ResponseEntity.ok(likeService.deleteLike(sessionUser.getName(), boardId));
-    }
-
 
 }
 

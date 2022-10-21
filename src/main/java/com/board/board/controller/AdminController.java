@@ -34,7 +34,7 @@ public class AdminController {
     }
 
     /* READ - 게시글 읽기 */
-    @GetMapping("/read/{boardId}")
+    @GetMapping("/{boardId}")
     public String adminDetail(@PathVariable("boardId") Long boardId, Model model) {
         BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
@@ -51,28 +51,8 @@ public class AdminController {
         return "admin/adminDetail";
     }
 
-    /* READ - 무한스크롤 AJAX */
-    @GetMapping("/listJson/{page}/{isRecruitOn}")
-    public ResponseEntity listJson(@PathVariable("page") Integer pageNum, @PathVariable("isRecruitOn") Boolean isRecruitOn) {
-        List<BoardListVo> boardList = new ArrayList<>();
-        if(isRecruitOn) { /* 모집중만 */
-            boardList = boardService.getBoardListOnRecruit(pageNum);
-        }else {           /* 전체 게시글 */
-            boardList = boardService.getBoardlist(pageNum);
-        }
-        return ResponseEntity.ok(boardList);
-    }
-
-    /* READ - 검색 */
-    @GetMapping("/search")
-    public String search(@RequestParam(value = "page", defaultValue = "1") Integer pageNum ,@RequestParam(value = "keyword") String keyword, Model model) {
-        List<BoardListVo> boardDtoList = boardService.searchPosts(pageNum, keyword);
-        model.addAttribute("boardList", boardDtoList);
-        return "/admin/admin";
-    }
-
     /* DELETE - 게시글 삭제 */
-    @DeleteMapping("/post/{boardId}")
+    @DeleteMapping("/{boardId}")
     public String deletePost(@PathVariable("boardId") Long boardId){
         boardService.deletePost(boardId);
         return "redirect:/admin/";

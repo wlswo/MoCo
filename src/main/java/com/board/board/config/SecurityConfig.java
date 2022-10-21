@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -55,11 +56,12 @@ public class SecurityConfig{
                 .and()
                     .authorizeRequests()
                     .antMatchers("/").permitAll()
+                    .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                     .antMatchers("/admin","/admin/**").hasRole("MASTER")
                     .antMatchers("/login","/confirm-email/**").permitAll()
                     .antMatchers("/css/**", "/img/**", "/js/**", "/json/**", "/favicon.ico","/error/**").permitAll()
                     .antMatchers("/earth").permitAll()
-                    .antMatchers("/board/post").authenticated()
+                    .antMatchers("/board/write").authenticated()
                     .antMatchers("/board/**").permitAll()
                     .antMatchers("/signup","/login/signup").permitAll()
                     .antMatchers("/id/check","/name/check").permitAll()
