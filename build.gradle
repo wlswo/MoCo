@@ -38,7 +38,7 @@ dependencies {
 	implementation 'com.google.code.gson:gson:2.9.0'
 	implementation 'io.github.furstenheim:copy_down:1.1'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 	implementation 'org.springdoc-openapi-security:1.6.9'
 
 
