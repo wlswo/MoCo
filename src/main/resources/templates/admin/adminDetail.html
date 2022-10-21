@@ -39,7 +39,7 @@
     </div>
     <!-- 삭제 -->
     <span style="display:flex;">
-        <form id="delete-form" th:action="@{'/admin/post/' + ${boardDto.id}}" method="post">
+        <form id="delete-form" th:action="@{'/admin/' + ${boardDto.id}}" method="post">
             <input type="hidden" name="_method" value="delete"/>
             <button id="delete-btn">삭제</button>
         </form>

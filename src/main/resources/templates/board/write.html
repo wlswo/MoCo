@@ -28,7 +28,7 @@
 <body>
 <main class="container">
     <div>
-        <form class="form-horizontal" th:action="@{/board/post}" method="post" th:onsubmit="return mdGet();" modelAttribute="boardDto">
+용        <form class="form-horizontal" th:action="@{/board/write}" method="post" th:onsubmit="return mdGet();" modelAttribute="boardDto">
             <input type="hidden" id="content" name="content" th:value="${boardDto} ? ${boardDto.content}">
             <input type="hidden" id="thumbnail" name="thumbnail">
             <input type="hidden" id="walletAddress" name="walletAddress">

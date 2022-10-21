@@ -19,7 +19,7 @@
       </li>
     </ul>
     <span>
-      <a type="button" class="btn btn-dark" th:href="@{/board/post}" style="border-radius: 1.25rem; color: black; background-color: white;">새 글 작성</a>
+      <a type="button" class="btn btn-dark" th:href="@{/board/write}" style="border-radius: 1.25rem; color: black; background-color: white;">새 글 작성</a>
       <a type="button" class="btn btn-dark" sec:authorize="isAnonymous()" th:href="@{/login}"  style="border-radius: 1.25rem; color: black; background-color: white;">로그인</a>
       <div class="dropdown" sec:authorize="isAuthenticated()" style="float: right;">
         <img th:src="${session.user['picture']}" alt="userIcon" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; border-radius: 50%; width: 40px; height: 40px; margin-right: 10px;">

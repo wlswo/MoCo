@@ -39,10 +39,10 @@
         </div>
         <!-- 글수정 / 삭제 -->
         <span th:if="${iswriter}" style="display:flex;">
-            <a th:href="@{'/board/post/edit/' + ${boardDto.id}}">
+            <a th:href="@{'/board/edit/' + ${boardDto.id}}">
                 <button>수정</button>
             </a>
-            <form id="delete-form" th:action="@{'/board/post/' + ${boardDto.id}}" method="post">
+            <form id="delete-form" th:action="@{'/board/' + ${boardDto.id}}" method="post">
                 <input type="hidden" name="_method" value="delete"/>
                 <button id="delete-btn">삭제</button>
             </form>
@@ -136,7 +136,7 @@
                         <span style="font-size: xx-small">[[${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
                         <span sec:authorize="isAuthenticated()" th:if="${comment.getUserId()} == ${session.user['id']} and ${!comment.isRemoved}" class="update-delete-button">
                             <!-- 댓글 삭제 버튼 -->
-                            <a type="button" th:onclick="|commentDelete('${boardDto.id}','${comment.getId()}','comment')|" class="a-tag-button">삭제</a>
+                            <a type="button" th:onclick="|commentDelete('${comment.getId()}','comment')|" class="a-tag-button">삭제</a>
                             <!-- 댓글 수정 버튼 -->
                             <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${comment.getId()} + ', #comment-collapse-' + ${comment.getId()}"  class="a-tag-button">수정</a>&nbsp;
                         </span>
@@ -163,7 +163,7 @@
                                     <span style="font-size: xx-small">[[${#temporals.format(recomment.createdDate, 'yyyy-MM-dd HH:mm:ss')}]]</span>&nbsp;
                                     <span sec:authorize="isAuthenticated()" th:if="${recomment.getUserId()} == ${session.user['id']}">
                                         <!-- 대댓글 삭제 버튼 -->
-                                        <a type="button" th:onclick="|commentDelete('${boardDto.id}','${recomment.getId()}','recomment')|" class="a-tag-button">삭제</a>
+                                        <a type="button" th:onclick="|commentDelete('${recomment.getId()}','recomment')|" class="a-tag-button">삭제</a>
                                         <!-- 대댓글 수정 버튼 -->
                                         <a type="button" data-bs-toggle="collapse" th:data-bs-target="'#multi-collapse-' + ${recomment.getId()} + ', #recomment-collapse-' + ${recomment.getId()}"  class="a-tag-button">수정</a>&nbsp;
                                     </span>
