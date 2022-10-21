@@ -24,7 +24,7 @@
 <body>
 <main class="container" modelAttribute="boardDto">
     <div>
-        <form class="form-horizontal" th:action="@{/board/post/edit/}+${no}" method="POST" th:onsubmit="mdGet();">
+        <form class="form-horizontal" th:action="@{/board/edit/}+${no}" method="POST" th:onsubmit="mdGet();">
             <input type="hidden" id="content" name="content" th:value="${boardDto.content}">
             <input type="hidden" id="thumbnail" name="thumbnail" th:value="${boardDto.thumbnail}">
             <input type="hidden" name="_method" value="PUT"/>
