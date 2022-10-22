@@ -39,15 +39,15 @@
 
 ## 사용 기술 
 
-![java](https://img.shields.io/badge/Java-11-DEB887?style=flat)&nbsp;![springboot](https://img.shields.io/badge/SpringBoot-2.7.2-3CB371?style=flat&logo=springboot)&nbsp;![spriongsecurity](https://img.shields.io/badge/SpringSecurity-5-3CB371?style=flat&logo=springsecurity)
+![java](https://img.shields.io/badge/Java-11-DEB887?style=flat)&nbsp;![springboot](https://img.shields.io/badge/SpringBoot-2.7.2-3CB371?style=flat&logo=springboot)&nbsp;![spriongsecurity](https://img.shields.io/badge/SpringSecurity-5-3CB371?style=flat&logo=springsecurity)&nbsp;![spriongsecurity](https://img.shields.io/badge/Solidity-^0.8.0-c5ac00?style=flat&logo=solidity)
 
 ![spriongsecurity](https://img.shields.io/badge/Html5-C0C0C0?style=flat&logo=HTML5)&nbsp; ![spriongsecurity](https://img.shields.io/badge/CSS3-blue?style=flat&logo=css3)&nbsp; ![spriongsecurity](https://img.shields.io/badge/Thymeleaf-green?style=flat&logo=thymeleaf)&nbsp; ![spriongsecurity](https://img.shields.io/badge/BootStrap5-purple?style=flat&logo=Bootstrap)
 
-![spriongsecurity](https://img.shields.io/badge/Gradle-7.5-skyblue?style=flat&logo=gradle)
+![gradle](https://img.shields.io/badge/Gradle-7.5-skyblue?style=flat&logo=gradle)
 
-![spriongsecurity](https://img.shields.io/badge/MySQL-8.0.28-FFA07A?style=flat&logo=mysql)
+![mysql](https://img.shields.io/badge/MySQL-8.0.28-FFA07A?style=flat&logo=mysql)
 
-![spriongsecurity](https://img.shields.io/badge/AWS-ec2-FF8C00?style=flat&logo=amazonec2)&nbsp;![spriongsecurity](https://img.shields.io/badge/AWS-s3-FF8C00?style=flat&logo=amazons3)&nbsp;![spriongsecurity](https://img.shields.io/badge/AWS-alb-FF8C00?style=flat&logo=JFrogBintray)&nbsp;![spriongsecurity](https://img.shields.io/badge/AWS-RDS-FF8C00?style=flat&logo=amazonrds)&nbsp;![spriongsecurity](https://img.shields.io/badge/AWS-Route53-FF8C00?style=flat&logo=ray)
+![ec2](https://img.shields.io/badge/AWS-ec2-FF8C00?style=flat&logo=amazonec2)&nbsp;![s3](https://img.shields.io/badge/AWS-s3-FF8C00?style=flat&logo=amazons3)&nbsp;![alb](https://img.shields.io/badge/AWS-alb-FF8C00?style=flat&logo=JFrogBintray)&nbsp;![route53](https://img.shields.io/badge/AWS-RDS-FF8C00?style=flat&logo=amazonrds)&nbsp;![rds](https://img.shields.io/badge/AWS-Route53-FF8C00?style=flat&logo=ray)
 
 **백엔드**
   - Java 11 openjdk
@@ -79,18 +79,23 @@
 -  Docker
 -  DockerHub
 
+**블록체인**
+- goerli network
+- solidity
+- Meta Mask
+
 **라이브러리**
 
  - [web3.js](https://web3js.readthedocs.io/en/v1.8.0/getting-started.html)
+ - [openzeppelin-ERC20](https://docs.openzeppelin.com/contracts/4.x/erc20)
  - [tippy.js](https://atomiks.github.io/tippyjs/v6/getting-started/)
  - [toastui-editor](https://ui.toast.com/tui-editor)
  - [tagify](https://yaireo.github.io/tagify/)
  - [xeicon](http://xpressengine.github.io/XEIcon/started.html)
+ - [fabric](http://fabricjs.com/docs/)
 
 ## 시스템 아키텍처
 ![시스템 아키텍처](https://user-images.githubusercontent.com/103496262/197354146-c861abe0-3f00-4f33-b276-66bd97903e7b.jpg)
-
-
 
 
 
