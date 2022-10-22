@@ -1,8 +1,13 @@
+![logo](https://user-images.githubusercontent.com/103496262/197355772-f4df931e-10fb-43e5-843f-04d33a04df64.JPG)
+
+
 # 모각코, 함께 코딩하고 교류하는 커뮤니티
 
 혼자 코딩하느라 지치시지는 않으신가요?
 다양한 사람들과 함께 코딩하면서 교류해보세요!
-
+<br><br>
+## [🚀MoCo 접속하기](https://moco.site)
+<br>
 
 # 📖 목차 
  - [소개](#소개) 
