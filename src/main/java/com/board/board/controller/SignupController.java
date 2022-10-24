@@ -8,7 +8,6 @@ import com.board.board.config.auth.SessionUser;
 import com.board.board.domain.User;
 import com.board.board.dto.UserDto;
 import com.board.board.service.mail.ConfirmationTokenService;
-import com.board.board.service.user.CustomUserDetailsService;
 import com.board.board.service.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

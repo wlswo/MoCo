@@ -1,5 +1,7 @@
 package com.board.board.config.auth;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,6 +21,8 @@ import java.net.URLEncoder;
 
 @Component
 public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
+
     /* 로그인 인증실패 분기 */
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -39,6 +43,7 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
             errorMessage = "이메일인증이 필요합니다.";
         }
         errorMessage = URLEncoder.encode(errorMessage,"UTF-8");
+        logger.info(errorMessage);
         setDefaultFailureUrl("/login?error=true&exception="+errorMessage+"&id="+email);
         super.onAuthenticationFailure(request, response, exception);
     }
