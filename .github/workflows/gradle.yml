@@ -60,7 +60,6 @@ jobs:
             sudo docker rm $(sudo docker ps -a -q)
             sudo docker rmi $(sudo docker images -q)
             sudo docker pull ${{ secrets.DOCKER_REPO}}:latest
-            sudo docker run -d -p 80:8080 ${{ secrets.DOCKER_REPO }}
-
+            sudo docker run -d -p 80:8080 --log-driver=awslogs --log-opt awslogs-region=ap-northeast-2 --log-opt awslogs-group=${{ secrets.LOG_GROUP_NAME }} --log-opt awslogs-stream=${{ secrets.LOG_STREAM_NAME }} ${{ secrets.DOCKER_REPO }}
     
  
