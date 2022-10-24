@@ -216,6 +216,7 @@
 로그인, 회원가입시 에러가 나는경우 이를 처리하기위해 커스텀 클래스를 구현했으며,
 로그인 관련 에러와 회원가입시 에러에 맞게 처리하였습니다. 
 발생한 에러들은 추적이 가능하도록 Log를 남겨 CloudWatch 모니터링 시스템을 이용하여 실시간으로 확인 가능하도록 처리했습니다. 
+![로그이미지](https://user-images.githubusercontent.com/103496262/197615356-d0dd6dc6-79a8-4706-ab62-fa12b38a24d5.JPG)
 
 [CustomAuthFailureHandler](https://github.com/JaeJinByun/MoCo/blob/c93bdc6252c5580679b9a58b3bd5f5a4c2789990/src/main/java/com/board/board/config/auth/CustomAuthFailureHandler.java#L23)
 
