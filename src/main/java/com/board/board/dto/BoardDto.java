@@ -24,13 +24,14 @@ public class BoardDto {
         private String subcontent;
         private String thumbnail;
         private int view;
+        private String location;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
         private User user;
 
         /* Dto -> Entity */
         public Board toEntity() {
-            Board board = Board.builder().id(id).writer(writer).title(title).content(content).subcontent(subcontent).thumbnail(thumbnail).view(0).user(user).build();
+            Board board = Board.builder().id(id).writer(writer).title(title).content(content).subcontent(subcontent).thumbnail(thumbnail).view(0).location(location).user(user).build();
             return board;
         }
     }
@@ -45,6 +46,7 @@ public class BoardDto {
         private String subcontent;
         private String thumbnail;
         private int  view;
+        private String location;
         private LocalDateTime createdDate;
         private LocalDateTime modifiedDate;
         private Long userId;
@@ -61,6 +63,7 @@ public class BoardDto {
             this.subcontent = board.getSubcontent();
             this.thumbnail = board.getThumbnail();
             this.view = board.getView();
+            this.location = board.getLocation();
             this.createdDate = board.getCreatedDate();
             this.modifiedDate = board.getModifiedDate();
             this.userId = board.getUser().getId();

@@ -46,7 +46,7 @@ function SuccessAlert(message) {
 /* 확인창 */
 function confirm(text, title) {
     return new Promise(function(resolve, reject) {
-         Swal.fire({
+        Swal.fire({
             title: title,
             text: text,
             icon: 'warning',
@@ -56,8 +56,8 @@ function confirm(text, title) {
             confirmButtonText: '승인',
             cancelButtonText: '취소'
         }).then((result) => {
-             resolve(result);
-         })
+            resolve(result);
+        })
     })
 }
 
@@ -175,10 +175,13 @@ async function recruitClose(boardId) {
                     SuccessAlert('모집마감되었습니다.');
                     document.getElementById("recruitCloseButton").innerText = "마감취소";
                     document.getElementById("recruitCloseButton").style.backgroundColor = "#94324b";
+                    document.getElementById("recruit_alert").style.display = "block";
+
                 } else {
                     notification('모집마감취소.');
                     document.getElementById("recruitCloseButton").innerText = "마감하기";
                     document.getElementById("recruitCloseButton").style.backgroundColor = "#74d65c";
+                    document.getElementById("recruit_alert").style.display = "none";
                 }
             },
             error: function (error) {
@@ -242,7 +245,7 @@ function saveComment(parentId){
                     if(isRecomment) {
                         $('#ul-'+parentId).load(location.href + ' #ul-'+parentId + ' li');
                         $('#recomment-content-'+parentId).val('');
-                    /* 답글의 경우 */
+                        /* 답글의 경우 */
                     }else{
                         $('#commentList').load(location.href + ' #commentList');
                         $('#comment').val('');
@@ -266,7 +269,7 @@ function commentUpdate(is_recomment,form) {
             boardId : form.querySelector("#comment_boardId").value,
             comment : form.querySelector("#comment-content").value,
         }
-    /* 대댓글일 경우 */
+        /* 대댓글일 경우 */
     }else {
         /* json data */
         data = {

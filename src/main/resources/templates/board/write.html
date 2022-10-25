@@ -21,10 +21,10 @@
     <!-- Web3.js -->
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.0/iconify-icon.min.js"></script>
-
+    <!-- kakaoMap.js -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41910e47c5af7749798791a59a2050f8&libraries=services"></script>
     <title>MoCo</title>
 </head>
-
 <body>
 <main class="container">
     <div>
@@ -51,7 +51,7 @@
                             <div style="padding-top: 15px;">
                                 <a th:href="@{/board/list}" class="btn btn-secondary">뒤로 가기</a>
                                 <span style="width: 100px;"></span>
-                                <span class="btn btn-dark" id="next">확인</span>
+                                <span class="btn btn-dark next">다음</span>
                             </div>
                         </div>
                     </div>
@@ -95,13 +95,29 @@
                                 </section>
                             </div>
                             <div class="uploadSection" style="justify-content: space-between">
-                                <span class="btn btn-dark" id="prev">취소</span>
-                                <button type="submit" class="btn btn-dark">작성완료</button>
+                                <span class="btn btn-dark prev">취소</span>
+                                <button class="btn btn-dark next">다음</button>
                             </div>
                         </div>
                     </div>
                     <div class="swiper-slide">
-
+                        <div style="display: block;">
+                            <div id="map" style="width:500px;height:400px; margin-top: 50px;"></div>
+                            <div class="input-group mb-3"  style=" margin-top: 30px;">
+                              <input type="text" class="form-control" id="location" placeholder="장소를 검색해보세요." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                              <div class="input-group-append">
+                                <button class="btn btn-dark" id="map-search" type="button">검색</button>
+                              </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="selected_location" class="form-label">선택한 장소</label>
+                                <input type="text" class="form-control" id="selected_location" name="location" readonly>
+                            </div>
+                            <div class="uploadSection" style="justify-content: space-between; margin-top: 10px;">
+                                <span class="btn btn-dark prev">취소</span>
+                                <button type="submit" class="btn btn-dark">작성완료</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,7 +130,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-
+<script src="/js/board/kakaoMap.js"></script>
 <script src="/js/board/write.js"></script>
 <script src="/js/web3js/web3js.js"></script>
 </body>

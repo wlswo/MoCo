@@ -43,13 +43,15 @@ public class Board extends Time {
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int view;
 
+    @Column(columnDefinition = "TEXT", nullable = true)
+    private String location;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Column
     private boolean isfull = false;
-
 
 
     /* 댓글 */

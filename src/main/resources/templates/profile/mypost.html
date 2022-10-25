@@ -25,7 +25,7 @@
       <div class="card-header">
         <div class="isFull" th:if="${board.getIsfull()}">모집 마감</div>
         <!-- 썸네일 -->
-        <a th:href="@{'/board/post/read/'+${board.getId()}}">
+        <a th:href="@{'/board/detail/'+${board.getId()}}">
           <img th:src="${board.getThumbnail()}" alt="" />
         </a>
       </div>
@@ -36,7 +36,7 @@
           <div class="tag"><span th:text="${board.getHashTag()} ? '#'+${board.getHashTag()}"></span></div>
         </div>
         <!-- 제목 -->
-        <a th:href="@{'/board/post/read/'+${board.getId()}}"><h4 th:text="${board.getTitle()}"> Title </h4></a>
+        <a th:href="@{'/board/detail/'+${board.getId()}}"><h4 th:text="${board.getTitle()}"> Title </h4></a>
         <!-- 글소개 -->
         <p th:text="${board.getSubcontent()}"></p>
         <!-- 좋아요 -->

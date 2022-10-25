@@ -21,6 +21,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/MotionPathPlugin.min.js"></script>
     <!-- alert Library -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- kakaoMap.js -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41910e47c5af7749798791a59a2050f8&libraries=services"></script>
 </head>
 
 <body style="margin-bottom: 150px;">
@@ -102,28 +104,27 @@
             <p th:utext="${boardDto.content}"></p>
         </div>
     </div>
+    <!-- 지도 위치 -->
+    <div>
+        <div id="map" style="width:auto;height:400px;"></div>
+    </div>
     <div style="margin: 30px; text-align: center;">
         <p class="currentJoin"><span id="currentJoin">[[${joinUsers}]]</span> 명 참가중..</p>
     </div>
     <!-- 참가 신청 / 참가 취소 -->
-    <span th:if="!${boardDto.isfull}">
-    <div sec:authorize="isAuthenticated()" class="register-button" style="text-align: center; margin-bottom: 30px;">
-        <span th:if="${!iswriter}">
-            <button class="comment-btn" th:onclick="|recruit(${session.user['id']})|">참가신청</button>
-            <button class="comment-btn" th:onclick="|recruitCancel(${session.user['id']})|">참가취소</button>
-        </span>
-        <span th:if="${iswriter}">
-                <button class="comment-btn" id="recruitCloseButton" th:onclick="|recruitClose(${boardDto.id})|" th:text="${boardDto.isfull ? '마감취소' : '마감하기'}" th:style="${boardDto.isfull ? 'background-color: #94324b' : 'background-color: yellowgreen'}"></button>
-        </span>
-    </div>
-    <div sec:authorize="isAnonymous()" class="register-button" style="text-align: center; margin-bottom: 30px;">
-        <button class="btn btn-success" onclick="notification('로그인후 이용해주세요.')">참가신청</button>
-        <button class="btn btn-secondary" onclick="notification('로그인후 이용해주세요.')">참가취소</button>
-    </div>
-    </span>
-    <span th:if="${boardDto.isfull}">
-        <div class="alert alert-warning" role="alert" style="text-align: center;">마감 되었습니다.</div>
-    </span>
+        <div sec:authorize="isAuthenticated()" class="register-button" style="text-align: center; margin-bottom: 30px;">
+            <button th:if="${iswriter}" class="comment-btn" id="recruitCloseButton" th:onclick="|recruitClose(${boardDto.id})|" th:text="${boardDto.isfull ? '마감취소' : '마감하기'}" th:style="${boardDto.isfull ? 'background-color: #94324b' : 'background-color: yellowgreen'}"></button>
+            <span th:if="!${boardDto.isfull} and !${iswriter}">
+                <button class="comment-btn" th:onclick="|recruit(${session.user['id']})|">참가신청</button>
+                <button class="comment-btn" th:onclick="|recruitCancel(${session.user['id']})|">참가취소</button>
+            </span>
+            <div th:if="${boardDto.isfull}" class="alert alert-warning" role="alert" id="recruit_alert" style="text-align: center; margin-top: 20px;">마감 되었습니다.</div>
+        </div>
+        <div sec:authorize="isAnonymous()" class="register-button" style="text-align: center; margin-bottom: 30px;">
+            <button class="btn btn-success" onclick="notification('로그인후 이용해주세요.')">참가신청</button>
+            <button class="btn btn-secondary" onclick="notification('로그인후 이용해주세요.')">참가취소</button>
+        </div>
+
     <div class="starter-template">
         <!-- 댓글 -->
         <div id="commentList" class="card" th:if="${boardDto.comments != null}" style="border: none;">
@@ -227,6 +228,10 @@
 <input sec:authorize="isAuthenticated()" type="hidden" id="userId" th:value="${session.user['id']}"/>
 </body>
 <!-- Script -->
+<script th:inline="javascript">
+    var map_marker = [[${boardDto.getLocation()}]];
+</script>
+<script src="/js/board/kakaoMap.js"></script>
 <script src="/js/board/detail.js"></script>
 <script src="/js/board/detail-like-button.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>

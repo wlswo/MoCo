@@ -37,34 +37,40 @@ const editor = new Editor({
         }}
 });
 
-/* submit 전에 content,walletAddress 값 hidden에 주입 및 제목 유효성 검사 */
+/* submit 전에 content, 유효성 검사 */
 function mdGet() { /* md = MarkDown */
     const title = document.getElementById("title").value;
     if (title == null || title.trim() === '') {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showCloseButton: true,
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
-        Toast.fire({
-            icon: 'warning',
-            background:'#e76876',
-            title: '<h4 style="color: white;">제목이 비어있습니다.</h4>'
-        })
+        notification('제목이 비어있습니다.');
+        return false;
+    }
+    const selected_location = document.getElementById('selected_location').value
+    if (selected_location == null || selected_location.trim() === '') {
+        notification('위치를 선택해주세요.');
         return false;
     }
     document.getElementById('content').value = editor.getHTML();
-    //var a = document.getElementById('content').value;
-    document.getElementById('walletAddress').value = document.getElementById('wallet').textContent;
 }
 
+function notification(msg){
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showCloseButton: true,
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+    Toast.fire({
+        icon: 'warning',
+        background:'#e76876',
+        title: '<h4 style="color: white;">'+msg+'</h4>'
+    })
+}
 
 /* 썸네일 업로드 이벤트  */
 const thumbnail = document.getElementById('uploadThumbnail');
@@ -114,7 +120,7 @@ function uploadThumbnail(e) {
 }
 
 /* 슬라이드 처리 Swiper.js 세팅 */
-var menu = ['Slide 1', 'Slide 2']
+var menu = ['Slide 1', 'Slide 2', 'Slide 3']
 var mySwiper = new Swiper ('.swiper-container', {
     allowTouchMove:false,
     simulateTouch:false,
@@ -126,8 +132,8 @@ var mySwiper = new Swiper ('.swiper-container', {
     },
     /* 이동 방향 */
     navigation: {
-        nextEl: '#next',
-        prevEl: '#prev',
+        nextEl: '.next',
+        prevEl: '.prev',
     },
     slidesPerView : 'auto',
     centeredSlides: true,

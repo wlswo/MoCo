@@ -241,6 +241,7 @@ textarea {
     font-weight: 700;
     color: #fff;
     font-size: 15px;
+    border: none;
 }
 .card p{
     margin-top: 10px;
