@@ -1,7 +1,3 @@
-
-
-
-
 ![logo](https://user-images.githubusercontent.com/103496262/197355772-f4df931e-10fb-43e5-843f-04d33a04df64.JPG)
 
 
@@ -20,6 +16,7 @@
  - [아키텍처](#시스템-아키텍처) 
  - [E-R 다이어그램](#e-r-다이어그램)
  - [Api 명세서](#-api-명세서)
+ - [릴리즈 노트](#-moco-릴리즈-노트)
  - [프로젝트 목적](#프로젝트-목적)
  - [화면 구성](#화면-구성)
  -  [핵심 기능](#핵심-기능)
@@ -113,6 +110,8 @@
  - [xeicon](http://xpressengine.github.io/XEIcon/started.html)
  - [fabric](http://fabricjs.com/docs/)
  - [copy-down](https://github.com/furstenheim/copy-down)
+ - [kakaoMaps Api](https://apis.map.kakao.com/)
+
 
 ## 시스템 아키텍처
 ![시스템 아키텍처](https://user-images.githubusercontent.com/103496262/197354146-c861abe0-3f00-4f33-b276-66bd97903e7b.jpg)
@@ -129,6 +128,24 @@
 
 ## 📑 Api 명세서
 ### [Api 명세서 보기](https://moco.site/swagger-ui/index.html)
+
+
+## 🛠 MoCo 릴리즈 노트
+
+<details>
+<summary> 2022-10-26 MoCo v1.1.0 릴리즈 보기</summary>
+<div markdown="1">       
+
+![카카오맵](https://user-images.githubusercontent.com/103496262/197948429-3426db43-9b92-4d01-a120-ad81d15956b8.JPG)
+<br><br>
+😎 카카오맵 Api를 추가, 적용했습니다. <br>
+- 만남 장소를 검색하실 수 있습니다.
+- 지도에 표시된 마커를 선택해 만남 장소를 정하실수 있습니다.
+
+</div>
+</details>
+<br><br>
+
 
 
 ## 프로젝트 목적
