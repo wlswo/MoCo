@@ -29,10 +29,13 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark" th:replace="fragments/header"></nav>
 
 <main role="main" class="board-container" modelAttribute="boardDto">
+    <!-- 뒤로가기 -->
+    <div id="back-button" class="xi-arrow-left" style="font-size: xxx-large; color: #5d506d; cursor: pointer;"></div>
     <!-- 제목 -->
     <div class="detail-title">
         <h1>[[${boardDto.title}]]</h1>
     </div>
+    <div style="border-bottom: gray 5px solid; margin-top: 30px;"></div>
     <div class="detail-information">
         <!-- 작성자 / 작성일 -->
         <div class="detail-information-user">
