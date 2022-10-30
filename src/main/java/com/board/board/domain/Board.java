@@ -73,11 +73,12 @@ public class Board extends Time {
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Recruit> recruits;
 
-    public void update(String title, String content, String subcontent, String thumbnail) {
+    public void update(String title, String content, String subcontent, String thumbnail, String location) {
         this.title = title;
         this.content = content;
         this.subcontent = subcontent;
         this.thumbnail = thumbnail;
+        this.location = location;
     }
 
     public boolean close(){

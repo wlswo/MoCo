@@ -20,7 +20,10 @@ if(document.getElementById('map-search')){
         let location = document.getElementById('location').value;
         ps.keywordSearch(location, placesSearchCB);
     });
-}else {
+    if(map_marker != null || map_marker != undefined) {
+        ps.keywordSearch(map_marker, placesSearchCB);
+    }
+} else {
     ps.keywordSearch(map_marker, placesSearchCB);
 }
 

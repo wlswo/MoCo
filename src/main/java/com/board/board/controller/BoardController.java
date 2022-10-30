@@ -244,14 +244,14 @@ public class BoardController {
 
     /* UPDATE - 게시글 수정 */
     @Operation(summary = "게시글 수정", description = "게시글을 수정 합니다. 수정 성공시 모집하기 페이지로 리다이렉트 됩니다.")
-    @PutMapping("/edit/{no}")
-    public String update(@Parameter(description = "해당 번호를 가진 게시글을 수정합니다.") @PathVariable("no") Long no, @Parameter(description = "수정된 게시글의 정보가 담긴 Request 객체 입니다.") @Valid BoardDto.Request boardDto, @Parameter(description = "해시태그의 정보를 String 으로 받습니다. 후에 문자열 파싱을 통해 DB에 저장합니다.") @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
-        if(!sessionUser.getId().equals(boardService.getPost(no).getUserId())) {
+    @PutMapping("/edit/{boardId}")
+    public String update(@Parameter(description = "해당 번호를 가진 게시글을 수정합니다.") @PathVariable("boardId") Long boardId, @Parameter(description = "수정된 게시글의 정보가 담긴 Request 객체 입니다.") @Valid BoardDto.Request boardDto, @Parameter(description = "해시태그의 정보를 String 으로 받습니다. 후에 문자열 파싱을 통해 DB에 저장합니다.") @RequestParam(value = "tags",required = false) String tags ,@LoginUser SessionUser sessionUser) {
+        if(!sessionUser.getId().equals(boardService.getPost(boardId).getUserId())) {
             return "error/404error";
         }
 
         boardDto.setWriter(sessionUser.getName());
-        boardService.updatePost(no,boardDto);
+        boardService.updatePost(boardId,boardDto);
 
         /* 해시태그 수정 */
         if(!tags.isEmpty()) {
@@ -265,7 +265,7 @@ public class BoardController {
                 });
 
                 /* 기존 해시태그와 비교 */
-                HashSet<HashTag> OriginHashTags =  hashTagService.getTags(no);
+                HashSet<HashTag> OriginHashTags =  hashTagService.getTags(boardId);
                 HashSet<String> OriginHashTagsContent = new HashSet<>();
                 OriginHashTags.forEach(item -> {
                     OriginHashTagsContent.add(item.getTagcontent());
@@ -281,7 +281,7 @@ public class BoardController {
                         hashTagDto.setTagcontent(item);
                         hashTagDtoList.add(hashTagDto);
                     });
-                    hashTagService.SaveAll(no,hashTagDtoList);
+                    hashTagService.SaveAll(boardId,hashTagDtoList);
                 }
 
                 /* 삭제된 해시태그 */
@@ -290,7 +290,7 @@ public class BoardController {
                 List<String> setTolist = new ArrayList<>(SubTags);
 
                 if(!SubTags.isEmpty()) {
-                    hashTagService.DeleteAll(no,setTolist);
+                    hashTagService.DeleteAll(boardId,setTolist);
                 }
 
 

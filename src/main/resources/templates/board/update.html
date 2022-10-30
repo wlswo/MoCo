@@ -18,9 +18,10 @@
     <!-- markDown -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/theme/toastui-editor-dark.min.css">
+    <!-- kakaoMap.js -->
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=41910e47c5af7749798791a59a2050f8&libraries=services"></script>
     <title>MoCo</title>
 </head>
-
 <body>
 <main class="container" modelAttribute="boardDto">
     <div>
@@ -47,7 +48,7 @@
                             <div style="padding-top: 15px;">
                                 <a th:href="@{/board/list}" class="btn btn-secondary">뒤로 가기</a>
                                 <span style="width: 100px;"></span>
-                                <span class="btn btn-primary" id="next">확인</span>
+                                <span class="btn btn-dark next">다음</span>
                             </div>
                         </div>
                     </div>
@@ -72,9 +73,9 @@
                                         </div>
                                         <!-- 썸네일 업로드 -->
                                         <div id="uploadImg">
-                                            <div class="btn btn-primary">업로드</div>
+                                            <div class="btn btn-dark">업로드</div>
                                         </div>
-                                        <input type="file" id="uploadThumbnail" accept="image/*" class="btn btn-primary" style="display: none;"></input>
+                                        <input type="file" id="uploadThumbnail" accept="image/*" class="btn btn-dark" style="display: none;"/>
                                     </div>
                                 </section>
                                 <!-- 게시글 미리보기 글 -->
@@ -91,8 +92,27 @@
                                 </section>
                             </div>
                             <div class="uploadSection" style="justify-content: space-between">
-                                <span class="btn btn-primary" id="prev">취소</span>
-                                <button type="submit" class="btn btn-primary">작성완료</button>
+                                <span class="btn btn-dark prev">취소</span>
+                                <button class="btn btn-dark next">작성완료</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div style="display: block;">
+                            <div id="map" style="width:500px;height:400px; margin-top: 50px;"></div>
+                            <div class="input-group mb-3"  style=" margin-top: 30px;">
+                                <input type="text" class="form-control" id="location" placeholder="장소를 검색해보세요." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-dark" id="map-search" type="button">검색</button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="selected_location" class="form-label">선택한 장소</label>
+                                <input type="text" class="form-control" id="selected_location" name="location" th:value="${boardDto.location}" readonly>
+                            </div>
+                            <div class="uploadSection" style="justify-content: space-between; margin-top: 10px;">
+                                <span class="btn btn-dark prev">취소</span>
+                                <button type="submit" class="btn btn-dark">작성완료</button>
                             </div>
                         </div>
                     </div>
@@ -101,6 +121,9 @@
         </form>
     </div>
 </main>
+<script th:inline="javascript">
+    var map_marker = [[${boardDto.getLocation()}]];
+</script>
 <!-- jQuery, Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -108,5 +131,6 @@
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script src="/js/board/write.js"></script>
+<script src="/js/board/kakaoMap.js"></script>
 </body>
 </html>

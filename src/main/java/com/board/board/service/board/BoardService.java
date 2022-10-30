@@ -82,7 +82,7 @@ public class BoardService {
     @Transactional
     public Long updatePost(Long board_id, BoardDto.Request boardDto) {
         Board board = boardRepository.findById(board_id).orElseThrow( () -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
-        board.update(boardDto.getTitle(), boardDto.getContent(), boardDto.getSubcontent(), boardDto.getThumbnail());
+        board.update(boardDto.getTitle(), boardDto.getContent(), boardDto.getSubcontent(), boardDto.getThumbnail(), boardDto.getLocation());
         return board.getId();
     }
 
