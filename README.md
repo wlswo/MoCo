@@ -111,7 +111,9 @@
  - [fabric](http://fabricjs.com/docs/)
  - [copy-down](https://github.com/furstenheim/copy-down)
  - [kakaoMaps Api](https://apis.map.kakao.com/)
+ - [java smtp](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail/1.2.0.RELEASE)
 
+ 
 
 ## 시스템 아키텍처
 ![시스템 아키텍처](https://user-images.githubusercontent.com/103496262/197354146-c861abe0-3f00-4f33-b276-66bd97903e7b.jpg)
