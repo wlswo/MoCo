@@ -45,7 +45,7 @@ function settingConfirm() {
     $.ajax({
         type: 'POST',
         enctype: 'multipart/form-data',
-        url: '/profile/change/' + nickname,
+        url: '/profile/' + nickname,
         data: formData,
         mimeType: "multipart/form-data",
         processData: false,

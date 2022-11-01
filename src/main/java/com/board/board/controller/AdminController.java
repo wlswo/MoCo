@@ -6,6 +6,7 @@ import com.board.board.dto.CommentDto;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import com.board.board.service.board.RecruitService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,8 @@ public class AdminController {
     private final CommentService commentService;
     private final RecruitService recruitService;
 
-    @GetMapping("/")
+    @Operation(summary = "페이지 반환", description = "관리자 페이지를 반환합니다. 관리자만 요청이 가능합니다.")
+    @GetMapping({"","/"})
     public String adminPage(Model model, @RequestParam(value = "page", defaultValue = "1") Integer pageNum) {
         List<BoardListVo> boardList = boardService.getBoardListOnRecruit(pageNum);
         Integer pageList = boardService.getPageList(pageNum);
@@ -34,6 +36,7 @@ public class AdminController {
     }
 
     /* READ - 게시글 읽기 */
+    @Operation(summary = "페이지 반환", description = "관리자용 게시글 읽기 페이지를 반환합니다.")
     @GetMapping("/{boardId}")
     public String adminDetail(@PathVariable("boardId") Long boardId, Model model) {
         BoardDto.Response boardDTO = boardService.findById(boardId);
@@ -52,6 +55,7 @@ public class AdminController {
     }
 
     /* DELETE - 게시글 삭제 */
+    @Operation(summary = "게시글 삭제", description = "관리자가 게시글을 삭제하기 위한 요청입니다.")
     @DeleteMapping("/{boardId}")
     public String deletePost(@PathVariable("boardId") Long boardId){
         boardService.deletePost(boardId);
@@ -59,6 +63,7 @@ public class AdminController {
     }
 
     /* DELETE - 댓글 삭제 */
+    @Operation(summary = "댓글 삭제", description = "관리자가 댓글을 삭제하기 위한 요청입니다.")
     @DeleteMapping("/comment/{commentId}")
     public ResponseEntity deleteComment(@PathVariable("commentId") Long commentId) {
         commentService.commentDelete(commentId);

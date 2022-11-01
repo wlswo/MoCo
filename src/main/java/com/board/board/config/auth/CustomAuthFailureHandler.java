@@ -43,7 +43,7 @@ public class CustomAuthFailureHandler extends SimpleUrlAuthenticationFailureHand
             errorMessage = "이메일인증이 필요합니다.";
         }
         errorMessage = URLEncoder.encode(errorMessage,"UTF-8");
-        logger.info(errorMessage);
+        logger.info("login Error Exception Occur");
         setDefaultFailureUrl("/login?error=true&exception="+errorMessage+"&id="+email);
         super.onAuthenticationFailure(request, response, exception);
     }

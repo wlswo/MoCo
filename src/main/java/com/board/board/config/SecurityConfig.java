@@ -60,7 +60,7 @@ public class SecurityConfig{
                     .antMatchers("/admin","/admin/**").hasRole("MASTER")
                     .antMatchers("/login","/confirm-email/**").permitAll()
                     .antMatchers("/css/**", "/img/**", "/js/**", "/json/**", "/favicon.ico","/error/**").permitAll()
-                    .antMatchers("/earth").permitAll()
+                    .antMatchers("/earth","/earth/**").permitAll()
                     .antMatchers("/board/write").authenticated()
                     .antMatchers("/board/**").permitAll()
                     .antMatchers("/signup","/login/signup").permitAll()

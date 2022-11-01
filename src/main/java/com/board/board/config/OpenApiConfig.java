@@ -36,6 +36,51 @@ public class OpenApiConfig {
     }
 
     @Bean
+    public GroupedOpenApi adminApi() {
+        String[] paths = {"/admin/**"};
+        return GroupedOpenApi.builder()
+                .group("관리자 페이지 API")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi s3Api() {
+        String[] paths = {"/s3/**"};
+        return GroupedOpenApi.builder()
+                .group("이미지업로드API")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi errorApi() {
+        String[] paths = {"/profile/**"};
+        return GroupedOpenApi.builder()
+                .group("회원정보 설정 API")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi earthApi() {
+        String[] paths = {"/earth/**"};
+        return GroupedOpenApi.builder()
+                .group("도트맵API")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi signUpApi() {
+        String[] paths = {"//**"};
+        return GroupedOpenApi.builder()
+                .group("도트맵API")
+                .pathsToMatch(paths)
+                .build();
+    }
+
+    @Bean
     public OpenAPI springBoardOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("MoCo API")

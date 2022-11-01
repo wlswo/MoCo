@@ -647,7 +647,7 @@ if(document.getElementById("buyLandButton")) {
                             }
                             $.ajax({
                                 type : "POST",
-                                url : "/earth/buy/" + $("#userId").val(),
+                                url : "/earth/" + $("#userId").val(),
                                 data : JSON.stringify(params),
                                 contentType : 'application/json',
                                 dataType : 'json',
