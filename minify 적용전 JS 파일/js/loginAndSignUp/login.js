@@ -1,3 +1,4 @@
+
 //OPEN TRIGGER
 let openTrigger = $('.menu-trigger');
 let openTriggerTop = openTrigger.find('.menu-trigger-bar.top');
@@ -142,11 +143,14 @@ closeTrigger.on('click', function(){
         tlClose.restart();
     }
 });
-/* 로그인에러시 애니메이션 실행 */
-if(document.getElementById('login-error')) {
+
+
+/* 페이지 로딩 완료 시 애니메이션 실행 */
+$(document).ready(function () {
     if(tlOpen.progress() < 1){
         tlOpen.play();
     } else {
         tlOpen.restart();
     }
-}
+});
+
