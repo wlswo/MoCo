@@ -72,15 +72,6 @@ public class OpenApiConfig {
     }
 
     @Bean
-    public GroupedOpenApi signUpApi() {
-        String[] paths = {"//**"};
-        return GroupedOpenApi.builder()
-                .group("도트맵API")
-                .pathsToMatch(paths)
-                .build();
-    }
-
-    @Bean
     public OpenAPI springBoardOpenAPI() {
         return new OpenAPI()
                 .info(new Info().title("MoCo API")
