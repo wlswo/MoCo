@@ -145,7 +145,6 @@
 😎 카카오맵 Api를 추가, 적용했습니다. <br>
 - 만남 장소를 검색하실 수 있습니다.
 - 지도에 표시된 마커를 선택해 만남 장소를 정하실수 있습니다.
-
 </div>
 </details>
 <details>
@@ -153,18 +152,14 @@
 <div markdown="1">       
 <br><br>
 😎 로그인화면 진입시 자동으로 로그인창 애니메이션이 작동합니다.
-
 - 로그인 접근성을 높였습니다. <br>
-
 </div>
 </details>
-<br><br>
-
-<summary> 2022-11-07 MoCo v1.2.0 릴리즈 보기</summary>
+<details>
+<summary> 2022-11-07 MoCo v1.3.0 릴리즈 보기</summary>
 <div markdown="1">       
 <br><br>
 😎 NginX을 도입하여 무중단 배포 환경으로 업데이트 하였습니다.
-
 </div>
 </details>
 <br><br>
