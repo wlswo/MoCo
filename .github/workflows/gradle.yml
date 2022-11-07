@@ -58,5 +58,55 @@ jobs:
           script: |
             sudo docker pull ${{ secrets.DOCKER_REPO }}:latest
             
+            echo "실행 중인 도커 확인.."
+            RUNNING_SERVER=$(sudo docker ps --format 'table{{.Names}}' | grep AA)
+            if [ -z "${RUNNING_SERVER}"]
+            then 
+              echo "BB 가 실행중입니다. BB -> AA 서버 교체를 진행합니다.."
+              START_CONTAINER=AA
+              TERMINATE_CONTAINER=BB
+              START_PORT=8080
+              TERMINATE_PORT=8081
+              sudo docker run -d -p 8080:8080 --name AA --log-driver=awslogs --log-opt awslogs-region=ap-northeast-2 --log-opt awslogs-group=${{ secrets.LOG_GROUP_NAME }} --log-opt awslogs-stream=${{ secrets.LOG_STREAM_NAME }} ${{ secrets.DOCKER_REPO }}
+            else
+              echo "AA가 실행중입니다. AA -> BB 서버 교체를 진행합니다.."
+              START_CONTAINER=BB
+              TERMINATE_CONTAINER=AA
+              START_PORT=8081
+              TERMINATE_PORT=8080
+              sudo docker run -d -p 8081:8080 --name BB --log-driver=awslogs --log-opt awslogs-region=ap-northeast-2 --log-opt awslogs-group=${{ secrets.LOG_GROUP_NAME }} --log-opt awslogs-stream=${{ secrets.LOG_STREAM_NAME }} ${{ secrets.DOCKER_REPO }}
+            fi
             
+            for cnt in {1..10} 
+            do
+                echo "check server start.."
+                
+                UP=$(curl -s http://127.0.0.1:${START_PORT}/actuator/health | grep 'UP')
+                if [ -z "${UP}" ] 
+                then
+                    echo "서버가 아직 실행되지 않았습니다.."
+                else
+                    echo "서버 실행이 확인 되었습니다."
+                    break
+                fi
+                
+                echo "10초간 대기 합니다.." 
+                sleep 10
+            done
+              
+            if [ $cnt -eq 10 ] 
+            then
+              echo "deployment failed."
+              exit 1
+            fi
+            
+            echo "server start!"
+            
+            echo "change nginx server port"
+            sudo sed -i "s/${TERMINATE_PORT}/${START_PORT}/" /etc/nginx/conf.d/service-url.inc
+            
+            sudo docker stop ${TERMINATE_CONTAINER}
+            sudo docker rm ${TERMINATE_CONTAINER}
+            sudo docker image prune -f
+    
  
