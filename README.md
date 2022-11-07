@@ -1,3 +1,4 @@
+
 ![logo](https://user-images.githubusercontent.com/103496262/197355772-f4df931e-10fb-43e5-843f-04d33a04df64.JPG)
 
 
@@ -29,6 +30,7 @@
     - [도트맵 렌더링](#도트맵-렌더링)
     - [스마트 컨트랙트 & Web3](#스마트-컨트랙트--web3)
  - [CI/CD](#cicd)
+    - [무중단 배포](#무중단-배포)
  - [도메인 https 적용](#도메인-https-적용)
  - [Dev History](#dev-history)
 	 -  [ISSUE](#issue)
@@ -116,7 +118,7 @@
  
 
 ## 시스템 아키텍처
-![시스템 아키텍처](https://user-images.githubusercontent.com/103496262/197354146-c861abe0-3f00-4f33-b276-66bd97903e7b.jpg)
+![시스템 아키텍처](https://user-images.githubusercontent.com/103496262/200223486-3f5407ab-cf76-4acf-acae-a5760c9af559.png)
 
 
 
@@ -143,7 +145,6 @@
 😎 카카오맵 Api를 추가, 적용했습니다. <br>
 - 만남 장소를 검색하실 수 있습니다.
 - 지도에 표시된 마커를 선택해 만남 장소를 정하실수 있습니다.
-
 </div>
 </details>
 <details>
@@ -151,9 +152,14 @@
 <div markdown="1">       
 <br><br>
 😎 로그인화면 진입시 자동으로 로그인창 애니메이션이 작동합니다.
-
 - 로그인 접근성을 높였습니다. <br>
-
+</div>
+</details>
+<details>
+<summary> 2022-11-07 MoCo v1.3.0 릴리즈 보기</summary>
+<div markdown="1">       
+<br><br>
+😎 NginX을 도입하여 무중단 배포 환경으로 업데이트 하였습니다.
 </div>
 </details>
 <br><br>
@@ -291,6 +297,18 @@
 
 push가 완료되면 ec2 인스턴스가 해당 도커 파일을 pull 하게 되며 실행중이었던 스프링부트 도커파일을 
 정지 -> 컨테이너 삭제 -> 새로 내려받은 도커파일 실행 순으로 작업을 진행합니다. 
+
+### 무중단 배포
+
+nginx를 도입하여 를 이용하여 무중단 배포 환경을 구현하였습니다.
+- 새로운 버전의 애플리케이션이 배포되면 사용하지 않는 포트를 확인하여 docker로 구동시킵니다. 
+  - ex)  8080포트가 사용중이면 8081 / 8081번 포트가 사용중이면 8080으로 구동시킵니다.
+- 구동된 앱의 health 를 체크하여 서버의 상태를 확인합니다.
+-  정상 배포가 확인되면 nginx의 리버스 프록시 대상을 신규 버전의 앱의 포트로 변경합니다.
+-  사용중이던 컨테이너와 이미지를 삭제 하여 서버 교체를 마무리 합니다.
+
+[배포 스크립트](https://github.com/JaeJinByun/MoCo/blob/a4cada0878e963cb8260effbf357f7eaced211cc/.github/workflows/gradle.yml#L59-L111)
+
 
 ### 도메인 https 적용
 브라우저의 안전한 접속과 , 브라우저 사이의 민감한 정보를 주고받을때를 대비해 aws ACM인증서를 받아 SSL 을 적용하였습니다. 
