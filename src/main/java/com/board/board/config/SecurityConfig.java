@@ -55,7 +55,7 @@ public class SecurityConfig{
                 .headers().frameOptions().disable()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/").permitAll()
+                    .antMatchers("/","/actuator/health").permitAll()
                     .antMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                     .antMatchers("/admin","/admin/**").hasRole("MASTER")
                     .antMatchers("/login","/confirm-email/**").permitAll()
