@@ -104,6 +104,7 @@ jobs:
             
             echo "change nginx server port"
             sudo sed -i "s/${TERMINATE_PORT}/${START_PORT}/" /etc/nginx/conf.d/service-url.inc
+            sudo service nginx restart
             
             sudo docker stop ${TERMINATE_CONTAINER}
             sudo docker rm ${TERMINATE_CONTAINER}
