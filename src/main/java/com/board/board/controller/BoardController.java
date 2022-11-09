@@ -5,10 +5,7 @@ import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
 import com.board.board.domain.HashTag;
 import com.board.board.dto.*;
-import com.board.board.service.board.BoardService;
-import com.board.board.service.board.CommentService;
-import com.board.board.service.board.LikeService;
-import com.board.board.service.board.RecruitService;
+import com.board.board.service.board.*;
 import com.board.board.service.hashTag.HashTagService;
 import io.github.furstenheim.CopyDown;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +42,8 @@ public class BoardController {
     private final LikeService likeService;
     private final HashTagService hashTagService;
     private final RecruitService recruitService;
+    private final MarkDownService markDownService;
+    private final CookieService cookieService;
     private final Logger log = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     /* ----- Board 📋 ----- */
@@ -86,31 +85,8 @@ public class BoardController {
         BoardDto.Response boardDTO = boardService.findById(boardId);
         List<CommentDto.Response> comments = commentService.convertNestedStructure(boardDTO.getComments());
 
-        /* 쿠키 관련 */
-        Cookie oldCookie = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("viewCookie")) {
-                    oldCookie = cookie;
-                }
-            }
-        }
-        if (oldCookie != null) {
-            if (!oldCookie.getValue().contains("[" + boardId.toString() + "]")) {
-                boardService.updateView(boardId); /* 조회수++ */
-                oldCookie.setValue(oldCookie.getValue() + "[" + boardId + "]");
-                oldCookie.setPath("/");
-                oldCookie.setMaxAge(60 * 60 * 24); /* 유효시간 */
-                response.addCookie(oldCookie);
-            }
-        }else {
-            Cookie newCookie = new Cookie("viewCookie", "[" + boardId + "]");
-            newCookie.setPath("/");
-            newCookie.setMaxAge(60 * 60 * 2);
-            response.addCookie(newCookie);
-            boardService.updateView(boardId); /* 조회수++ */
-        }
+        /* 조회수 */
+        cookieService.cookieAndView(request,response,boardId);
 
         /* 좋아요 관련 */
         Long like_count = likeService.findLikeCount(boardId);
@@ -157,30 +133,22 @@ public class BoardController {
     /* RETURN PAGE - 게시글 수정 페이지 */
     @Operation(summary = "게시글 수정 페이지 반환", description = "게시글 수정 화면으로 이동합니다.")
     @GetMapping("/edit/{boardId}")
-    public String edit(@Parameter(description = "해당 번호를 가진 게시글을 수정합니다.") @PathVariable("boardId") Long no, Model model,@Parameter(description = "현재 로그인된 사용자를 식별") @LoginUser SessionUser sessionUser) {
-        BoardDto.Response boardDTO = boardService.getPost(no);
+    public String edit(@Parameter(description = "해당 번호를 가진 게시글을 수정합니다.") @PathVariable("boardId") Long boardId, Model model,@Parameter(description = "현재 로그인된 사용자를 식별") @LoginUser SessionUser sessionUser) {
+        BoardDto.Response boardDTO = boardService.getPost(boardId);
 
         if( !boardDTO.getUserId().equals(sessionUser.getId()) ) {
             return "error/404error";
         }
 
         /* 해시태그 내용만 Filter */
-        Set<HashTag> hashTags = hashTagService.getTags(no);
-        Iterator<HashTag> hashTagContents = hashTags.iterator();
-        StringBuilder sb = new StringBuilder();
-
-        while (hashTagContents.hasNext()) {
-            sb.append(hashTagContents.next().getTagcontent()).append(",");
-        }
+        StringBuilder sb = hashTagService.hashTagFilter(boardId);
 
         /* Html -> MarkDown */
-        CopyDown converter = new CopyDown();
-        String myHtml = boardDTO.getContent();
-        boardDTO.setContent(converter.convert(myHtml));
+        boardDTO.setContent(markDownService.convertHtmlToMarkDown(boardDTO.getContent()));
 
         model.addAttribute("boardDto",boardDTO);
         model.addAttribute("hashTags", sb);
-        model.addAttribute("no", no);
+        model.addAttribute("no", boardId);
         return "board/update";
     }
 
@@ -249,51 +217,7 @@ public class BoardController {
         boardDto.setWriter(sessionUser.getName());
         boardService.updatePost(boardId,boardDto);
 
-        /* 해시태그 수정 */
-        if(!tags.isEmpty()) {
-            HashSet<String> hashTagList = new HashSet<>();
-            try{
-                JSONParser parser = new JSONParser();
-                JSONArray json = (JSONArray) parser.parse(tags);
-                json.forEach(item -> {
-                    JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
-                    hashTagList.add(jsonObject.get("value").toString());
-                });
-
-                /* 기존 해시태그와 비교 */
-                HashSet<HashTag> OriginHashTags =  hashTagService.getTags(boardId);
-                HashSet<String> OriginHashTagsContent = new HashSet<>();
-                OriginHashTags.forEach(item -> {
-                    OriginHashTagsContent.add(item.getTagcontent());
-                });
-
-                /* 추가된 해시태그 */
-                HashSet<String> AddTags = new HashSet<>(hashTagList);  // s1으로 substract 생성
-                AddTags.removeAll(OriginHashTagsContent);              // 차집합 수행
-                if(!AddTags.isEmpty()) {
-                    List<HashTagDto.Request> hashTagDtoList = new ArrayList<>();
-                    AddTags.forEach(item -> {
-                        HashTagDto.Request hashTagDto = new HashTagDto.Request();
-                        hashTagDto.setTagcontent(item);
-                        hashTagDtoList.add(hashTagDto);
-                    });
-                    hashTagService.SaveAll(boardId,hashTagDtoList);
-                }
-
-                /* 삭제된 해시태그 */
-                HashSet<String> SubTags = new HashSet<>(OriginHashTagsContent);  // s1으로 substract 생성
-                SubTags.removeAll(hashTagList);                                  // 차집합 수행
-                List<String> setTolist = new ArrayList<>(SubTags);
-
-                if(!SubTags.isEmpty()) {
-                    hashTagService.DeleteAll(boardId,setTolist);
-                }
-
-
-            }catch (ParseException e) {
-                log.info(e.getMessage());
-            }
-        }
+        hashTagService.updateHashTag(tags,boardId);
 
         return "redirect:/board/list";
     }
