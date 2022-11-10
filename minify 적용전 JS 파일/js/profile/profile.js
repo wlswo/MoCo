@@ -1,4 +1,5 @@
 let imgFile;
+let isImgDelete = new Boolean(false);
 
 /* 프로필 사진 업로드 */
 function readURL(input) {
@@ -9,11 +10,16 @@ function readURL(input) {
         };
         reader.readAsDataURL(input.files[0]);
         imgFile = input.files[0];
+        isImgDelete = false;
     } else {
         document.getElementById('preview').src = "";
     }
 }
-
+/* 프로필 사진 삭제 */
+$('#deleteImg').click(function (){
+    $('#imgPreview').attr('src','/img/userIcon.png');
+    isImgDelete = true;
+});
 
 /* 이름변경 ajax */
 function settingConfirm() {
@@ -45,7 +51,7 @@ function settingConfirm() {
     $.ajax({
         type: 'POST',
         enctype: 'multipart/form-data',
-        url: '/profile/' + nickname,
+        url: '/profile/' + nickname + '/' + isImgDelete,
         data: formData,
         mimeType: "multipart/form-data",
         processData: false,
