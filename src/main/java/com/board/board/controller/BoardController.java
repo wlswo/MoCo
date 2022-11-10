@@ -183,25 +183,10 @@ public class BoardController {
             boardDto.setThumbnail("/img/thumbnail.png");
         }
         boardDto.setWriter(sessionUser.getName());
-        Long board_Id = boardService.savePost(sessionUser.getName(),boardDto);
+        Long boardId = boardService.savePost(sessionUser.getName(),boardDto);
 
         /* 해시태그 저장 */
-        if(!tags.isEmpty()) {
-            List<HashTagDto.Request> hashTagDtoList = new ArrayList<>();
-            try{
-                JSONParser parser = new JSONParser();
-                JSONArray json = (JSONArray) parser.parse(tags);
-                json.forEach(item -> {
-                    JSONObject jsonObject = (JSONObject) JSONValue.parse(item.toString());
-                    HashTagDto.Request hashTagDto = new HashTagDto.Request();
-                    hashTagDto.setTagcontent(jsonObject.get("value").toString());
-                    hashTagDtoList.add(hashTagDto);
-                });
-                hashTagService.SaveAll(board_Id,hashTagDtoList);
-            }catch (ParseException e) {
-                log.info(e.getMessage());
-            }
-        }
+        hashTagService.hashTagSave(tags,boardId);
 
         return "redirect:/board/list";
     }

@@ -6,6 +6,7 @@ import com.board.board.domain.User;
 import com.board.board.dto.BoardListVo;
 import com.board.board.service.aws.AwsS3Service;
 import com.board.board.service.board.BoardService;
+import com.board.board.service.profile.ProfileService;
 import com.board.board.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
@@ -26,39 +27,17 @@ public class ProfileController {
 
     private final UserService userService;
     private final BoardService boardService;
-    private final AwsS3Service awsS3Service;
-    private final HttpSession httpSession;
+    private final ProfileService profileService;
 
     @Operation(summary = "페이지 반환", description = "회원정보 페이지를 반환합니다.")
     @GetMapping("/")
     public String ProfilePage() { return "profile/profile"; }
 
     @Operation(summary = "회원 정보 수정", description = "회원 프로필과 이름변경 여부를 검사해 변경합니다.")
-    @PostMapping("/{nickname}")
-    public ResponseEntity ChangeProfile(@PathVariable("nickname") String nickname, @RequestParam(value = "image" ,required = false) MultipartFile multipartFile,@LoginUser SessionUser sessionUser) {
-
-        /* 프로필 사진만 바꾼 경우 */
-        if(sessionUser.getName().equals(nickname)) {
-            if (multipartFile != null && !multipartFile.isEmpty()) {
-                User user = userService.profileUpdateInSetting(sessionUser.getId(),awsS3Service.uploadImage(multipartFile));
-                httpSession.setAttribute("user",new SessionUser(user));
-            }
-            return ResponseEntity.ok("ok");
-        }
-        /* 별명이 바뀐경우 */
-        else {
-            /* 이름중복검사 */
-            if(userService.checkUsernameDuplication(nickname)){
-                return ResponseEntity.status(400).build();
-            }
-            /* 프로필도 바뀌었는지 */
-            if( multipartFile != null && !multipartFile.isEmpty() ){
-                userService.profileUpdateInSetting(sessionUser.getId(),awsS3Service.uploadImage(multipartFile));
-            }
-            User user = userService.nameUpdateInSetting(sessionUser.getId(), nickname);
-            httpSession.setAttribute("user", new SessionUser(user));
-        }
-        return ResponseEntity.ok("ok");
+    @PostMapping("/{name}/{isImgDelete}")
+    public ResponseEntity ChangeProfile(@PathVariable("name") String name, @RequestParam(value = "image" ,required = false) MultipartFile multipartFile, @PathVariable("isImgDelete") boolean isImgDelete, @LoginUser SessionUser sessionUser) {
+        Long status = profileService.CheckProfileAndChange(sessionUser,name,multipartFile,isImgDelete);
+        return status == 200L ? ResponseEntity.ok("ok") : ResponseEntity.badRequest().build();
     }
 
     @Operation(summary = "회원 탈퇴 요청", description = "회원 탈퇴를 요청합니다.")
