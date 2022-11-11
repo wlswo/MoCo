@@ -13,7 +13,7 @@ COPY src src
 # 실행 권한 부여
 RUN chmod +x ./gradlew
 # gradlew를 사용하여 실행 가능한 jar 파일 생성
-RUN ./gradlew bootJar -x test
+RUN ./gradlew bootJar
 # jar 파일 경로
 ARG JAR_FILE=build/libs/*.jar
 

@@ -4,8 +4,8 @@ import com.board.board.domain.Board;
 import com.board.board.domain.HashTag;
 import com.board.board.repository.BoardRepository;
 import com.board.board.repository.HashTagRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+@Disabled
 @SpringBootTest
 @DisplayName("SAVE 와 SAVEALL 비교테스트")
 public class BoardControllerTest {
