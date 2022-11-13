@@ -2,9 +2,7 @@ package com.board.board.controller;
 
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
-import com.board.board.domain.User;
 import com.board.board.dto.BoardListVo;
-import com.board.board.service.aws.AwsS3Service;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.profile.ProfileService;
 import com.board.board.service.user.UserService;
@@ -16,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 

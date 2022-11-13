@@ -7,7 +7,6 @@ import com.board.board.dto.LikeDto;
 import com.board.board.repository.BoardRepository;
 import com.board.board.repository.LikeRepository;
 import com.board.board.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,20 +2,14 @@ package com.board.board.service.board;
 
 
 import com.board.board.domain.Board;
-import com.board.board.domain.Recruit;
 import com.board.board.domain.User;
 import com.board.board.dto.RecruitDto;
 import com.board.board.repository.BoardRepository;
 import com.board.board.repository.RecruitRepositoey;
 import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.EntityManager;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service

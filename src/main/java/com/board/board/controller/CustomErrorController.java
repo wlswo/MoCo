@@ -1,6 +1,5 @@
 package com.board.board.controller;
 
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

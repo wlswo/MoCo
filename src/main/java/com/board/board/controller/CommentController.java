@@ -3,7 +3,6 @@ package com.board.board.controller;
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
 import com.board.board.dto.CommentDto;
-import com.board.board.service.board.BoardService;
 import com.board.board.service.board.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

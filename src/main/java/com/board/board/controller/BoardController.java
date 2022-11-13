@@ -3,21 +3,17 @@ package com.board.board.controller;
 
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
-import com.board.board.domain.HashTag;
-import com.board.board.dto.*;
+import com.board.board.dto.BoardDto;
+import com.board.board.dto.BoardListVo;
+import com.board.board.dto.CommentDto;
+import com.board.board.dto.RecruitDto;
 import com.board.board.service.board.*;
 import com.board.board.service.hashTag.HashTagService;
-import io.github.furstenheim.CopyDown;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +22,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /* 게시판 */
 @AllArgsConstructor

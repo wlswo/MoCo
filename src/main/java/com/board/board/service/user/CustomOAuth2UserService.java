@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Transactional

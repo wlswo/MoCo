@@ -2,14 +2,10 @@ package com.board.board.service.dotmap;
 
 import com.board.board.domain.DotMap;
 import com.board.board.domain.User;
-import com.board.board.dto.CommentDto;
 import com.board.board.dto.DotMapDto;
 import com.board.board.repository.DotMapRepositoey;
 import com.board.board.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

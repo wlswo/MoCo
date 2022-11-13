@@ -1,7 +1,6 @@
 package com.board.board.dto;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public interface BoardListVo {
     Integer getId();
