@@ -225,7 +225,7 @@
 &ensp;&ensp;**글작성**
 - Toast Ui editor로 작성한 마크다운 문법을 html 로 파싱하여 저장하였습니다. 
 - 게시글 저장시 각 항목에 대한 유효성을 검사합니다. 에러 발생시 작성했던 내용들은 유지하면서 에러 내용또한 반환하도록 했습니다. 
-  - [게시글 저장](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L207) 
+  - [게시글 저장](https://github.com/wlswo/MoCo/blob/4562d81e46760a2f5b0234e9f3629e65077abcdc/src/main/java/com/board/board/controller/BoardController.java#L164-L188) 
 - tagify 라이브러리를 이용하여 태그를 작성할수 있습니다.  태그들은 Json 포맷으로 받아오며 ArrayList 자료구조로 파싱하여 한개의 태그당 한개의 컬럼으로 DB에 저장합니다. 
   - [태그 저장](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L225) 
  
