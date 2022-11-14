@@ -334,7 +334,7 @@ nginx를 도입하여 무중단 배포 환경을 구현하였습니다.
 - [게시글 조회시 실행되는 쿼리문 최적화 필요성](https://zinzae.notion.site/a8027faca93a4127960f973ade85eb13)
 - [모집 마감 버튼 클릭시 확인창을 무시하며 ajax 호출](https://zinzae.notion.site/ajax-ac3ca0e056ec4ec8bef531fd5df45555)
 - [회원 별명 변경시 게시글작성자명은 바뀌지 않는 이슈](https://zinzae.notion.site/42b9154079ef47ef97244652ce3c7843)
-- [JQuery 부분 새로고침 `<div>` 중복 생성 문제, 부분 새로고침으로 인한 엘리먼트 참조문제]()
+- [JQuery 부분 새로고침 `<div>` 중복 생성 문제, 부분 새로고침으로 인한 엘리먼트 참조문제](https://zinzae.notion.site/JQuery-div-c0398b22b04c45b09d318af9f4295572)
 
 ### Error 
 - [WebSecurityConfigurerAdapter is deprecated](https://zinzae.notion.site/WebSecurityConfigurerAdapter-is-deprecated-6510f7fd802d48d59339e48a7894c556)
