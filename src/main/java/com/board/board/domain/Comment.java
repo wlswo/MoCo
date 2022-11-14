@@ -38,6 +38,7 @@ public class Comment extends Time{
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<Comment> childList;
 
+    @Builder.Default
     private boolean isRemoved = false;
 
     /* 댓글 수정 */

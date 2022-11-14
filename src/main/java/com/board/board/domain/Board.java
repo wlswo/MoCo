@@ -50,7 +50,7 @@ public class Board extends Time {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column
+    @Column @Builder.Default
     private boolean isfull = false;
 
 
