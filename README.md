@@ -227,21 +227,21 @@
 - 게시글 저장시 각 항목에 대한 유효성을 검사합니다. 에러 발생시 작성했던 내용들은 유지하면서 에러 내용또한 반환하도록 했습니다. 
   - [게시글 저장](https://github.com/wlswo/MoCo/blob/4562d81e46760a2f5b0234e9f3629e65077abcdc/src/main/java/com/board/board/controller/BoardController.java#L164-L188) 
 - tagify 라이브러리를 이용하여 태그를 작성할수 있습니다.  태그들은 Json 포맷으로 받아오며 ArrayList 자료구조로 파싱하여 한개의 태그당 한개의 컬럼으로 DB에 저장합니다. 
-  - [태그 저장](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L225) 
+  - [태그 저장](https://github.com/wlswo/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L224-L243) 
  
 &ensp;&ensp;**글 수정**
  - 게시글 본문의 내용을 DB에 저장시 마크다운으로 저장해야 할지, Html태그로 변환후 저장해야 할지 고민이 많았습니다. 해당 이슈는 아래 링크에서 확인하실수 있습니다.
    -  [게시글 수정시 Toast editor에 Html 코드가 나오는 이슈](https://zinzae.notion.site/Html-daf08a98466842f1a7cc36929a0cc80a)
  - 게시글 수정은 빈번하게 발생하는 작업이 아니기 때문에 html 태그로 저장후 게시글 수정시에 마크다운 문법으로 파싱하도록 구현하였습니다. 
-   - [Html -> MarkDown](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L180) 
+   - [Html -> MarkDown](https://github.com/wlswo/MoCo/blob/aac3cfc12037ee7ea8085600f39f324009ecfe1f/src/main/java/com/board/board/service/board/MarkDownService.java#L6-L14) 
 -  태그 수정시 삭제된 태그, 추가된 태그를 구분하기 위해 hashSet 자료구조의 차집합을 구할수 있는 removeAll() 메소드를 사용하였습니다.
-   -   [태그 수정](https://github.com/JaeJinByun/MoCo/blob/762a33a28dfa570ffbad86c4778efd070586a1d3/src/main/java/com/board/board/controller/BoardController.java#L274) 
+   -   [태그 수정](https://github.com/wlswo/MoCo/blob/aac3cfc12037ee7ea8085600f39f324009ecfe1f/src/main/java/com/board/board/service/hashTag/HashTagService.java#L73-L93) 
 
 &ensp;&ensp;**글 삭제**
 - [자신이 작성한 게시글만 삭제 가능하도록 세션을 이용해 검증하였습니다. ](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L308)
 
 &ensp;&ensp;**게시글 읽기**
-- [조회수 중복 방지를 위해 쿠키를 사용하여 조회수 증가를 방지했습니다.](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L89)
+- [조회수 중복 방지를 위해 쿠키를 사용하여 조회수 증가를 방지했습니다.](https://github.com/wlswo/MoCo/blob/aac3cfc12037ee7ea8085600f39f324009ecfe1f/src/main/java/com/board/board/service/board/CookieService.java#L15-L41)
 
 ### 🌠댓글과 대댓글 구현
 
