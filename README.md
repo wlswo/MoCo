@@ -132,7 +132,7 @@
 
 ## 📑 Api 명세서
 ### [Api 명세서 보기](https://moco.site/swagger-ui/index.html)
-
+Swagger 를 이용하여 API 문서화를 진행하였습니다.
 
 ## 🛠 MoCo 릴리즈 노트
 
