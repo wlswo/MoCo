@@ -222,6 +222,11 @@ Swagger 를 이용하여 API 문서화를 진행하였습니다.
 
 
 ### 🌠게시글 CRUD
+
+<div align="center">
+<img src="https://user-images.githubusercontent.com/103496262/207412930-f2621329-1720-4f19-ab1e-9600b6e09139.gif" width="700" height="450"/>
+</div>
+
 &ensp;&ensp;**글작성**
 - Toast Ui editor로 작성한 마크다운 문법을 html 로 파싱하여 저장하였습니다. 
 - 게시글 저장시 각 항목에 대한 유효성을 검사합니다. 에러 발생시 작성했던 내용들은 유지하면서 에러 내용또한 반환하도록 했습니다. 
@@ -276,15 +281,26 @@ Swagger 를 이용하여 API 문서화를 진행하였습니다.
  
  - Web3.js 라이브러리를 이용하여 배포한 컨트랙트를 호출하여 토큰을 받을 수 있습니다. 
    - [자바스크립트 컨트랙트 호출](https://github.com/JaeJinByun/MoCo/blob/762a33a28dfa570ffbad86c4778efd070586a1d3/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/web3js/web3js.js#L533)
+ 
+<div align="center">
+<img src="https://user-images.githubusercontent.com/103496262/207412824-c2afb1ac-ff3a-447b-b48d-627069290c48.gif" width="700" height="450"/>
+</div>
 
 - 토큰으로 도트로 구성된 땅을 구매할수 있습니다. 도트는 지역별로 가격이 다르며 중앙에 위치할수록 비싸집니다. 
 	 -  [스마트 컨트랙트의 구매 함수](https://github.com/JaeJinByun/MoCo/blob/ed6ded6a934558c857f09753683b0e040bb9667a/MyToken.sol#L70)  
 -  구매 과정은 구매 함수를 호출후 해당 트랜잭션이 상태가 pendding -> success  될때까지 1초마다 감지하도록 구현했습니다. 
    - [트랜잭션 상태 감지](https://github.com/JaeJinByun/MoCo/blob/ed6ded6a934558c857f09753683b0e040bb9667a/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/web3js/web3js.js#L629)
+   
+<div align="center">
+<img src="https://user-images.githubusercontent.com/103496262/207412856-ea55ff27-d3ca-48f7-969f-94adfd9837ae.gif" width="700" height="450"/>
+</div>
 
 - 출석체크 보상, 가입시 보상 모달창을 통해 모각코인을 메타마스크에 추가할수 있도록 구현했습니다. 
   - [모각코인 추가](https://github.com/JaeJinByun/MoCo/blob/ed6ded6a934558c857f09753683b0e040bb9667a/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/web3js/web3js.js#L33)
 
+<div align="center">
+<img src="https://user-images.githubusercontent.com/103496262/207412824-c2afb1ac-ff3a-447b-b48d-627069290c48.gif" width="700" height="450"/>
+</div>
  
 
 
