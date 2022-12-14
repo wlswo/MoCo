@@ -283,10 +283,10 @@ Swagger 를 이용하여 API 문서화를 진행하였습니다.
    - [자바스크립트 컨트랙트 호출](https://github.com/JaeJinByun/MoCo/blob/762a33a28dfa570ffbad86c4778efd070586a1d3/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/web3js/web3js.js#L533)
  
 <div align="center">
-<img src="https://user-images.githubusercontent.com/103496262/207412824-c2afb1ac-ff3a-447b-b48d-627069290c48.gif" width="700" height="450"/>
+<img src="https://user-images.githubusercontent.com/103496262/207412942-97a71539-5ba3-4b46-89d6-070c1f12778b.gif" width="700" height="450"/>
 </div>
 
-- 토큰으로 도트로 구성된 땅을 구매할수 있습니다. 도트는 지역별로 가격이 다르며 중앙에 위치할수록 비싸집니다. 
+- 도트로 구성된 땅은 토큰으로 구매할수 있습니다. 도트는 지역별로 가격이 다르며 중앙에 위치할수록 비싸집니다. 
 	 -  [스마트 컨트랙트의 구매 함수](https://github.com/JaeJinByun/MoCo/blob/ed6ded6a934558c857f09753683b0e040bb9667a/MyToken.sol#L70)  
 -  구매 과정은 구매 함수를 호출후 해당 트랜잭션이 상태가 pendding -> success  될때까지 1초마다 감지하도록 구현했습니다. 
    - [트랜잭션 상태 감지](https://github.com/JaeJinByun/MoCo/blob/ed6ded6a934558c857f09753683b0e040bb9667a/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/web3js/web3js.js#L629)
