@@ -234,6 +234,10 @@ Swagger 를 이용하여 API 문서화를 진행하였습니다.
 - tagify 라이브러리를 이용하여 태그를 작성할수 있습니다.  태그들은 Json 포맷으로 받아오며 ArrayList 자료구조로 파싱하여 한개의 태그당 한개의 컬럼으로 DB에 저장합니다. 
   - [태그 저장](https://github.com/wlswo/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/controller/BoardController.java#L224-L243) 
  
+<div align="center">
+<img src="https://user-images.githubusercontent.com/103496262/208051706-149f1e1a-6bde-40f7-b7cf-32944f9c233b.gif" width="650"    height="250"/>
+ </div>
+ 
 &ensp;&ensp;**글 수정**
  - 게시글 본문의 내용을 DB에 저장시 마크다운으로 저장해야 할지, Html태그로 변환후 저장해야 할지 고민이 많았습니다. 해당 이슈는 아래 링크에서 확인하실수 있습니다.
    -  [게시글 수정시 Toast editor에 Html 코드가 나오는 이슈](https://zinzae.notion.site/Html-daf08a98466842f1a7cc36929a0cc80a)
