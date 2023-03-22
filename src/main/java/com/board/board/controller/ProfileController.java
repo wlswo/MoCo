@@ -2,6 +2,7 @@ package com.board.board.controller;
 
 import com.board.board.config.LoginUser;
 import com.board.board.config.auth.SessionUser;
+import com.board.board.dto.BoardDto;
 import com.board.board.dto.BoardListVo;
 import com.board.board.service.board.BoardService;
 import com.board.board.service.profile.ProfileService;
