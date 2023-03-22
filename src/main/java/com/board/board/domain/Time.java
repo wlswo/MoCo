@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 public abstract class Time {    //상속
 
     @CreatedDate
-    @Column(updatable = false)
+    @Column(updatable = false, name = "created_date")
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column
+    @Column(name="modified_date")
     private LocalDateTime modifiedDate;
 }
