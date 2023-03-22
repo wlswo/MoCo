@@ -11,7 +11,7 @@
 <br>
 
 # 📖 목차 
- - [소개](#소개) 
+ - [개요](#개요) 
  - [개발 환경](#개발-환경)
  - [사용 기술](#사용-기술)
  - [아키텍처](#시스템-아키텍처) 
@@ -38,8 +38,8 @@
 	 -  [UI/UX](#uiux-reference)
 
 
-## 📃소개
-**MoCo**는 Web3 기반 스터디 모집 플랫폼인 Dapp 입니다. <br> 
+## 📃개요
+**MoCo**는 스터디를 위한 게시판 웹 애플리케이션으로 마크다운 에디터를 이용한 게시판입니다.<br> 
 일반적인 서버 - 클라이언트 구조의 아키텍처에 일부 컨텐츠를 이더리움 네트워크와 연동하였습니다. 
 
 ## 개발 환경
@@ -69,9 +69,10 @@
   - Java 11 openjdk
   - SpringBoot 2.7.2
   - Spring Security5
-  - Spring Data JPA 
+  - Spring Data JPA
+  - QueryDsl 5.0.0
   - Lombok
-
+  - 
 **프론트엔드**
  -   Html5/css3
  -   Javascript
@@ -125,7 +126,7 @@
 
 
 ## E-R 다이어그램
-![ERD](https://user-images.githubusercontent.com/103496262/197354994-eefbbe74-47a7-4188-a3f9-1c240f11ff17.png)
+![ERD](https://user-images.githubusercontent.com/103496262/226931609-b5e1b7f3-ca6e-4328-bd86-b3224d8e95e9.png)
 
 
 ## 📑 Api 명세서
@@ -160,12 +161,20 @@
 😎 NginX을 도입하여 무중단 배포 환경으로 업데이트 하였습니다.
 </div>
 </details>
+<details>
+<summary> 2023-03-22 MoCo v2.0.0 릴리즈 보기</summary>
+<div markdown="1">       
+<br><br>
+😎 Native Query -> QueryDsl 마이그레이션 하였습니다.<br>
+😎 쿼리 최적화를 위해 ERD 구조를 반정규화 하였습니다. 
+</div>
+</details>
 <br><br>
 
 
 
 ## 프로젝트 목적
-실서비스가 가능한 웹 애플리케이션 구축을 중점으로 배포와 설계를 경험해 보는 것을 목표로 시작했습니다.<br>
+실서비스가 가능한 웹 애플리케이션 구축을 중점으로 배포와 설계, 기술적고민을 경험해 보는 것을 목표로 시작했습니다.<br>
 블록체인 네트워크 연동을 통해 Web3 서비스를 구현해 보면서 Dapp 개발의 전반적인 지식을 쌓으려고 했습니다.
 
 
@@ -193,7 +202,7 @@
     - 소셜 로그인 구현을 위해 스프링 시큐리티와, OAuth2 인증방식을 사용했으며, 엑세스 토큰으로 받아오는 유저 정보를 커스텀하여 사용하기 위해 Oauth2UserService 인터페이스를 상속받아 CustomOauth2UserService 클래스를 구현하였습니다. <br> [CustomOauth2UserService](https://github.com/JaeJinByun/MoCo/blob/986566e2fe78b7bab74394fa0f3650f85186adc2/src/main/java/com/board/board/service/user/CustomOAuth2UserService.java#L25)
 - 일반 로그인
     -  자체 로그인 방식으로는 회원가입시 입력한 비밀번호를 해시 암호화 알고리즘을 적용하여 나온 해시값을 DB에 저장합니다.
-    - 로그인시 사용한 해시 알고리즘을 찾아 비밀번호의 정합성을 검증합니다. <br> [UserService](https://github.com/JaeJinByun/MoCo/blob/986566e2fe78b7bab74394fa0f3650f85186adc2/src/main/java/com/board/board/service/user/UserService.java#L38)
+    - 로그인시 사용한 해시 알고리즘을 찾아 비밀번호의 정합성을 검증합니다. <br> [UserService](https://github.com/wlswo/MoCo/blob/df49bb214d4e8429045f7a1b1f808d82c8189235/src/main/java/com/board/board/service/user/CustomOAuth2UserService.java#L24-L70)
 
 ### 🌠Toast Ui editor
 
@@ -208,9 +217,9 @@
 3. 백엔드 서버에서 blob 객체를 multipart로 받아 aws s3 버킷에 저장 요청을 보냅니다.
 4. 저장에 성공시 업로드된 url을 반환합니다.
 
-[이미지 업로드 요청](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/board/write.js#L11)
+[이미지 업로드 요청](https://github.com/wlswo/MoCo/blob/df49bb214d4e8429045f7a1b1f808d82c8189235/src/main/resources/static/js/board/write.js#L11-L38)
 
-[이미지 업로드 처리](https://github.com/JaeJinByun/MoCo/blob/986566e2fe78b7bab74394fa0f3650f85186adc2/src/main/java/com/board/board/controller/AwsS3Controller.java#L21)
+[이미지 업로드 처리](https://github.com/wlswo/MoCo/blob/df49bb214d4e8429045f7a1b1f808d82c8189235/src/main/java/com/board/board/controller/AwsS3Controller.java#L18-L23)
 
 
 ### 🌠게시글 CRUD
@@ -259,6 +268,11 @@
 [CustomAuthFailureHandler](https://github.com/JaeJinByun/MoCo/blob/c93bdc6252c5580679b9a58b3bd5f5a4c2789990/src/main/java/com/board/board/config/auth/CustomAuthFailureHandler.java#L23)
 
 ### 🌠페이징 처리
+- QueryDsl를 사용하여 페이징을 구현하였습니다. 
+    - 런타임 환경에서 발생할 수 있는 쿼리 오류 방지와, SQL 안티패턴인 서브쿼리 사용을 지양하기 위해 기존의 Native Query 를 QueryDsl로 마이그레이션 하였습니다. 
+    - [기존의 Native Query](https://github.com/wlswo/MoCo/blob/986566e2fe78b7bab74394fa0f3650f85186adc2/src/main/java/com/board/board/repository/BoardRepository.java#L21-L84)
+    - [QueryDsl](https://github.com/wlswo/MoCo/blob/df49bb214d4e8429045f7a1b1f808d82c8189235/src/main/java/com/board/board/repository/BoardRepositoryCustom.java#L21-L78)
+
 - ajax를 이용한 무한스크롤
     - 편한 스크롤링으로 콘텐츠가 로드되는 방식으로 특히 모바일 환경에서 더 나은 사용자 경험을 주며,콘텐츠의 노출을 쉽게 접할수 있도록 일반적인 페이지네이션을 두고 무한스크롤을 구현했습니다.
     - [자바스크립트 무한스크롤](https://github.com/JaeJinByun/MoCo/blob/c93bdc6252c5580679b9a58b3bd5f5a4c2789990/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/board/list.js#L1)
