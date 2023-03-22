@@ -5,6 +5,7 @@ import com.board.board.domain.Like;
 import com.board.board.domain.User;
 import com.board.board.dto.LikeDto;
 import com.board.board.repository.BoardRepository;
+import com.board.board.repository.BoardRepositoryCustom;
 import com.board.board.repository.LikeRepository;
 import com.board.board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class LikeService {
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
     private final LikeRepository likeRepository;
+    private final BoardRepositoryCustom boardRepositoryCustom;
 
     /* CREATE */
     @Transactional
@@ -30,6 +32,7 @@ public class LikeService {
         likeDto.setUser(user);
         likeDto.setBoard(board);
         likeRepository.save(likeDto.toEntity());
+        boardRepositoryCustom.updateLikeCountPlus(boardId);
 
         return likeDto.getId();
     }
@@ -52,6 +55,7 @@ public class LikeService {
         User user = userRepository.findByName(name);
         Like like = likeRepository.findByUser_IdAndBoard_Id(user.getId(), boardId);
         likeRepository.delete(like);
+        boardRepositoryCustom.updateLikeCountMinus(boardId);
         return like.getId();
     }
 

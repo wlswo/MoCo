@@ -21,6 +21,7 @@ public class BoardDto {
         @NotBlank(message = "제목을 입력해주세요.")
         private String title;
         private String content;
+        private String hashtag;
         private String subcontent;
         private String thumbnail;
         private int view;
@@ -31,7 +32,7 @@ public class BoardDto {
 
         /* Dto -> Entity */
         public Board toEntity() {
-            Board board = Board.builder().id(id).writer(writer).title(title).content(content).subcontent(subcontent).thumbnail(thumbnail).view(0).location(location).user(user).build();
+            Board board = Board.builder().id(id).writer(writer).hashTag(hashtag).title(title).content(content).subcontent(subcontent).thumbnail(thumbnail).view(0).location(location).user(user).build();
             return board;
         }
     }
@@ -43,6 +44,7 @@ public class BoardDto {
         private String title;
         private String writer;
         private String content;
+        private String hashtag;
         private String subcontent;
         private String thumbnail;
         private int  view;
@@ -60,6 +62,7 @@ public class BoardDto {
             this.title = board.getTitle();
             this.writer = board.getWriter();
             this.content = board.getContent();
+            this.hashtag = board.getHashTag();
             this.subcontent = board.getSubcontent();
             this.thumbnail = board.getThumbnail();
             this.view = board.getView();

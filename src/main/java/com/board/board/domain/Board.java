@@ -31,6 +31,9 @@ public class Board extends Time {
     @Column(length = 10, nullable = false)
     private String writer;
 
+    @Column(columnDefinition = "TEXT", nullable = true)
+    private String hashTag;
+
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
@@ -50,7 +53,14 @@ public class Board extends Time {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column @Builder.Default
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int likecnt;
+
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int commentcnt;
+
+    @Column
+    @Builder.Default
     private boolean isfull = false;
 
 
@@ -65,23 +75,20 @@ public class Board extends Time {
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Like> likes;
 
-    /* 해시태그 */
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private Set<HashTag> hashTags;
-
     /* 모집된 인원 */
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Recruit> recruits;
 
-    public void update(String title, String content, String subcontent, String thumbnail, String location) {
+    public void update(String title, String hashTag, String content, String subcontent, String thumbnail, String location) {
         this.title = title;
+        this.hashTag = hashTag;
         this.content = content;
         this.subcontent = subcontent;
         this.thumbnail = thumbnail;
         this.location = location;
     }
 
-    public boolean close(){
+    public boolean close() {
         this.isfull = !this.isfull;
         return this.isfull;
     }
