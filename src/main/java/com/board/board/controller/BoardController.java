@@ -231,7 +231,7 @@ public class BoardController {
     public String search(@Parameter(description = "검색한 게시글들의 페이지 번호입니다. 기본값으로는 1 입니다.") @RequestParam(value = "page", defaultValue = "1") Integer pageNum, @Parameter(description = "검색할 키워드가 담긴 파라미터입니다.") @RequestParam(value = "keyword") String keyword, Model model) {
         List<BoardListVo> boardDtoList = boardService.searchPosts(pageNum, keyword);
         model.addAttribute("boardList", boardDtoList);
-        return "/board/list";
+        return "board/list";
     }
 
     /* CREATE - 스터디 참가 */
