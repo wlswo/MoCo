@@ -38,7 +38,8 @@ public class ConfirmationToken extends Time{
     /* 이메일 인증 토큰 생성  @param userId  @return */
     public static ConfirmationToken createEmailConfirmationToken(String userId){
         ConfirmationToken confirmationToken = new ConfirmationToken();
-        confirmationToken.expirationDate = LocalDateTime.now().plusMinutes(EMAIL_TOKEN_EXPIRATION_TIME_VALUE); // 5분후 만료
+        confirmationToken.expirationDate = LocalDateTime.now()
+                                    .plusMinutes(EMAIL_TOKEN_EXPIRATION_TIME_VALUE); // 5분후 만료
         confirmationToken.userId = userId;
         confirmationToken.expired = false;
         return confirmationToken;
