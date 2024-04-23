@@ -35,10 +35,6 @@
  - [CI/CD](#cicd)
     - [무중단 배포](#무중단-배포)
  - [도메인 https 적용](#도메인-https-적용)
- - [Dev History](#dev-history)
-	 -  [ISSUE](#issue)
-	 -  [ERROR](#error) 
-	 -  [UI/UX](#uiux-reference)
 
 
 ## 📃개요
@@ -343,44 +339,6 @@ nginx를 도입하여 무중단 배포 환경을 구현하였습니다.
 브라우저의 안전한 접속과 , 브라우저 사이의 민감한 정보를 주고받을때를 대비해 aws ACM인증서를 받아 SSL 을 적용하였습니다.
 가비아에서 구매한 도메인과 aws Route53을 이용해 도메인을 연결하였습니다.
 
-
-## Dev History
-개발과정에서 발생한 이슈나 에러를 해결했던 기록을 남겼습니다.
-
-### ISSUE
-- [SNS 회원가입시 name 중복으로 인한 게시글작성 실패](https://zinzae.notion.site/SNS-name-109fbded27db4a4188a513a09d9c5c93)
-- [댓글 가져올수 없음 (생성자 레퍼런스 사용불가)](https://zinzae.notion.site/a3d08263c992410fb3b44796d73c94f9)
-- [무한스크롤구현과 뒤로가기 버튼으로 인한 DATA 초기화로 인한 스크롤 유지 불가](https://zinzae.notion.site/DATA-3b3ce9b215a84b62913a84d44063c368)
-- [AJAX를 이용한 별명중복 체크시 응답에러](https://zinzae.notion.site/AJAX-8ac228f446e74da29f6a4f1b37477b3e)
-- [썸네일 존재 여부에 따른 로드 오류](https://zinzae.notion.site/1dcfb29667614da190235482a721f17a)
-- [이메일 인증을 하지 않은 아이디일 경우 그에 맞는 에러 리턴하기](https://zinzae.notion.site/73303e3e46164b8b892aa7c9699bc757)
-- [게시글 수정시 마크다운 편집기에 Html 코드가 나오는 이슈](https://zinzae.notion.site/Html-c149f20621a442d7ad16cf7682eec547)
-- [해시태그 저장시(JPA) save VS saveAll 성능 고려](https://zinzae.notion.site/JPA-save-VS-saveAll-6e1cf88e5364469aa3185c9d5febe6f6)
-- [스마트 컨트랙트 Java 래퍼 클래스로 변환시키기-Web3.js→Web3j](https://zinzae.notion.site/Java-Web3-js-Web3j-cab9a9c961c9444392737ef2c435dc8c)
-- [대댓글이 2번 중복되어 파싱되는 이슈](https://zinzae.notion.site/2-36be686e550b4e94b901b40cba1c5db2)
-- [해시태그 수정시 처리할 로직에 대해서](https://zinzae.notion.site/be9207fb62d9400ea9f4e888255a020e)
-- [게시글 목록 조회시 N+1 문제](https://zinzae.notion.site/N-1-81e396cc197b4e1db3c51365df446552)
-- [게시글 조회시 실행되는 쿼리문 최적화 필요성](https://zinzae.notion.site/43e4c2ac4e0244cb978d772a1dd67078)
-- [모집 마감 버튼 클릭시 확인창을 무시하며 ajax 호출](https://zinzae.notion.site/ajax-629d8d98e7bd4a25a4b8f1355090aa79)
-- [회원 별명 변경시 게시글작성자명은 바뀌지 않는 이슈](https://zinzae.notion.site/ff12d6eb93cf445cadb33b806d192ca5)
-- [JQuery 부분 새로고침 `<div>` 중복 생성 문제, 부분 새로고침으로 인한 엘리먼트 참조문제](https://zinzae.notion.site/JQuery-div-c0e9e3104dfb4ab3aeeda0d91c350fa2)
-
-### Error
-- [WebSecurityConfigurerAdapter is deprecated](https://zinzae.notion.site/WebSecurityConfigurerAdapter-is-deprecated-a1d3515aa6f44605b475826d094cff90)
-- [AnnotationException: @OneToOne or @ManyToOne …](https://zinzae.notion.site/AnnotationException-OneToOne-or-ManyToOne-9711ac575a6d49da8a3cbdd27adb8a0e)
-- […ClientRegistrationRepository' that could not be found.](https://zinzae.notion.site/ClientRegistrationRepository-that-could-not-be-found-5691255dd41c427eb80f1a828241bd1b)
-- [Naver 로그인시 java.lang.IllegalArgumentException: Missing attribute 'id' in attributes](https://zinzae.notion.site/Naver-java-lang-IllegalArgumentException-Missing-attribute-id-in-attributes-a78aba923f6548819dbd2260fed7de3a)
-- [An internal error occurred while trying to authenticate the user.](https://zinzae.notion.site/An-internal-error-occurred-while-trying-to-authenticate-the-user-e0da2cec1e564978a77c6a15525e7f5d)
-- [TemplateInputException](https://zinzae.notion.site/TemplateInputException-a1e2e1b4413c48a0894eb3e8258fc134)
-- [method call attempted to call method size() on null context object](https://zinzae.notion.site/method-call-attempted-to-call-method-size-on-null-context-object-6df494d15fb54c76a21ba5fb708e369a)
-- [Cannot call sendRedirect() after the response has been committed](https://zinzae.notion.site/Cannot-call-sendRedirect-after-the-response-has-been-committed-908a4473f72a479398e4cd111e43d9ba)
-- [Uncaught ReferenceError: saveComment is not defined at HTMLButtonElement.onclick](https://zinzae.notion.site/Uncaught-ReferenceError-saveComment-is-not-defined-at-HTMLButtonElement-onclick-3f3b953f6bbf41a0b7e1da2ada98d43b)
-- [nested exception is org.hibernate.loader.MultipleBagFetchException: cannot simultaneously fetch multiple bags](https://zinzae.notion.site/nested-exception-is-org-hibernate-loader-MultipleBagFetchException-cannot-simultaneously-fetch-mult-b510ca8fc1a04818a707064de1ca5dc4)
-- [Error executing DDL "create table like … engine=InnoDB" via JDBC Statemen](https://zinzae.notion.site/Error-executing-DDL-create-table-like-engine-InnoDB-via-JDBC-Statemen-35ae86a75a254cb48a20e863f14adbc8)
-- [failed to lazily initialize a collection of role:com.board.board.domain.Comment.childList, could not initialize proxy - no Session](https://zinzae.notion.site/failed-to-lazily-initialize-a-collection-of-role-com-board-board-domain-Comment-childList-could-not-1157b9e70e1d4655a74ff926fb0617d1)
-- [com.amazonaws.SdkClientException: Failed to connect to service endpoint](https://zinzae.notion.site/com-amazonaws-SdkClientException-Failed-to-connect-to-service-endpoint-300bddeaa0c544bab28e1924012ff45c)
-- [TypeError: replace is not a function in JavaScript](https://zinzae.notion.site/TypeError-replace-is-not-a-function-in-JavaScript-45352440df9d4712bd6bf97e77ac10a1)
-
 ---
 ### UI/UX Reference
 
@@ -389,14 +347,3 @@ nginx를 도입하여 무중단 배포 환경을 구현하였습니다.
 - [로그인 효과](https://codepen.io/karlovidek/pen/aNYWKE)
 - [소셜 로그인 아이콘](https://codepen.io/RajRajeshDn/pen/qXeJOG)
 - [구매된 도트의 모달창](https://codepen.io/lamchang/pen/PQGQyR)
-
-
-## 느낀점
-팀 프로젝트가 아닌 1인 프로젝트로 진행하다 보니 개발 과정에서 발생하는 에러나, 이슈를 혼자 해결해 나가면서 더 나은 방법은 없는지 최선의 방법인지 피드백을 받을 수 있는 방법을 찾기 위해 많은 고민을 했습니다.
-
-공식문서, 여러 IT 커뮤니티 ,개발자 오픈채팅방 등을 통하여 현업에 계신 분들의 많은 도움을 많이 받았습니다.
-
-프로젝트를 진행 할수록 부족함이 많다는 것을 느꼈으며, 원리를 이해하고 쓰는것과 모르고 쓰는 것의 중요함을 한번더 알게된것 같습니다. 깨닫고 배울수록 배워야할 지식의 곁가지가 늘어남을 체감하고 있습니다.
-
-이번 프로젝트로 인해 개발을 바라보는 자세가 많이 바뀐 계기가 된 것 같습니다.
-개발은 단순히 기능을 구현하기 위해 코딩하는 것이 아닌 문제를 바라보고 해결해 나가기 위한 과정이라는 것을 크게 느끼게 된 경험이었습니다.
