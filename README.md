@@ -65,13 +65,13 @@
 ![ec2](https://img.shields.io/badge/AWS-ec2-FF8C00?style=flat&logo=amazonec2)&nbsp;![s3](https://img.shields.io/badge/AWS-s3-FF8C00?style=flat&logo=amazons3)&nbsp;![alb](https://img.shields.io/badge/AWS-alb-FF8C00?style=flat&logo=JFrogBintray)&nbsp;![route53](https://img.shields.io/badge/AWS-RDS-FF8C00?style=flat&logo=amazonrds)&nbsp;![rds](https://img.shields.io/badge/AWS-Route53-FF8C00?style=flat&logo=ray)
 
 **백엔드**
-  - Java 11 openjdk
+  - Java 11
   - SpringBoot 2.7.2
   - Spring Security5
   - Spring Data JPA
   - QueryDsl 5.0.0
   - Lombok
-  - 
+
 **프론트엔드**
  -   Html5/css3
  -   Javascript
