@@ -3,7 +3,6 @@
 
 <br><br> 
 
-![logo](https://user-images.githubusercontent.com/103496262/197355772-f4df931e-10fb-43e5-843f-04d33a04df64.JPG)
 
 # 모각코, 함께 코딩하고 교류하는 커뮤니티
 
