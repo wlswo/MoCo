@@ -10,7 +10,7 @@
 혼자 코딩하느라 지치시지는 않으신가요?
 다양한 사람들과 함께 코딩하면서 교류해보세요!
 <br><br>
-## [🚀MoCo 접속하기](https://moco.site)
+## [MoCo 접속하기](https://moco.site)
 <br>
 
 # 📖 목차 
@@ -37,7 +37,7 @@
  - [도메인 https 적용](#도메인-https-적용)
 
 
-## 📃개요
+## 개요
 **MoCo**는 스터디를 위한 게시판 웹 애플리케이션으로 마크다운 에디터를 이용한 게시판입니다.<br> 
 일반적인 서버 - 클라이언트 구조의 아키텍처에 일부 컨텐츠를 이더리움 네트워크와 연동하였습니다. 
 
@@ -128,11 +128,11 @@
 ![ERD](https://user-images.githubusercontent.com/103496262/226931609-b5e1b7f3-ca6e-4328-bd86-b3224d8e95e9.png)
 
 
-## 📑 Api 명세서
+## Api 명세서
 ### [Api 명세서 보기](https://moco.site/swagger-ui/index.html)
 
 
-## 🛠 MoCo 릴리즈 노트
+##  MoCo 릴리즈 노트
 
 <details>
 <summary> 2022-10-26 MoCo v1.1.0 릴리즈 보기</summary>
@@ -195,15 +195,15 @@
 
 <br>
 
-## 핵심 기능⭐
-### 🌠로그인
+## 기능
+### 로그인
 - 소셜 로그인
     - 소셜 로그인 구현을 위해 스프링 시큐리티와, OAuth2 인증방식을 사용했으며, 엑세스 토큰으로 받아오는 유저 정보를 커스텀하여 사용하기 위해 Oauth2UserService 인터페이스를 상속받아 CustomOauth2UserService 클래스를 구현하였습니다. <br> [CustomOauth2UserService](https://github.com/JaeJinByun/MoCo/blob/986566e2fe78b7bab74394fa0f3650f85186adc2/src/main/java/com/board/board/service/user/CustomOAuth2UserService.java#L25)
 - 일반 로그인
     -  자체 로그인 방식으로는 회원가입시 입력한 비밀번호를 해시 암호화 알고리즘을 적용하여 나온 해시값을 DB에 저장합니다.
     - 로그인시 사용한 해시 알고리즘을 찾아 비밀번호의 정합성을 검증합니다. <br> [UserService](https://github.com/wlswo/MoCo/blob/df49bb214d4e8429045f7a1b1f808d82c8189235/src/main/java/com/board/board/service/user/CustomOAuth2UserService.java#L24-L70)
 
-### 🌠Toast Ui editor
+### Toast Ui editor
 
 &ensp;&ensp;**이미지 저장**
 - 게시글 작성은 NHN에서 개발한 오픈소스로, 마크다운과 위지윅 방식을 지원하는 생산성있는 라이브러리를 이용했습니다.
@@ -221,7 +221,7 @@
 [이미지 업로드 처리](https://github.com/wlswo/MoCo/blob/df49bb214d4e8429045f7a1b1f808d82c8189235/src/main/java/com/board/board/controller/AwsS3Controller.java#L18-L23)
 
 
-### 🌠게시글 CRUD
+### 게시글 CRUD
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/103496262/207412930-f2621329-1720-4f19-ab1e-9600b6e09139.gif" width="700" height="450"/>
@@ -252,12 +252,12 @@
 &ensp;&ensp;**게시글 읽기**
 - [조회수 중복 방지를 위해 쿠키를 사용하여 조회수 증가를 방지했습니다.](https://github.com/wlswo/MoCo/blob/aac3cfc12037ee7ea8085600f39f324009ecfe1f/src/main/java/com/board/board/service/board/CookieService.java#L15-L41)
 
-### 🌠댓글과 대댓글 구현
+### 댓글과 대댓글 구현
 
 대댓글의 경우 엔티티 구조안에서 셀프조인을 참조하여 계층을 가지도록 구현했습니다.
 - [대댓글 계층정렬](https://github.com/JaeJinByun/MoCo/blob/fc6398cb0ac90d1c976368061d1f1119985bce45/src/main/java/com/board/board/service/board/CommentService.java#L88)
 
-### 🌠에러처리
+### 에러처리
 
 로그인, 회원가입시 에러가 나는경우 이를 처리하기위해 커스텀 클래스를 구현했으며,
 로그인 관련 에러와 회원가입시 에러에 맞게 처리하였습니다.
@@ -266,7 +266,7 @@
 
 [CustomAuthFailureHandler](https://github.com/JaeJinByun/MoCo/blob/c93bdc6252c5580679b9a58b3bd5f5a4c2789990/src/main/java/com/board/board/config/auth/CustomAuthFailureHandler.java#L23)
 
-### 🌠페이징 처리
+### 페이징 처리
 - QueryDsl를 사용하여 페이징을 구현하였습니다. 
     - 런타임 환경에서 발생할 수 있는 쿼리 오류 방지와, SQL 안티패턴인 서브쿼리 사용을 지양하기 위해 기존의 Native Query 를 QueryDsl로 마이그레이션 하였습니다. 
     - [기존의 Native Query](https://github.com/wlswo/MoCo/blob/986566e2fe78b7bab74394fa0f3650f85186adc2/src/main/java/com/board/board/repository/BoardRepository.java#L21-L84)
@@ -280,11 +280,11 @@
     - 무한 스크롤의 단점인 렌더링된 게시글들과 스크롤링 했던 위치로 돌아올수 있도록 세션스토리지를 이용하였습니다.
     - 게시글 리스트페이지를 벗어날때 세션스토리지에 스크롤의 위치와 렌더링 정보를 저장후 해당 페이지에 돌아왔을때 세션 스토리지에 저장된 값을 렌더링하며 이전 스크롤의 위치로 이동하도록 구현했습니다.
     -  [렌더링, 스크롤 위치기억하기](https://github.com/JaeJinByun/MoCo/blob/c93bdc6252c5580679b9a58b3bd5f5a4c2789990/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/board/list.js#L169)
-### 🌠도트맵 렌더링
+### 도트맵 렌더링
 - 도트맵에서 구매된 땅을 탐색해 랜더링을 할수 있도록 자바스크립트로 구현하였습니다.
     - [자바스크립트 도트맵](https://github.com/JaeJinByun/MoCo/blob/ed6ded6a934558c857f09753683b0e040bb9667a/minify%20%EC%A0%81%EC%9A%A9%EC%A0%84%20JS%20%ED%8C%8C%EC%9D%BC/js/earth/earth.js#L1)
 
-### 🌠스마트 컨트랙트 & Web3
+### 스마트 컨트랙트 & Web3
 - openzeppelin 라이브러리를 이용하여 웹 애플리케이션에서 사용할수 있는 ERC-20 기반 토큰을 만들었습니다.
     - [스마트 컨트랙트](https://github.com/JaeJinByun/MoCo/blob/762a33a28dfa570ffbad86c4778efd070586a1d3/MyToken.sol#L5)
 
