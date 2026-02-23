@@ -1,103 +1,29 @@
-# 배포 중단 알림
-- 2023.07.15 AWS 프리티어 지원 종료로 인해 배포가 종료되었습니다. 
+# MoCo (모각코)
+> [!NOTE]
+>  2023.07.15 AWS 프리티어 종료로 인해 현재 배포 중단 상태입니다.
 
-<br><br> 
-
-
-# 모각코, 함께 코딩하고 교류하는 커뮤니티
-
-혼자 코딩하느라 지치시지는 않으신가요?
-다양한 사람들과 함께 코딩하면서 교류해보세요!
-<br><br>
-## [MoCo 접속하기](https://moco.site)
 <br>
-
-# 📖 목차 
- - [개요](#개요) 
- - [개발 환경](#개발-환경)
- - [사용 기술](#사용-기술)
- - [아키텍처](#시스템-아키텍처) 
- - [E-R 다이어그램](#e-r-다이어그램)
- - [Api 명세서](#-api-명세서)
- - [릴리즈 노트](#-moco-릴리즈-노트)
- - [프로젝트 목적](#프로젝트-목적)
- - [화면 구성](#화면-구성)
- -  [핵심 기능](#핵심-기능)
-    - [로그인](#로그인)
-    - [Toast Ui editor](#toast-ui-editor)
-    - [게시글 CRUD](#게시글-crud)
-    - [댓글과 대댓글 구현](#댓글과-대댓글-구현)
-    - [에러 처리](#에러처리)
-    - [페이징 처리](#페이징-처리)   
-    - [도트맵 렌더링](#도트맵-렌더링)
-    - [스마트 컨트랙트 & Web3](#스마트-컨트랙트--web3)
- - [CI/CD](#cicd)
-    - [무중단 배포](#무중단-배포)
- - [도메인 https 적용](#도메인-https-적용)
 
 
 ## 개요
-**MoCo**는 스터디를 위한 게시판 웹 애플리케이션으로 마크다운 에디터를 이용한 게시판입니다.<br> 
-일반적인 서버 - 클라이언트 구조의 아키텍처에 일부 컨텐츠를 이더리움 네트워크와 연동하였습니다. 
+MoCo는 마크다운 에디터 기반의 스터디 모집 게시판 웹 애플리케이션입니다. 표준적인 Client-Server 아키텍처를 기반으로 하며, 이더리움 네트워크를 연동하여 일부 콘텐츠에 Web3 기술을 적용한 DApp(Decentralized Application) 프로젝트입니다.
 
-## 개발 환경
+## 개발 환경 및 기술 스택
 
-![IntelliJ](https://img.shields.io/badge/macOS-M1-black?style=flat&logo=macos)&nbsp;![IntelliJ](https://img.shields.io/badge/intellJ-ffa4c4?style=flat&logo=IntelliJIDEA)&nbsp;![IntelliJ](https://img.shields.io/badge/github-606060?style=fat&logo=github)&nbsp;![IntelliJ](https://img.shields.io/badge/vscode-blue?style=flat&logo=VisualStudioCode)&nbsp;![IntelliJ](https://img.shields.io/badge/Docker-ADD8E6?style=flat&logo=docker)&nbsp;![IntelliJ](https://img.shields.io/badge/DBeaver-blue?style=flat)
-
- - MacOS M1
- - IntelliJ 
- - Visual Studio Code
- - GitHub
- - Docker
- - DBeaver
+### 환경
+- **OS**: macOS (M1)
+- **IDE**: IntelliJ IDEA, VS Code
+- **Container**: Docker
+- **DB Tool**: DBeaver
 
 ## 사용 기술 
-
-![java](https://img.shields.io/badge/Java-11-DEB887?style=flat)&nbsp;![springboot](https://img.shields.io/badge/SpringBoot-2.7.2-3CB371?style=flat&logo=springboot)&nbsp;![spriongsecurity](https://img.shields.io/badge/SpringSecurity-5-3CB371?style=flat&logo=springsecurity)&nbsp;![spriongsecurity](https://img.shields.io/badge/Solidity-^0.8.0-c5ac00?style=flat&logo=solidity)
-
-![spriongsecurity](https://img.shields.io/badge/Html5-C0C0C0?style=flat&logo=HTML5)&nbsp; ![spriongsecurity](https://img.shields.io/badge/CSS3-blue?style=flat&logo=css3)&nbsp; ![spriongsecurity](https://img.shields.io/badge/Thymeleaf-green?style=flat&logo=thymeleaf)&nbsp; ![spriongsecurity](https://img.shields.io/badge/BootStrap5-purple?style=flat&logo=Bootstrap)
-
-![gradle](https://img.shields.io/badge/Gradle-7.5-skyblue?style=flat&logo=gradle)
-
-![mysql](https://img.shields.io/badge/MySQL-8.0.28-FFA07A?style=flat&logo=mysql)
-
-![ec2](https://img.shields.io/badge/AWS-ec2-FF8C00?style=flat&logo=amazonec2)&nbsp;![s3](https://img.shields.io/badge/AWS-s3-FF8C00?style=flat&logo=amazons3)&nbsp;![alb](https://img.shields.io/badge/AWS-alb-FF8C00?style=flat&logo=JFrogBintray)&nbsp;![route53](https://img.shields.io/badge/AWS-RDS-FF8C00?style=flat&logo=amazonrds)&nbsp;![rds](https://img.shields.io/badge/AWS-Route53-FF8C00?style=flat&logo=ray)
-
-**백엔드**
-  - Java 11
-  - SpringBoot 2.7.2
-  - Spring Security5
-  - Spring Data JPA
-  - QueryDsl 5.0.0
-  - Lombok
-
-**프론트엔드**
- -   Html5/css3
- -   Javascript
- -   Thymeleaf
- -   Bootstrap 5
- 
-**빌드 툴**
- - Gradle 7.5
-
-**데이터베이스**
-
- - Mysql
-
-**인프라** 
--   AWS EC2
--   AWS S3
--   AWS Route53
--   AWS RDS
--   AWS ALB
--   Github Actions
--  Docker
--  DockerHub
-
-**블록체인**
-- goerli network
-- solidity
-- Meta Mask
+| 분류 | 기술 상세 |
+| :--- | :--- |
+| **Backend** | Java 11, Spring Boot 2.7.2, Spring Security 5, Spring Data JPA, QueryDSL 5.0 |
+| **Frontend** | JavaScript, Thymeleaf, Bootstrap 5, HTML5/CSS3 |
+| **Database** | MySQL 8.0 |
+| **Infra** | AWS (EC2, S3, RDS, ALB, Route53), Nginx, Docker, GitHub Actions |
+| **Blockchain** | Solidity (^0.8.0), Web3.js, Goerli Testnet, MetaMask |
 
 **라이브러리**
 
@@ -116,7 +42,6 @@
 
 ## 시스템 아키텍처
 ![시스템 아키텍처](https://user-images.githubusercontent.com/103496262/200223486-3f5407ab-cf76-4acf-acae-a5760c9af559.png)
-
 
 
 ## Server 아키텍처 
